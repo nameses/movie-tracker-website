@@ -10,7 +10,7 @@
 
 <div class="reg-form-container container">
     <div class="reg-form">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
             <h2>Реєстрація</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -24,6 +24,25 @@
                 <label asp-for="Input.Username">Нікнейм</label>
                 <span asp-validation-for="Input.Username" class="text-danger"></span>
             </div>
+
+
+            <div class="form-file mb-3">
+                <input id="file-input" type="file" name="file"/>
+                <label asp-for="Input.ImagePath" id="file-label" for="file-input">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Оберіть фото профілю
+                </label>
+                <span asp-validation-for="Input.ImagePath" class="text-danger"></span>
+            </div>
+
+            <script>
+                let fileInput = document.getElementById("file-input");
+
+                fileInput.addEventListener("change", () => {
+                    let x = document.getElementById("file-label");
+                    x.innerHTML = "<i class=\"fa-solid fa-arrow-up-from-bracket\"></i> Фото обрано";
+                })
+            </script>
+
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Пароль</label>
@@ -47,6 +66,7 @@
     </div>
 </div>
 
-@section Scripts {
+@section scripts {
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/78efb955e0.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

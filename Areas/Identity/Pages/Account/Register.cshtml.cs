@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -19,11 +20,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using movie_tracker_website.Areas.Identity.Data;
+using movie_tracker_website.Utilities;
 
 namespace movie_tracker_website.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
+        private readonly IUnitOfWork _unitOfWork;
+
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IUserStore<AppUser> _userStore;
@@ -36,7 +40,8 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             IUserStore<AppUser> userStore,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +49,7 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -71,6 +77,8 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            public string ImagePath { get; set; }
+
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Username")]
@@ -111,13 +119,16 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(IFormFile file, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                _unitOfWork.UploadImage(file);
                 var user = CreateUser();
+
+                user.ImagePath = file.FileName;
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

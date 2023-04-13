@@ -9,5 +9,5 @@ namespace movie_tracker_website.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the AppUser class
 public class AppUser : IdentityUser
 {
+    public string? ImagePath { get; set; }
 }
-

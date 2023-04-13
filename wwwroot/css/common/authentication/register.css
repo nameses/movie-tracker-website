@@ -33,6 +33,19 @@ h1, h2, h3, h4, h5, h6 {
 .reg-form-container .reg-form form .form-floating .form-control i {
   color: #ffffff;
 }
+.reg-form-container .reg-form form .form-file {
+  display: flex;
+  flex-direction: column;
+}
+.reg-form-container .reg-form form .form-file input[type=file] {
+  /*margin-top: 5px;
+  display: inline-block;
+  cursor: pointer;
+  width: 100%;
+  background-color: #1A1A1A;
+  color: #ffffff;*/
+  display: none;
+}
 .reg-form-container .reg-form form .form-label-btn {
   color: #999999;
 }

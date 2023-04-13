@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using movie_tracker_website.Areas.Identity.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using movie_tracker_website.Utilities;
+using movie_tracker_website.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddAuthentication();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
 
