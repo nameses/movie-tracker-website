@@ -1,0 +1,116 @@
+﻿@section styles{
+    <link href="~/css/watched-movies.css" rel="stylesheet">
+}
+
+@section scripts{
+    
+}
+
+<div class="films-bar-full container">
+    <div class="films-bar">
+        <div class="top-bar">
+            <div class="topics">
+                <h6 id="watched-topic">Переглянуті</h6>
+                <h6 id="favourite-topic">Улюблені</h6>
+                <h6 id="to-watch-topic">До перегляду</h6>
+            </div>
+            <script>
+                var watchedTopic = document.getElementById("watched-topic");
+                watchedTopic.style.color = "#FFFFFF";
+            //later will be ability for changing topic-status and other filters from backend
+            </script>
+            <!--later logic of gallery will be changed-->
+            <div class="filters">
+                <span class="filter">
+                    <h6>Рік</h6>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+                <span class="filter">
+                    <h6>Жанр</h6>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+                <span class="filter">
+                    <h6>Рейтинг</h6>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+                <span class="filter filter-last">
+                    <h6>Популярність</h6>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+                <span class="filter filter-last">
+                    <h6>Сортувати за РЕЙТИНГОМ</h6>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+            </div>
+            <div class="icon-settings"><i class="fa-solid fa-sliders"></i></div>
+        </div>
+        <hr />
+        <div class="films-bar-containers">
+            <div class="films-bar-component">
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/western-front.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/the-shining.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/taxidriver.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/menu.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/Bullet_Train.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/joker.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="~/img/everything-everywhere.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="~/img/avatar-2.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bar">
+            <hr />
+            <div class="page-manage">
+                <button class="btn-managing">
+                    <a href="">
+                        <h5>Попередня</h5>
+                    </a>
+                </button>
+                <div class="paginate-pages">
+                    <div class="paginate-page current-page">1</div>
+                    <div class="paginate-page">2</div>
+                    <div class="paginate-page">3</div>
+                    <div class="paginate-page unseen-page">...</div>
+                    <div class="paginate-page">7</div>
+                </div>
+                <button class="btn-managing">
+                    <a href="">
+                        <h5>Наступна</h5>
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

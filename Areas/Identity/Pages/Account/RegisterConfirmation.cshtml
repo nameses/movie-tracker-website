@@ -1,0 +1,27 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Підтвердження реєстрації";
+    Layout = "~/Areas/Identity/Pages/Account/_Layout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/css/common/authentication/reg-conf.css" />
+}
+<div class="reg-conf-container container">
+    <h1 class="main-title">@ViewData["Title"]</h1>
+    @{
+        if (@Model.DisplayConfirmAccountLink)
+        {
+            <p>
+                Поки що, система розсилки емейл-листів у розробці.
+                Тому підтвердіть емейл за цим посиланням. <a class="confirm-link" id="confirm-link" href="@Model.EmailConfirmationUrl">Натисність тут щоб активувати аккаунт!</a>
+            </p>
+        }
+        else
+        {
+            <p>Перевірте свою поштову скриньку.</p>
+        }
+    }
+</div>
+

@@ -1,0 +1,243 @@
+﻿@section styles{
+    <!-- styles -->
+    <link href="~/css/movies.css" rel="stylesheet">
+    <!--    slick-slider-->
+    <link href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css" rel="stylesheet" type="text/css">
+}
+
+@section scripts{
+    <!--    slick-slider-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+    <script src="~/js/slider-for-movies-page.js"></script>
+}
+
+<div class="search-bar container">
+    <div class="find-by-full">
+        <span class="title">
+            <h3>Знайти за</h3>
+        </span>
+        <div class="filters">
+            <span class="filter">
+                <h3>РІК</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+            <span class="filter">
+                <h3>ЖАНР</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+            <span class="filter">
+                <h3>РЕЙТИНГ</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+            <span class="filter filter-last">
+                <h3>ПОПУЛЯРНІСТЬ</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+            <span class="filter filter-last">
+                <h3>ОСТАННІ</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+        </div>
+        <div class="filters-second-row">
+            <span class="filter">
+                <h3>ПОПУЛЯРНІСТЬ</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+            <span class="filter">
+                <h3>ОСТАННІ</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+        </div>
+    </div>
+    <div class="search-movie">
+        <span class="title"><h3>Знайти фільм</h3></span>
+        <fieldset class="search-form">
+            <input type="text">
+            <button class="action" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </fieldset>
+    </div>
+</div>
+
+<div class="slider-full-container ">
+    <div class="slider-block container">
+        <h6>Світлини з фільму</h6>
+        <hr />
+    </div>
+    <div class="slider slider-nav container">
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/joker.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/everything-everywhere.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/menu.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/banshee.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/the-shining.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/western-front.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/taxidriver.jpg">
+                </a>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slider-image-block">
+                <a href="movie-page.html">
+                    <img src="~/img/irishman.jpg">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="films-bar-full container">
+    <div class="films-bar">
+        <h6>Нещодавно переглянуті</h6>
+        <hr />
+        <div class="films-bar-containers">
+            <div class="films-bar-component">
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/banshee.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/eternal-sunshine.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/menu.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/western-front.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/taxidriver.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/everything-everywhere.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="~/img/the-shining.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="~/img/joker.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="donate-bar container">
+    <span>
+        <h1>Хочеш підтримати роботу проєкту?</h1>
+    </span>
+    <div class="btn-component">
+        <button class="btn-reg">
+            <a href="">
+                <h3>Підтримати</h3>
+            </a>
+        </button>
+    </div>
+</div>
+
+<div class="films-bar-full container">
+    <div class="films-bar">
+        <h6>Щорічний Оскар</h6>
+        <hr />
+        <div class="films-bar-containers">
+            <div class="films-bar-component">
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/western-front.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/the-shining.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/taxidriver.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/menu.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/Bullet_Train.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="~/img/joker.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="~/img/everything-everywhere.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="~/img/avatar-2.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    

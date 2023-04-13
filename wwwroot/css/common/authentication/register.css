@@ -1,0 +1,58 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
+a, p, label {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Merriweather", serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+.reg-form-container {
+  color: white;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.reg-form-container .reg-form {
+  background: #1A1A1A;
+  padding: 50px;
+}
+.reg-form-container .reg-form form .form-floating {
+  color: #ffffff;
+}
+.reg-form-container .reg-form form .form-floating .form-control {
+  color: #ffffff;
+  background: #1A1A1A;
+}
+.reg-form-container .reg-form form .form-floating .form-control i {
+  color: #ffffff;
+}
+.reg-form-container .reg-form form .form-label-btn {
+  color: #999999;
+}
+.reg-form-container .reg-form form .form-label {
+  color: #ffffff;
+}
+.reg-form-container .reg-form form .forget-link-cont {
+  padding-top: 10px;
+}
+.reg-form-container .reg-form form .btn-reg-container .btn-reg {
+  border-radius: 10px;
+  border: none;
+  background: #FCA311;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 24px;
+  text-align: center;
+  color: black;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}

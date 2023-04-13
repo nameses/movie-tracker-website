@@ -1,0 +1,185 @@
+.show {
+    display: block !important;
+}
+
+.topbar {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    z-index: 2;
+}
+
+    .topbar .left-btns {
+        z-index: 2;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .topbar .left-btns .search-form {
+            z-index: 2;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #1a1a1a;
+            border-radius: 20px;
+            padding: 5px;
+        }
+
+            .topbar .left-btns .search-form input[type=text] {
+                width: 100%;
+                border: none;
+                background-color: transparent;
+                color: #ffffff;
+                outline: none;
+                box-sizing: border-box;
+                padding: 5px;
+            }
+
+            .topbar .left-btns .search-form button[type=submit] {
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                color: #fff;
+                padding-right: 10px;
+            }
+
+        .topbar .left-btns .logo-text {
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+            margin-right: 40px;
+        }
+
+            .topbar .left-btns .logo-text h1 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 200;
+            }
+
+    .topbar .menu {
+        z-index: 2;
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10%;
+        margin: 0 50px 0 50px;
+    }
+
+        .topbar .menu a h3 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 20px;
+        }
+
+    .topbar .right-menu {
+        position: relative;
+        display: inline-block;
+        z-index: 2;
+    }
+
+        .topbar .right-menu .right-btns {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+            .topbar .right-menu .right-btns .profile {
+                display: flex;
+                align-items: center;
+            }
+
+                .topbar .right-menu .right-btns .profile img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+
+                .topbar .right-menu .right-btns .profile span h3 {
+                    font-size: 20px;
+                }
+
+            .topbar .right-menu .right-btns .right-icon {
+                display: none;
+            }
+
+                .topbar .right-menu .right-btns .right-icon i {
+                    font-size: 24px;
+                }
+
+        .topbar .right-menu .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #1A1A1A;
+            min-width: 160px;
+            z-index: 3;
+        }
+
+            .topbar .right-menu .dropdown-menu a {
+                color: #999999;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+@media only screen and (max-width: 1200px) {
+    .topbar .right-menu .right-btns .profile {
+        margin-right: 0;
+    }
+
+        .topbar .right-menu .right-btns .profile img {
+            margin-right: 0;
+        }
+
+        .topbar .right-menu .right-btns .profile span {
+            display: none;
+        }
+}
+
+@media only screen and (max-width: 992px) {
+    .topbar .menu {
+        display: none;
+    }
+
+    .topbar .right-menu .right-btns .profile {
+        margin-right: 20px;
+    }
+
+    .topbar .right-menu .right-btns .right-icon {
+        display: contents;
+    }
+
+        .topbar .right-menu .right-btns .right-icon i {
+            color: #ffffff;
+        }
+}
+
+@media only screen and (max-width: 576px) {
+    .topbar .left-btns .logo-text {
+        margin-right: 20px;
+    }
+
+    .topbar .left-btns .search-form {
+        margin-right: 20px;
+    }
+
+        .topbar .left-btns .search-form .action {
+            padding: 0;
+        }
+
+    .topbar .right-menu .right-btns .profile {
+        display: none;
+    }
+}
+
+/*# sourceMappingURL=topbar-styles.css.map */

@@ -1,0 +1,52 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/common/authentication/authentication-layout.css",
+    "inputFile": "wwwroot/css/common/authentication/authentication-layout.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/common/authentication/login.css",
+    "inputFile": "wwwroot/css/common/authentication/login.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/common/authentication/register.css",
+    "inputFile": "wwwroot/css/common/authentication/register.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/common/authentication/reg-conf.css",
+    "inputFile": "wwwroot/css/common/authentication/reg-conf.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/common/authentication/email-conf.css",
+    "inputFile": "wwwroot/css/common/authentication/email-conf.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  }
+]

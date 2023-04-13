@@ -1,0 +1,136 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap');
+//@import url('./fontawesome/scss/fontawesome.scss');
+
+body, html {
+    background-color: #050505;
+    width: 100%;
+    min-height: 100vh;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+h1, h2, h4, h5, h6 {
+    font-family: 'Merriweather', serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+hr {
+    border: 1px solid #999999;
+    height: 1px;
+}
+
+.content {
+    height: 100vh;
+    z-index: 2;
+}
+
+.main {
+    width: 100%;
+    min-height: 100vh;
+
+    .topbar {
+        z-index: 2;
+        height: 80px;
+
+        .logo-text {
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+
+            h1 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 200;
+            }
+        }
+
+        .nav-right-btns {
+            z-index: 2;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .btn-reg {
+                border-radius: 10px;
+                border: none;
+                background: #FCA311;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 8px;
+                margin-left: 10px;
+
+                a {
+                    text-align: center;
+
+                    h3 {
+                        color: black;
+                        font-weight: 600;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+}
+
+@media only screen and (max-width: 768px) {
+}
+
+@media only screen and (min-width: 450px) and (max-width: 768px) {
+}
+
+@media only screen and (max-width: 576px) {
+    .topbar {
+        .nav-right-btns {
+            .a-login-link h3 {
+                font-size: 16px;
+            }
+
+            .btn-reg {
+                padding: 8px;
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .main {
+        background-size: 100% auto;
+    }
+}
+
+h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+a:link {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

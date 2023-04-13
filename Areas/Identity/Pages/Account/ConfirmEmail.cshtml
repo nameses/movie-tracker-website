@@ -1,0 +1,14 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Підтвердження поштової скриньки";
+    Layout = "~/Areas/Identity/Pages/Account/_Layout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/css/common/authentication/email-conf.css" />
+}
+<div class="form-container container">
+    <h1>@ViewData["Title"]</h1>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+</div>

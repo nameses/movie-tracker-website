@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/common/topbar-styles.css" />
+    <link rel="stylesheet" href="~/css/common/authentication/authentication-layout.css" />
+
+    @RenderSection("styles", required:false)
+
+</head>
+<body>
+    <div class="main">
+        <header class="topbar container-fluid ">
+            <a asp-controller="Landing" asp-action="Index" class="logo-text text-decoration-none"><h1>tracker</h1></a>
+            <div class="nav-right-btns">
+                <a asp-page="./Login" class="a-login-link link text-decoration-none">
+                    <h3>Вхід</h3>
+                </a>
+                <button class="btn-reg">
+                    <a asp-page="./Register" class="link text-decoration-none">
+                        <h3>Реєстрація</h3>
+                    </a>
+                </button>
+            </div>
+        </header>
+        
+        @RenderBody()
+
+    </div>
+
+    
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/78efb955e0.js"></script>
+    @await RenderSectionAsync("scripts", required: false)
+</body>
+</html>

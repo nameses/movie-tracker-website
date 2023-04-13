@@ -1,0 +1,389 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
+body, html {
+  background-color: #050505;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+h1, h2, h4, h5, h6 {
+  font-family: "Merriweather", serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+hr {
+  border: 1px solid #999999;
+  height: 1px;
+}
+
+.content {
+  height: 100vh;
+}
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+}
+.main .search-bar {
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.main .search-bar .find-by-full {
+  display: flex;
+  align-items: center;
+}
+.main .search-bar .find-by-full .title {
+  width: 20%;
+  margin-right: 10px;
+}
+.main .search-bar .find-by-full .title h3 {
+  color: #999999;
+  font-family: "Merriweather", serif;
+  font-size: 20px;
+  white-space: nowrap;
+}
+.main .search-bar .find-by-full .filters {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  justify-content: space-around;
+  background-color: #1A1A1A;
+  border-radius: 20px;
+  padding: 15px;
+}
+.main .search-bar .find-by-full .filters .filter {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+}
+.main .search-bar .find-by-full .filters .filter h3 {
+  font-size: 20px;
+  color: #999999;
+}
+.main .search-bar .find-by-full .filters .filter i {
+  color: #999999;
+}
+.main .search-bar .find-by-full .filters-second-row {
+  display: none;
+  gap: 30px;
+  width: 100%;
+  justify-content: space-evenly;
+  background-color: #1A1A1A;
+  border-radius: 20px;
+  padding: 15px;
+}
+.main .search-bar .find-by-full .filters-second-row .filter {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+}
+.main .search-bar .find-by-full .filters-second-row .filter h3 {
+  font-size: 20px;
+  color: #999999;
+}
+.main .search-bar .find-by-full .filters-second-row .filter i {
+  color: #999999;
+}
+.main .search-bar .search-movie {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+}
+.main .search-bar .search-movie .title {
+  display: none;
+}
+.main .search-bar .search-movie .title h3 {
+  font-family: "Merriweather", serif;
+  margin-right: 10px;
+  font-size: 20px;
+  color: #999999;
+  white-space: nowrap;
+}
+.main .search-bar .search-movie .search-form {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #1a1a1a;
+  border-radius: 20px;
+  padding: 5px;
+}
+.main .search-bar .search-movie .search-form input[type=text] {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.main .search-bar .search-movie .search-form button[type=submit] {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #999999;
+  padding-right: 10px;
+}
+.main .films-bar-full {
+  margin-top: 60px;
+}
+.main .films-bar-full .films-bar h6 {
+  color: #999999;
+  margin-bottom: -15px;
+}
+.main .films-bar-full .films-bar .films-bar-containers .films-bar-component {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+  flex-basis: 20%;
+}
+.main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid #999999;
+}
+.main .donate-bar {
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+}
+.main .donate-bar .btn-component .btn-reg {
+  border-radius: 10px;
+  border: none;
+  background: #FCA311;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+.main .donate-bar .btn-component .btn-reg a {
+  text-align: center;
+}
+.main .donate-bar .btn-component .btn-reg a h3 {
+  color: black;
+  font-weight: 600;
+  margin: 0;
+}
+.main .slider-full-container {
+  margin: 0 auto;
+  display: block;
+  padding: 30px;
+  width: 100%;
+}
+.main .slider-full-container .slider-block {
+  margin-top: 100px;
+}
+.main .slider-full-container .slider-block h6 {
+  color: #999999;
+  margin-bottom: -15px;
+}
+.main .slider-full-container .slider .slide .slider-image-block {
+  overflow: hidden;
+}
+.main .slider-full-container .slider .slide .slider-image-block img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+  border: 1px #999999 solid;
+  border-radius: 10px;
+}
+.main .slider-full-container .slider .slick-arrow {
+  border: none;
+}
+.main .slider-full-container .slider button {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  width: 70px;
+  height: 70px;
+  background: none;
+  overflow: hidden;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  text-indent: -99999px;
+}
+.main .slider-full-container .slider button.slick-prev {
+  left: 0;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiPjx0aXRsZT5jaGV2cm9uLWxlZnQ8L3RpdGxlPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0xMC40MTMgMTJsNS4yOTQtNS4yOTRjMC4zODctMC4zODcgMC4zODctMS4wMjUgMC0xLjQxM3MtMS4wMjUtMC4zODctMS40MTMgMGwtNiA2Yy0wLjM4NyAwLjM4Ny0wLjM4NyAxLjAyNSAwIDEuNDEzbDYgNmMwLjE5NCAwLjE5NCAwLjQ1IDAuMjk0IDAuNzA2IDAuMjk0czAuNTEzLTAuMSAwLjcwNi0wLjI5NGMwLjM4Ny0wLjM4NyAwLjM4Ny0xLjAyNSAwLTEuNDEzbC01LjI5NC01LjI5NHoiPjwvcGF0aD48L3N2Zz4=);
+}
+.main .slider-full-container .slider button.slick-next {
+  right: 0;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiPjx0aXRsZT5jaGV2cm9uLXJpZ2h0PC90aXRsZT48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTUuNzA2IDExLjI5NGwtNi02Yy0wLjM4Ny0wLjM4Ny0xLjAyNS0wLjM4Ny0xLjQxMyAwcy0wLjM4NyAxLjAyNSAwIDEuNDEzbDUuMjk0IDUuMjk0LTUuMjk0IDUuMjk0Yy0wLjM4NyAwLjM4Ny0wLjM4NyAxLjAyNSAwIDEuNDEzIDAuMTk0IDAuMTk0IDAuNDUgMC4yOTQgMC43MDYgMC4yOTRzMC41MTMtMC4xIDAuNzA2LTAuMjk0bDYtNmMwLjM5NC0wLjM4NyAwLjM5NC0xLjAyNSAwLTEuNDEzeiI+PC9wYXRoPjwvc3ZnPg==);
+}
+.main .slider-full-container .slider .slick-slide {
+  padding: 0 50px;
+  width: auto;
+}
+
+@media only screen and (max-width: 1200px) {
+  .main {
+    background-size: 100% auto;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  .main .search-bar .find-by-full .title h3 {
+    font-size: 16px;
+  }
+  .main .search-bar .find-by-full .filters {
+    gap: 20px;
+  }
+  .main .search-bar .find-by-full .filters .filter h3 {
+    font-size: 16px;
+  }
+  .main .search-bar .find-by-full .filters .filter i {
+    font-size: 12px;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .main .films-bar-full {
+    margin-top: 100px;
+  }
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component {
+    flex-wrap: wrap;
+  }
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+    flex-basis: auto;
+    max-width: 22%;
+    max-height: 22%;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .main .search-bar {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .main .search-bar .find-by-full .title {
+    display: flex;
+  }
+  .main .search-bar .find-by-full .filters .filter h3 {
+    font-size: 16px;
+  }
+  .main .search-bar .find-by-full .filters .filter i {
+    font-size: 12px;
+  }
+  .main .search-bar .search-movie {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .main .search-bar .search-movie .title {
+    display: flex;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+    max-width: 30%;
+    max-height: 30%;
+  }
+  .main .search-bar {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .main .search-bar .find-by-full {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .main .search-bar .find-by-full .title {
+    display: none;
+  }
+  .main .search-bar .find-by-full .filters {
+    gap: 60px;
+  }
+  .main .search-bar .find-by-full .filters .filter-last {
+    display: none;
+  }
+  .main .search-bar .find-by-full .filters .filter {
+    gap: 5px;
+  }
+  .main .search-bar .find-by-full .filters .filter h3 {
+    font-size: 20px;
+  }
+  .main .search-bar .find-by-full .filters .filter i {
+    font-size: 16px;
+  }
+  .main .search-bar .find-by-full .filters-second-row {
+    display: flex;
+    margin-top: 10px;
+  }
+  .main .search-bar .search-movie {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .main .search-bar .search-movie .title {
+    display: flex;
+    font-size: 16px;
+  }
+  .main .donate-bar span h1 {
+    font-size: 24px;
+  }
+}
+@media only screen and (min-width: 450px) and (max-width: 576px) {
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster-last {
+    display: none;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+    max-width: 46%;
+    max-height: 46%;
+  }
+  .main .search-bar .find-by-full .filters {
+    gap: 30px;
+  }
+  .main .search-bar .find-by-full .filters .filter h3 {
+    font-size: 16px;
+  }
+  .main .search-bar .find-by-full .filters .filter i {
+    font-size: 12px;
+  }
+  .main .search-bar .find-by-full .filters-second-row {
+    gap: 20px;
+  }
+  .main .search-bar .find-by-full .filters-second-row .filter h3 {
+    font-size: 16px;
+  }
+  .main .search-bar .find-by-full .filters-second-row .filter i {
+    font-size: 12px;
+  }
+  .main .search-bar .search-movie .title {
+    font-size: 12px;
+  }
+  .main .donate-bar span h1 {
+    font-size: 20px;
+  }
+}
+h3 {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+a:link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=movies.css.map */

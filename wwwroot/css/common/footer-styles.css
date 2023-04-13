@@ -1,0 +1,45 @@
+.footer-full {
+  margin-top: 100px;
+}
+.footer-full .footer .footer-containers .footer-component {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.footer-full .footer .footer-containers .footer-component .text h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 200;
+}
+.footer-full .footer .footer-containers .footer-component .text p {
+  font-size: 20px;
+  color: #999999;
+}
+.footer-full .footer .footer-containers .footer-component .icons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 10%;
+  gap: 5px;
+}
+.footer-full .footer .footer-containers .footer-component .icons i {
+  font-size: 25px;
+  color: #ffffff;
+}
+.footer-full .footer .footer-bottom-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.footer-full .footer .footer-bottom-component .text p {
+  font-size: 20px;
+  color: #999999;
+}
+
+@media only screen and (max-width: 450px) {
+  .footer-full .footer .footer-containers .footer-component .text {
+    margin: 10px 0;
+  }
+}
+
+/*# sourceMappingURL=footer-styles.css.map */

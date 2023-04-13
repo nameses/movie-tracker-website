@@ -1,0 +1,66 @@
+﻿@section styles{
+    <link href="~/css/main.css" rel="stylesheet">
+}
+@using Microsoft.AspNetCore.Identity
+@using movie_tracker_website.Areas.Identity.Data
+
+@inject UserManager<AppUser> UserManager;
+
+<div class="title-container container">
+    <div class="title-text-main">
+        <h1>
+            Вітаємо, <u>@UserManager.GetUserName(User)</u>!
+        </h1>
+    </div>
+</div>
+
+<div class="recent-full container">
+    <div class="recent">
+        <h6>Нещодавно переглянуті</h6>
+        <hr />
+        <div class="recent-containers">
+            <div class="recent-component">
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="../img/banshee.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="../img/eternal-sunshine.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="../img/menu.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="../img/western-front.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="../img/taxidriver.jpg">
+                    </a>
+                </div>
+                <div class="poster">
+                    <a href="movie-page.html">
+                        <img src="../img/everything-everywhere.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="../img/the-shining.jpg">
+                    </a>
+                </div>
+                <div class="poster poster-last">
+                    <a href="movie-page.html">
+                        <img src="../img/joker.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
+body, html {
+  background-color: #050505;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+h1, h2, h4, h5, h6 {
+  font-family: "Merriweather", serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+hr {
+  border: 1px solid #999999;
+  height: 1px;
+}
+
+.content {
+  height: 100vh;
+}
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+}
+.main .films-bar-full {
+  margin-top: 50px;
+}
+.main .films-bar-full h6 {
+  color: #999999;
+}
+.main .films-bar-full .films-bar .top-bar {
+  margin-bottom: -12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main .films-bar-full .films-bar .top-bar h6 {
+  color: #999999;
+}
+.main .films-bar-full .films-bar .top-bar i {
+  font-size: 12px;
+  color: #999999;
+}
+.main .films-bar-full .films-bar .top-bar .topics {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.main .films-bar-full .films-bar .top-bar .filters {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.main .films-bar-full .films-bar .top-bar .filters .filter {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.main .films-bar-full .films-bar .top-bar .icon-settings {
+  display: none;
+}
+.main .films-bar-full .films-bar .films-bar-containers .films-bar-component {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+  flex-basis: 20%;
+}
+.main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid #999999;
+}
+.main .films-bar-full .films-bar .footer-bar .page-manage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main .films-bar-full .films-bar .footer-bar .page-manage .paginate-pages {
+  display: flex;
+  gap: 10px;
+}
+.main .films-bar-full .films-bar .footer-bar .page-manage .paginate-pages .paginate-page {
+  font-family: "Merriweather", serif;
+  color: #999999;
+  font-size: 20px;
+}
+.main .films-bar-full .films-bar .footer-bar .page-manage .paginate-pages .current-page {
+  font-weight: 600;
+  color: #FFFFFF;
+}
+.main .films-bar-full .films-bar .footer-bar .page-manage .btn-managing {
+  border-radius: 10px;
+  border: none;
+  background: #1A1A1A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+.main .films-bar-full .films-bar .footer-bar .page-manage .btn-managing a {
+  text-align: center;
+}
+.main .films-bar-full .films-bar .footer-bar .page-manage .btn-managing a h5 {
+  color: #999999;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+  .main {
+    background-size: 100% auto;
+  }
+  .main .films-bar-full h6 {
+    font-size: 12px;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .main .films-bar-full {
+    margin-top: 100px;
+  }
+  .main .films-bar-full .films-bar .top-bar .topics h6 {
+    font-size: 20px;
+  }
+  .main .films-bar-full .films-bar .top-bar .filters {
+    display: none;
+  }
+  .main .films-bar-full .films-bar .top-bar .icon-settings {
+    display: block;
+  }
+  .main .films-bar-full .films-bar .top-bar .icon-settings i {
+    font-size: 20px;
+  }
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component {
+    flex-wrap: wrap;
+  }
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+    flex-basis: auto;
+    max-width: 22%;
+    max-height: 22%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .main .films-bar-full {
+    margin-top: 30px;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+    max-width: 30%;
+    max-height: 30%;
+  }
+}
+@media only screen and (min-width: 450px) and (max-width: 576px) {
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster-last {
+    display: none;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .main .films-bar-full .films-bar .top-bar .topics h6 {
+    font-size: 16px;
+  }
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+    max-width: 46%;
+    max-height: 46%;
+  }
+  .main .films-bar-full .films-bar .footer-bar .page-manage .btn-managing a h5 {
+    font-size: 16px;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .main .films-bar-full .films-bar .top-bar .topics {
+    gap: 10px;
+  }
+  .main .films-bar-full .films-bar .top-bar .topics h6 {
+    font-size: 12px;
+  }
+}
+h3 {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+a:link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=watched-movies.css.map */

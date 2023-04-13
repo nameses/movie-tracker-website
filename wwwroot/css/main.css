@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
+body, html {
+  background-color: #050505;
+  width: 100%;
+  min-height: 100vh;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+h1, h2, h4, h5, h6 {
+  font-family: "Merriweather", serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+hr {
+  border: 1px solid #999999;
+  height: 1px;
+}
+
+.content {
+  height: 100vh;
+}
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(0, #050505, rgba(5, 5, 5, 0.3)), url("../img/landing.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.main .title-container .title-text-main {
+  margin-top: 20%;
+}
+.main .title-container .title-text-main .title-h6-text {
+  font-family: "Merriweather", serif;
+  margin-top: 10px;
+  color: #999999;
+}
+.main .recent-full .recent h6 {
+  color: #999999;
+  margin-bottom: -15px;
+  margin-top: 60px;
+}
+.main .recent-full .recent .recent-containers .recent-component {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.main .recent-full .recent .recent-containers .recent-component .poster {
+  flex-basis: 20%;
+  max-width: 215px;
+  max-height: 320px;
+}
+.main .recent-full .recent .recent-containers .recent-component .poster a img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid #999999;
+}
+
+@media only screen and (max-width: 1200px) {
+  .main {
+    background-size: 100% auto;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .recent-full {
+    margin-top: 100px;
+  }
+  .recent-full .recent .recent-containers .recent-component {
+    flex-wrap: wrap;
+  }
+  .recent-full .recent .recent-containers .recent-component .poster {
+    flex-basis: auto;
+    min-width: 20%;
+    min-height: 20%;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .title-container .title-text-main h1 {
+    font-size: 24px;
+  }
+  .recent-full .recent .recent-containers .recent-component .poster {
+    min-width: 30%;
+    min-height: 30%;
+  }
+}
+@media only screen and (min-width: 450px) and (max-width: 576px) {
+  .recent-full .recent .recent-containers .recent-component .poster-last {
+    display: none;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .recent-full .recent .recent-containers .recent-component .poster {
+    min-width: 45%;
+    min-height: 45%;
+  }
+}
+h3 {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+a:link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=main.css.map */

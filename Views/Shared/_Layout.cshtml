@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>some title</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/common/topbar-styles.css" />
+    <link rel="stylesheet" href="~/css/common/footer-styles.css" />
+
+    @RenderSection("styles", required:false)
+</head>
+<body>
+    <div class="main">
+        @RenderSection("backgroundImage",required:false)
+        <header class="topbar container-fluid ">
+            <div class="left-btns">
+                <span class="logo-text">
+                    <a asp-controller="Home" asp-action="Index">
+                        <h1>tracker</h1>
+                    </a>
+                </span>
+                <fieldset class="search-form">
+                    <input type="text">
+                    <button class="action" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </fieldset>
+            </div>
+            <div class="menu">
+                <a asp-controller="MoviePage" asp-action="Index"><h3>ДОСЛІДЖУЙ</h3></a>
+                <a asp-controller="Movies" asp-action="Index"><h3>ФІЛЬМИ</h3></a>
+                <a><h3>СТАТИСТИКА</h3></a>
+            </div>
+            <div class="right-menu">
+                <div class="right-btns" onclick="openMenu()">
+                    <div class="profile">
+                        <img src="../img/profile-blank.jpg">
+                        <span>
+                            <h3>ПРОФІЛЬ</h3>
+                        </span>
+                    </div>
+                    <div class="right-icon">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a asp-controller="Home" asp-action="Index">Головна</a>
+                    <a>Профіль</a>
+                    <a asp-controller="PersonalMovies" asp-action="Index">Переглянуті</a>
+                    <a asp-controller="PersonalMovies" asp-action="Index">До перегляду</a>
+                    <a asp-controller="PersonalMovies" asp-action="Index">Улюблені</a>
+                    <a>Щоденник</a>
+                    <a asp-area="Identity" asp-page="/Account/Logout">Вийти</a>
+                </div>
+            </div>
+        </header>
+        @RenderBody()
+    </div>
+
+    <div class="footer-full container">
+        <div class="footer">
+            <hr />
+            <div class="footer-containers">
+                <div class="footer-component">
+                    <div class="text">
+                        <h1>tracker</h1>
+                    </div>
+                    <div class="icons">
+                        <i class="fa-brands fa-telegram"></i>
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-discord"></i>
+                    </div>
+                </div>
+                <div class="footer-component">
+                    <div class="text">
+                        <a><p>Благодійна підтримка проекту</p></a>
+                    </div>
+                    <div class="text">
+                        <p>Потрібна допомога? tracker.help@gmail.com</p>
+                    </div>
+                </div>
+                <div class="footer-bottom-component">
+                    <div class="text">
+                        <p>© 2023 tracker. Film data by TMDB.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/dropdown-menu.js"></script>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/78efb955e0.js"></script>
+    @await RenderSectionAsync("scripts", required: false)
+</body>
+</html>

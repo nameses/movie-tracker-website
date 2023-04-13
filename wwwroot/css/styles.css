@@ -1,0 +1,498 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
+
+body, html {
+    background-color: #050505;
+    width: 100%;
+    min-height: 100vh;
+}
+
+p {
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+h1, h2, h4, h5, h6 {
+    font-family: "Merriweather", serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+hr {
+    border: 1px solid #999999;
+    height: 1px;
+}
+
+.content {
+    height: 100vh;
+}
+
+.main {
+    width: 100%;
+    background: linear-gradient(0, #050505, rgba(5, 5, 5, 0.3)), url("../img/landing.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+    .main .topbar {
+        height: 80px;
+    }
+
+        .main .topbar .logo-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+            .main .topbar .logo-text h1 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 200;
+            }
+
+        .main .topbar .nav-right-btns {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .main .topbar .nav-right-btns .btn-reg {
+                border-radius: 10px;
+                border: none;
+                background: #FCA311;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 8px;
+                margin-left: 10px;
+            }
+
+                .main .topbar .nav-right-btns .btn-reg a {
+                    text-align: center;
+                }
+
+                    .main .topbar .nav-right-btns .btn-reg a h3 {
+                        color: black;
+                        font-weight: 600;
+                        margin: 0;
+                    }
+
+    .main .title-container .title-text-main {
+        margin-top: 25%;
+    }
+
+        .main .title-container .title-text-main .title-h6-text {
+            font-family: "Merriweather", serif;
+            margin-top: 10px;
+            color: #999999;
+        }
+
+        .main .title-container .title-text-main .btn-reg {
+            border-radius: 10px;
+            border: none;
+            background: #FCA311;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            margin-top: 25px;
+        }
+
+            .main .title-container .title-text-main .btn-reg a {
+                text-align: center;
+            }
+
+                .main .title-container .title-text-main .btn-reg a h3 {
+                    color: black;
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+.about-us-full {
+    margin-top: 100px;
+}
+
+    .about-us-full .about-us h6 {
+        color: #999999;
+        margin-bottom: -15px;
+    }
+
+    .about-us-full .about-us-containers {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 30px;
+    }
+
+        .about-us-full .about-us-containers .about-us-component {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 50%;
+            height: 100px;
+        }
+
+            .about-us-full .about-us-containers .about-us-component .icon {
+                width: 25%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+                .about-us-full .about-us-containers .about-us-component .icon i {
+                    color: white;
+                    font-size: 64px;
+                }
+
+            .about-us-full .about-us-containers .about-us-component .text {
+                margin: 0 10px;
+                width: 75%;
+            }
+
+                .about-us-full .about-us-containers .about-us-component .text p {
+                    font-size: 24px;
+                }
+
+.how-works-full .how-works h6 {
+    color: #999999;
+    margin-bottom: -15px;
+    margin-top: 60px;
+}
+
+.how-works-full .how-works .how-works-component {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+    .how-works-full .how-works .how-works-component .text {
+        font-size: 24px;
+        width: 65%;
+        height: auto;
+    }
+
+    .how-works-full .how-works .how-works-component .poster-right {
+        height: 100%;
+        width: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .how-works-full .how-works .how-works-component .poster-right .poster-block {
+            position: relative;
+        }
+
+            .how-works-full .how-works .how-works-component .poster-right .poster-block img {
+                width: 215px;
+                height: 320px;
+                border-radius: 10px;
+                border: 1px solid #999999;
+            }
+
+            .how-works-full .how-works .how-works-component .poster-right .poster-block .icons-block {
+                position: absolute;
+                bottom: 0;
+                margin-bottom: 15px;
+                width: 100%;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+                .how-works-full .how-works .how-works-component .poster-right .poster-block .icons-block .icons {
+                    display: flex;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    background-color: rgba(0, 0, 0, 0.8);
+                    border-radius: 20px;
+                    width: 75%;
+                    height: 100%;
+                }
+
+                    .how-works-full .how-works .how-works-component .poster-right .poster-block .icons-block .icons i {
+                        color: white;
+                        font-size: 20px;
+                    }
+
+.week-trends-full .week-trends h6 {
+    color: #999999;
+    margin-bottom: -15px;
+    margin-top: 60px;
+}
+
+.week-trends-full .week-trends .week-trends-containers .week-trends-component {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+    .week-trends-full .week-trends .week-trends-containers .week-trends-component .poster {
+        flex-basis: 20%;
+        max-width: 215px;
+        max-height: 320px;
+    }
+
+        .week-trends-full .week-trends .week-trends-containers .week-trends-component .poster img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            border: 1px solid #999999;
+        }
+
+.questions-full .questions h6 {
+    color: #999999;
+    margin-bottom: -15px;
+    margin-top: 60px;
+}
+
+.questions-full .questions .questions-containers .questions-component {
+    min-height: 100px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .questions-full .questions .questions-containers .questions-component .text {
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        margin: 0 15px 0 35px;
+    }
+
+    .questions-full .questions .questions-containers .questions-component .icon-right .icon {
+        margin-right: 35px;
+    }
+
+        .questions-full .questions .questions-containers .questions-component .icon-right .icon i {
+            color: #ffffff;
+        }
+
+.if-decided-full {
+    margin-top: 80px;
+}
+
+    .if-decided-full .if-decided-component {
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .if-decided-full .if-decided-component .text h1 {
+            font-size: 48px;
+        }
+
+        .if-decided-full .if-decided-component .text p {
+            margin-top: -25px;
+            color: #999999;
+            font-size: 20px;
+        }
+
+        .if-decided-full .if-decided-component .btn-component .btn-reg {
+            border-radius: 10px;
+            border: none;
+            background: #FCA311;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+        }
+
+            .if-decided-full .if-decided-component .btn-component .btn-reg a {
+                text-align: center;
+            }
+
+                .if-decided-full .if-decided-component .btn-component .btn-reg a h3 {
+                    color: black;
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .about-us-full .about-us .about-us-containers {
+        padding: 0 5px;
+    }
+
+        .about-us-full .about-us .about-us-containers .about-us-component .text p {
+            font-size: 20px;
+        }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .about-us-full .about-us .about-us-containers {
+        padding: 0 5px;
+    }
+
+        .about-us-full .about-us .about-us-containers .about-us-component .text p {
+            font-size: 18px;
+        }
+
+        .about-us-full .about-us .about-us-containers .about-us-component .icon i {
+            font-size: 64px;
+        }
+
+    .how-works-full .how-works .how-works-component .text p {
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .about-us-full .about-us-containers .about-us-component {
+        width: 100%;
+    }
+
+        .about-us-full .about-us-containers .about-us-component .icon {
+            width: 20%;
+        }
+
+            .about-us-full .about-us-containers .about-us-component .icon i {
+                font-size: 48px;
+            }
+
+        .about-us-full .about-us-containers .about-us-component .text {
+            margin: 0 10px 0 20px;
+            width: 85%;
+        }
+
+            .about-us-full .about-us-containers .about-us-component .text p {
+                font-size: 20px;
+            }
+
+    .how-works-full .how-works .how-works-component {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+        .how-works-full .how-works .how-works-component .text {
+            font-size: 20px;
+            width: 100%;
+            height: auto;
+        }
+
+        .how-works-full .how-works .how-works-component .poster-right {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .how-works-full .how-works .how-works-component .poster-right .poster-block img {
+                width: 215px;
+                height: 320px;
+                border-radius: 10px;
+                border: 1px solid #999999;
+            }
+
+    .if-decided-full .if-decided-component {
+        flex-wrap: wrap;
+    }
+
+        .if-decided-full .if-decided-component .text h1 {
+            font-size: 40px;
+        }
+
+        .if-decided-full .if-decided-component .text p {
+            margin-top: -15px;
+            margin-bottom: 15px;
+        }
+
+    .questions-full .questions .questions-containers .questions-component .text {
+        font-size: 20px;
+        margin: 15px 15px 15px 15px;
+    }
+}
+
+@media only screen and (min-width: 450px) and (max-width: 768px) {
+    .week-trends-containers .week-trends-component {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 20px;
+    }
+
+        .week-trends-containers .week-trends-component .poster {
+            flex-basis: auto;
+            min-width: 30%;
+            min-height: 30%;
+        }
+
+            .week-trends-containers .week-trends-component .poster img {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                border: 1px solid #999999;
+            }
+}
+
+@media only screen and (max-width: 576px) {
+    .topbar .nav-right-btns .a-login-link h3 {
+        font-size: 16px;
+    }
+
+    .topbar .nav-right-btns .btn-reg {
+        padding: 8px;
+        margin-left: 10px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .main {
+        background-size: 100% auto;
+    }
+
+    .week-trends-containers .week-trends-component {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+        .week-trends-containers .week-trends-component .poster {
+            flex-basis: auto;
+            min-width: 28%;
+            min-height: 28%;
+        }
+
+            .week-trends-containers .week-trends-component .poster img {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                border: 1px solid #999999;
+            }
+}
+
+h3 {
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+a:link {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+/*# sourceMappingURL=styles.css.map */
