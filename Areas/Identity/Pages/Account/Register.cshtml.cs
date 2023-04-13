@@ -26,7 +26,7 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IImageUpload _unitOfWork;
 
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
@@ -41,7 +41,7 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IUnitOfWork unitOfWork)
+            IImageUpload unitOfWork)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -125,10 +125,11 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                _unitOfWork.UploadImage(file);
+                string newFileName = _unitOfWork.UploadImage(file);
+
                 var user = CreateUser();
 
-                user.ImagePath = file.FileName;
+                user.ImagePath = newFileName;
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
