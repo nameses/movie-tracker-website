@@ -2,8 +2,8 @@
 
 namespace movie_tracker_website.Utilities
 {
-    public interface IUnitOfWork
+    public interface IImageUpload
     {
-        void UploadImage(IFormFile file);
+        string UploadImage(IFormFile file);
     }
 }

@@ -15,7 +15,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddAuthentication();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IImageUpload, ImageUpload>();
 
 builder.Services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
 
