@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using movie_tracker_website.Areas.Identity.Data;
+using movie_tracker_website.ViewModels;
 
 namespace movie_tracker_website.Controllers
 {
@@ -10,17 +11,28 @@ namespace movie_tracker_website.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public HomeController(ILogger<HomeController> logger,
-                UserManager<AppUser> userManager)
+                UserManager<AppUser> userManager,
+                IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            ViewData["userID"] = _userManager.GetUserId(this.User);
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+
+            var appUser = new AppUserViewModel()
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                ImagePath = user.ImagePath
+            };
+            return View(appUser);
         }
     }
 }

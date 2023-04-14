@@ -20,13 +20,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using movie_tracker_website.Areas.Identity.Data;
+using movie_tracker_website.Services;
 using movie_tracker_website.Utilities;
 
 namespace movie_tracker_website.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly IImageUpload _unitOfWork;
+        private readonly IImageUpload _imageUpload;
 
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
@@ -41,7 +42,7 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IImageUpload unitOfWork)
+            IImageUpload imageUpload)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -49,7 +50,7 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _unitOfWork = unitOfWork;
+            _imageUpload = imageUpload;
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                string newFileName = _unitOfWork.UploadImage(file);
+                string newFileName = _imageUpload.UploadImage(file);
 
                 var user = CreateUser();
 

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model movie_tracker_website.ViewModels.AppUserViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -37,7 +40,7 @@
             <div class="right-menu">
                 <div class="right-btns" onclick="openMenu()">
                     <div class="profile">
-                        <img src="../img/profile-blank.jpg">
+                        <img title="profile image" src="@Config["Constants:UploadImagesPath"]@Model.ImagePath">
                         <span>
                             <h3>ПРОФІЛЬ</h3>
                         </span>
