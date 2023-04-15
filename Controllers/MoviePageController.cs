@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using movie_tracker_website.Areas.Identity.Data;
+using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
 using TMDbLib.Client;
 using TMDbLib.Objects.Movies;
@@ -11,20 +12,23 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class MoviePageController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<MoviePageController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _config;
+        private readonly IMoviesList _moviesList;
 
-        public MoviePageController(ILogger<HomeController> logger,
+        public MoviePageController(ILogger<MoviePageController> logger,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment,
-                IConfiguration config)
+                IConfiguration config,
+                IMoviesList moviesList)
         {
             _logger = logger;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
+            _moviesList = moviesList;
         }
 
         public async Task<IActionResult> Index()
@@ -52,10 +56,9 @@ namespace movie_tracker_website.Controllers
                 ImagePath = user.ImagePath
             };
 
-            //TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]);
-            //Movie movie = client.GetMovieAsync(47964).Result;
+            Console.WriteLine(_moviesList.GetRandomMovieID());
 
-            return View(appUser);
+            return View("Index", appUser);
         }
     }
 }

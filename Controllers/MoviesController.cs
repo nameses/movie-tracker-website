@@ -9,11 +9,11 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class MoviesController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<MoviesController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public MoviesController(ILogger<HomeController> logger,
+        public MoviesController(ILogger<MoviesController> logger,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment)
         {
