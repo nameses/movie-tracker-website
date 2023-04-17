@@ -16,6 +16,7 @@ builder.Services.AddAuthentication();
 //services
 builder.Services.AddScoped<IImageUpload, ImageUpload>();
 builder.Services.AddScoped<IMoviesList, MoviesList>();
+builder.Services.AddScoped<IMoviePageService, MoviePageService>();
 //db contexts
 builder.Services.AddDbContext<AuthDBContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

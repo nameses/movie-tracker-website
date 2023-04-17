@@ -14,7 +14,7 @@ namespace movie_tracker_website.Utilities
         private readonly IConfiguration _config;
 
         private static List<int> MoviesIdsList { get; set; }
-        private const int PageNumber = 10;
+        private const int PageNumber = 6;
 
         public MoviesList(ILogger<MoviesList> logger,
             IConfiguration config)
