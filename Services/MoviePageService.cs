@@ -1,4 +1,5 @@
-﻿using movie_tracker_website.Utilities;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
 using movie_tracker_website.ViewModels.PagesViews;
 using TMDbLib.Client;
@@ -19,6 +20,26 @@ namespace movie_tracker_website.Services
             _moviesList = moviesList;
         }
 
+        public MovieViewModel? GetMovieById(int id)
+        {
+            MovieViewModel movieView;
+            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            {
+                //get all info about movie we need, without imgs
+                Movie movie = client.GetMovieAsync(movieId: id,
+                    language: "uk-UK", includeImageLanguage: null,
+                    MovieMethods.Credits).Result;
+                //get imgs of film without param "language"
+                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: id, language: "null").Result;
+
+                if (movie == null || movieImages == null) return null;
+
+                movieView = MovieViewModel.convertToViewModel(movie, movieImages);
+                movieView = CorrectNullValues(movieView);
+            }
+            return movieView;
+        }
+
         public MovieViewModel GetRandomMovie()
         {
             MovieViewModel movieView;
@@ -30,7 +51,7 @@ namespace movie_tracker_website.Services
                     language: "uk-UK", includeImageLanguage: null,
                     MovieMethods.Credits).Result;
                 //get imgs of film without param "language"
-                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: randomId,language:"null").Result;
+                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: randomId, language: "null").Result;
                 while (true)
                 {
                     if (movieImages.Backdrops.Count < 3)
@@ -47,7 +68,7 @@ namespace movie_tracker_website.Services
 
         private MovieViewModel CorrectNullValues(MovieViewModel movieViewModel)
         {
-            if (movieViewModel.Title == "" || movieViewModel.Overview == "" || movieViewModel.Tagline == "") 
+            if (movieViewModel.Title == "" || movieViewModel.Overview == "" || movieViewModel.Tagline == "")
                 SetTextFields(movieViewModel);
             return movieViewModel;
         }
