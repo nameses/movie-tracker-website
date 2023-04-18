@@ -38,13 +38,19 @@ namespace movie_tracker_website.Controllers
             _moviePageService = moviePageService;
         }
 
-        public async Task<IActionResult> Index()
+        [Route("MoviePage/{id}")]
+        public async Task<IActionResult> Index(int id)
         {
-            AppUser user = _userManager.GetUserAsync(User).Result;
+            AppUser user = await _userManager.GetUserAsync(User);
+
+            MovieViewModel movie = _moviePageService.GetMovieById(id);
+
+            if (movie == null) return NotFound();
 
             var moviePageViewModel = new MoviePageViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user)
+                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                Movie = movie
             };
             return View(moviePageViewModel);
         }
