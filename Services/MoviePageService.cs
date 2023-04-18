@@ -20,6 +20,20 @@ namespace movie_tracker_website.Services
             _moviesList = moviesList;
         }
 
+        public List<MovieViewModel> GetSimilarMovies(int id)
+        {
+            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            {
+                return client.GetMovieSimilarAsync(id, page: 0)
+                    .Result
+                    .Results
+                    .Where(m => m.Title != null && m.Overview != null && m.PosterPath != null && m.BackdropPath != null)
+                    .Take(8)
+                    .Select(MovieViewModel.convertToSimilarMovieViewModel)
+                    .ToList();
+            }
+        }
+
         public MovieViewModel? GetMovieById(int id)
         {
             MovieViewModel movieView;

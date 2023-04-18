@@ -89,12 +89,19 @@
         <hr />
         <div class="similar-containers">
             <div class="similar-component">
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/banshee.jpg">
-                    </a>
-                </div>
-                <div class="poster">
+                @for(int i=0;i<Model.SimilarMovies.Count;i++)
+                {
+                    var curMovie = Model.SimilarMovies[i];
+                    var className = i < Model.SimilarMovies.Count - 2 ? "poster" : "poster poster-last";
+
+                    <div class="@className">
+                        <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                        <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                            src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                        </a>
+                    </div>
+                }
+                @*<div class="poster">
                     <a href="movie-page.html">
                         <img src="~/img/eternal-sunshine.jpg">
                     </a>
@@ -128,7 +135,7 @@
                     <a href="movie-page.html">
                         <img src="~/img/joker.jpg">
                     </a>
-                </div>
+                </div>*@
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 ﻿using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
+using TMDbLib.Objects.Search;
 
 namespace movie_tracker_website.ViewModels
 {
@@ -8,14 +9,25 @@ namespace movie_tracker_website.ViewModels
         public int Id { get; set; }
         public string Title { get; set; }
         public string ReleaseYear { get; set; }
-        public int? Duration { get; set; }
-        public string Tagline { get; set; }
-        public string Overview { get; set; }
-        public string Rating { get; set; }
+        public int Duration { get; set; }
+        public string? Tagline { get; set; }
+        public string? Overview { get; set; }
+        public string? Rating { get; set; }
         public string PosterPath { get; set; }
-        public string MainBackdropPath { get; set; }
-        public List<string> BackdropsPath { get; set; }
-        public List<string> Actors { get; set; }
+        public string? MainBackdropPath { get; set; }
+        public List<string>? BackdropsPath { get; set; }
+        public List<string>? Actors { get; set; }
+
+        public static MovieViewModel convertToSimilarMovieViewModel(SearchMovie inputMovie)
+        {
+            return new MovieViewModel
+            {
+                Id = inputMovie.Id,
+                Title = inputMovie.Title,
+                ReleaseYear = inputMovie.ReleaseDate.Value.Year.ToString(),
+                PosterPath = inputMovie.PosterPath
+            };
+        }
 
         public static MovieViewModel convertToViewModel(Movie inputMovie, ImagesWithId images)
         {
@@ -24,7 +36,7 @@ namespace movie_tracker_website.ViewModels
                 Id = inputMovie.Id,
                 Title = inputMovie.Title,
                 ReleaseYear = inputMovie.ReleaseDate.Value.Year.ToString(),
-                Duration = inputMovie.Runtime,
+                Duration = inputMovie.Runtime.Value,
                 Tagline = inputMovie.Tagline,
                 Overview = inputMovie.Overview,
                 Rating = inputMovie.VoteAverage.ToString().Replace(',', '.'),

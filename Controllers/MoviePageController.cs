@@ -43,14 +43,16 @@ namespace movie_tracker_website.Controllers
         {
             AppUser user = await _userManager.GetUserAsync(User);
 
-            MovieViewModel movie = _moviePageService.GetMovieById(id);
-
+            var movie = _moviePageService.GetMovieById(id);
             if (movie == null) return NotFound();
+
+            List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(id);
 
             var moviePageViewModel = new MoviePageViewModel()
             {
                 CurrentUser = AppUserViewModel.convertToViewModel(user),
-                Movie = movie
+                Movie = movie,
+                SimilarMovies = similarMovies
             };
             return View(moviePageViewModel);
         }
@@ -60,10 +62,16 @@ namespace movie_tracker_website.Controllers
         {
             AppUser user = _userManager.GetUserAsync(User).Result;
 
+            var movie = _moviePageService.GetRandomMovie();
+            if (movie == null) return NotFound();
+
+            List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
+
             var moviePageViewModel = new MoviePageViewModel()
             {
                 CurrentUser = AppUserViewModel.convertToViewModel(user),
-                Movie = _moviePageService.GetRandomMovie(),
+                Movie = movie,
+                SimilarMovies = similarMovies
             };
 
             return View("Index", moviePageViewModel);
