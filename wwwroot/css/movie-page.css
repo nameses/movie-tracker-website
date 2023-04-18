@@ -330,10 +330,19 @@ hr {
         grid-gap: 20px;
     }
 
-    .main .similar-full .similar .similar-containers .similar-component .poster {
-        max-width: 30%;
-        max-height: 30%;
+    .main .similar-full .similar .similar-containers .similar-component {
+        flex-wrap: wrap;
     }
+
+        .main .similar-full .similar .similar-containers .similar-component .poster {
+            flex-basis: auto;
+            max-width: 30%;
+            max-height: 30%;
+        }
+
+        .main .similar-full .similar .similar-containers .similar-component .poster-last {
+            display: none;
+        }
 }
 
 @media only screen and (min-width: 450px) and (max-width: 576px) {
