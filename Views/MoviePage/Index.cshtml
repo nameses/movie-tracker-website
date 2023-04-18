@@ -11,68 +11,38 @@
     <script src="../js/single-img-slider.js"></script>
 }
 @section backgroundImage{
-    <div class="background-photo"></div>
+    <div class="background-photo"><img src="@Config["Constants:BackgroundBaseUrl"]@Model.Movie.MainBackdropPath" /></div>
 }
+
+@model movie_tracker_website.ViewModels.PagesViews.MoviePageViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
 
 <div class="main-blocks container">
     <div class="poster">
         <div class="poster-block">
-            <img src="~/img/joker.jpg">
+            <img src="@Config["Constants:PosterBaseUrl"]@Model.Movie.PosterPath">
         </div>
     </div>
     <div class="title-text">
-        <h1>Джокер</h1>
-        <h6 class="title-info">2019 | 2h 2m</h6>
-        <h6 class="slogan">Зроби щасливе обличчя</h6>
+        <h1>@Model.Movie.Title</h1>
+        <h6 class="title-info">@Model.Movie.ReleaseYear | @Model.Movie.Duration m</h6>
+        <h6 class="slogan">@Model.Movie.Tagline</h6>
     </div>
     <div class="description">
         <h6>Опис</h6>
         <hr />
-        <p>
-            Фільм розкаже історію про культового антигероя. Це буде одночасно і справжнім дослідженням Артура Флека
-            (Джокера ), чоловіка, якого відторгає суспільство, і повчальною історією.
-        </p>
+        <p>@Model.Movie.Overview</p>
     </div>
     <div class="main-roles">
         <h6>У головних ролях</h6>
         <hr />
         <div class="actors-btns">
-            <div class="actor-name">
-                <a><h4>Robert De Niro</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Joaquin Phoenix</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Zazie Beetz</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Zazie Letsyv</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Frances Conroy</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Brett Cullen</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Shea Whigham</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Jane Adams</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Bill Camp</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Glenn Fleshler</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Leigh Gill</h4></a>
-            </div>
-            <div class="actor-name">
-                <a><h4>Deirdre O'Connell</h4></a>
-            </div>
+            @foreach(var actor in Model.Movie.Actors)
+            {
+                <div class="actor-name">
+                    <a><h4>@actor</h4></a>
+                </div>
+            }
         </div>
         <h6 class="more-info">
             Більше інформації доступно на
@@ -84,7 +54,7 @@
         <h6>Рейтинг</h6>
         <hr />
         <span class="rating-num">
-            <h1>4.2</h1>
+            <h1>@Model.Movie.Rating</h1>
             <h6>середня оцінка</h6>
         </span>
 
@@ -103,15 +73,14 @@
     <hr />
 </div>
 <div class="slider slider-nav">
-    <div class="slide">
-        <div class="slider-image-block"><img src="~/img/joker-img-1.jpg"></div>
-    </div>
-    <div class="slide">
-        <div class="slider-image-block"><img src="~/img/joker-img-2.jpg"></div>
-    </div>
-    <div class="slide">
-        <div class="slider-image-block"><img src="~/img/joker-img-3.jpg"></div>
-    </div>
+    @foreach(var backdrop in Model.Movie.BackdropsPath)
+    {
+        <div class="slide">
+            <div class="slider-image-block">
+                <img src="@Config["Constants:BackdropBaseUrl"]@backdrop">
+            </div>
+        </div>
+    }
 </div>
 
 <div class="similar-full container">

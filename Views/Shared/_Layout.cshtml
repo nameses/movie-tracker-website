@@ -1,5 +1,4 @@
-﻿@model movie_tracker_website.ViewModels.AppUserViewModel
-@inject Microsoft.Extensions.Configuration.IConfiguration Config
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration Config
 
 <!DOCTYPE html>
 <html>
@@ -33,14 +32,14 @@
                 </fieldset>
             </div>
             <div class="menu">
-                <a asp-controller="MoviePage" asp-action="Index"><h3>ДОСЛІДЖУЙ</h3></a>
+                <a asp-controller="MoviePage" asp-action="random"><h3>ДОСЛІДЖУЙ</h3></a>
                 <a asp-controller="Movies" asp-action="Index"><h3>ФІЛЬМИ</h3></a>
                 <a><h3>СТАТИСТИКА</h3></a>
             </div>
             <div class="right-menu">
                 <div class="right-btns" onclick="openMenu()">
                     <div class="profile">
-                        <img title="profile image" src="@Config["Constants:UploadImagesPath"]@Model.ImagePath">
+                        <img title="profile image" src="@Config["Constants:UploadImagesPath"]@Model.CurrentUser.ImagePath">
                         <span>
                             <h3>ПРОФІЛЬ</h3>
                         </span>

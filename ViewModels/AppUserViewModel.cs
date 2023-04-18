@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using movie_tracker_website.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace movie_tracker_website.ViewModels
 {
@@ -14,5 +15,15 @@ namespace movie_tracker_website.ViewModels
 
         [DataType(DataType.Text)]
         public string? ImagePath { get; set; }
+
+        public static AppUserViewModel convertToViewModel(AppUser user)
+        {
+            return new AppUserViewModel()
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                ImagePath = user.ImagePath
+            };
+        }
     }
 }

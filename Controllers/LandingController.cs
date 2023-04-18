@@ -19,7 +19,7 @@ namespace movie_tracker_website.Controllers
 
         public IActionResult Index()
         {
-            if (_signInManager.IsSignedIn(this.User))
+            if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Index", "Home", new { area = "" });
             }

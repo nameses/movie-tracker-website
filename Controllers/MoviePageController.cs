@@ -2,8 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using movie_tracker_website.Areas.Identity.Data;
+using movie_tracker_website.Services;
+using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
+using movie_tracker_website.ViewModels.PagesViews;
 using TMDbLib.Client;
+using TMDbLib.Objects.General;
+using TMDbLib.Objects.Languages;
 using TMDbLib.Objects.Movies;
 
 namespace movie_tracker_website.Controllers
@@ -11,51 +16,57 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class MoviePageController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<MoviePageController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _config;
+        private readonly IMoviesList _moviesList;
+        private readonly IMoviePageService _moviePageService;
 
-        public MoviePageController(ILogger<HomeController> logger,
+        public MoviePageController(ILogger<MoviePageController> logger,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment,
-                IConfiguration config)
+                IConfiguration config,
+                IMoviesList moviesList,
+                IMoviePageService moviePageService)
         {
             _logger = logger;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
+            _moviesList = moviesList;
+            _moviePageService = moviePageService;
         }
 
-        public async Task<IActionResult> Index()
+        [Route("MoviePage/{id}")]
+        public async Task<IActionResult> Index(int id)
         {
-            var user = await _userManager.GetUserAsync(User);
+            AppUser user = await _userManager.GetUserAsync(User);
 
-            var appUser = new AppUserViewModel()
+            MovieViewModel movie = _moviePageService.GetMovieById(id);
+
+            if (movie == null) return NotFound();
+
+            var moviePageViewModel = new MoviePageViewModel()
             {
-                Username = user.UserName,
-                Email = user.Email,
-                ImagePath = user.ImagePath
+                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                Movie = movie
             };
-            return View(appUser);
+            return View(moviePageViewModel);
         }
 
         [Route("MoviePage/random")]
         public async Task<IActionResult> RandomMovie()
         {
-            var user = await _userManager.GetUserAsync(User);
+            AppUser user = _userManager.GetUserAsync(User).Result;
 
-            var appUser = new AppUserViewModel()
+            var moviePageViewModel = new MoviePageViewModel()
             {
-                Username = user.UserName,
-                Email = user.Email,
-                ImagePath = user.ImagePath
+                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                Movie = _moviePageService.GetRandomMovie(),
             };
 
-            //TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]);
-            //Movie movie = client.GetMovieAsync(47964).Result;
-
-            return View(appUser);
+            return View("Index", moviePageViewModel);
         }
     }
 }

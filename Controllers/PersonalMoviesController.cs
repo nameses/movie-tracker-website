@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using movie_tracker_website.Areas.Identity.Data;
 using movie_tracker_website.ViewModels;
+using movie_tracker_website.ViewModels.PagesViews;
 
 namespace movie_tracker_website.Controllers
 {
     [Authorize]
     public class PersonalMoviesController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<PersonalMoviesController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public PersonalMoviesController(ILogger<HomeController> logger,
+        public PersonalMoviesController(ILogger<PersonalMoviesController> logger,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment)
         {
@@ -24,15 +25,12 @@ namespace movie_tracker_website.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-
-            var appUser = new AppUserViewModel()
+            AppUser user = await _userManager.GetUserAsync(User);
+            var personalMoviesViewModel = new PersonalMoviesViewModel()
             {
-                Username = user.UserName,
-                Email = user.Email,
-                ImagePath = user.ImagePath
+                CurrentUser = AppUserViewModel.convertToViewModel(user)
             };
-            return View(appUser);
+            return View(personalMoviesViewModel);
         }
     }
 }

@@ -12,18 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
 builder.Services.AddAuthentication();
-
+//services
 builder.Services.AddScoped<IImageUpload, ImageUpload>();
-
-builder.Services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
-
+builder.Services.AddScoped<IMoviesList, MoviesList>();
+builder.Services.AddScoped<IMoviePageService, MoviePageService>();
+//db contexts
 builder.Services.AddDbContext<AuthDBContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+//identity
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AuthDBContext>();
+//identity options
+builder.Services.Configure<IdentityOptions>(options => options.User.RequireUniqueEmail = true);
 
 var app = builder.Build();
 
@@ -39,7 +40,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthorization();
-//app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
