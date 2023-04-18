@@ -4,12 +4,13 @@
 @using Microsoft.AspNetCore.Identity
 @using movie_tracker_website.Areas.Identity.Data
 
+@model movie_tracker_website.ViewModels.PagesViews.HomeViewModel
 @inject UserManager<AppUser> UserManager
 
 <div class="title-container container">
     <div class="title-text-main">
         <h1>
-            Вітаємо, <u>@Model.Username</u>!
+            Вітаємо, <u>@Model.CurrentUser.Username</u>!
         </h1>
     </div>
 </div>
