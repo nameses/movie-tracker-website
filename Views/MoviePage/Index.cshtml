@@ -92,6 +92,7 @@
                 @for(int i=0;i<Model.SimilarMovies.Count;i++)
                 {
                     var curMovie = Model.SimilarMovies[i];
+                    //need to set to the 2 last movies class "poster-last"
                     var className = i < Model.SimilarMovies.Count - 2 ? "poster" : "poster poster-last";
 
                     <div class="@className">
@@ -101,41 +102,6 @@
                         </a>
                     </div>
                 }
-                @*<div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/eternal-sunshine.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/menu.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/western-front.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/taxidriver.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/everything-everywhere.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/the-shining.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/joker.jpg">
-                    </a>
-                </div>*@
             </div>
         </div>
     </div>

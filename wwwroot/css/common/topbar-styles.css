@@ -1,5 +1,5 @@
 .show {
-    display: block !important;
+    display: block;
 }
 
 .topbar {
@@ -132,6 +132,10 @@
                 display: block;
             }
 
+            .topbar .right-menu .dropdown-menu .hidden-links {
+                display: none!important;
+            }
+
 @media only screen and (max-width: 1200px) {
     .topbar .right-menu .right-btns .profile {
         margin-right: 0;
@@ -162,6 +166,10 @@
         .topbar .right-menu .right-btns .right-icon i {
             color: #ffffff;
         }
+
+    .topbar .right-menu .dropdown-menu .hidden-links {
+        display: contents!important;
+    }
 }
 
 @media only screen and (max-width: 576px) {
