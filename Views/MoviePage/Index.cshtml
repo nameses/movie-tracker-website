@@ -68,21 +68,38 @@
     </div>
 </div>
 
-<div class="slider-block container">
-    <h6>Світлини з фільму</h6>
-    <hr />
-</div>
-<div class="slider slider-nav">
-    @foreach(var backdrop in Model.Movie.BackdropsPath)
-    {
-        <div class="slide">
-            <div class="slider-image-block">
-                <img src="@Config["Constants:BackdropBaseUrl"]@backdrop">
+@if (Model.Movie.Trailer != null)
+{
+    <div class="trailer-full container">
+        <div class="trailer">
+            <h6>Трейлер</h6>
+            <hr />
+            <div class="video-container">
+                <iframe src="@Config["Constants:VideoBaseUrl"]@Model.Movie.Trailer" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen></iframe>
             </div>
         </div>
-    }
-</div>
+    </div>
+}
 
+@if (Model.Movie.BackdropsPath!=null && Model.Movie.BackdropsPath.Count > 1)
+{
+    <div class="slider-block container">
+        <h6>Світлини з фільму</h6>
+        <hr />
+    </div>
+    <div class="slider slider-nav">
+        @foreach(var backdrop in Model.Movie.BackdropsPath)
+        {
+            <div class="slide">
+                <div class="slider-image-block">
+                    <img src="@Config["Constants:BackdropBaseUrl"]@backdrop">
+                </div>
+            </div>
+        }
+    </div>
+}
 <div class="similar-full container">
     <div class="similar">
         <h6>Схожі фільми</h6>

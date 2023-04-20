@@ -39,64 +39,63 @@ namespace movie_tracker_website.Services
             MovieViewModel movieView;
             using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
-                //get all info about movie we need, without imgs
-                Movie movie = client.GetMovieAsync(movieId: id,
+                //get all info about movie we need without imgs
+                Movie movieUA = client.GetMovieAsync(movieId: id,
                     language: "uk-UK", includeImageLanguage: null,
                     MovieMethods.Credits).Result;
+
+                Movie movieEN = client.GetMovieAsync(movieId: id,
+                    language: "en", includeImageLanguage: null,
+                    MovieMethods.Videos | MovieMethods.Images).Result;
                 //get imgs of film without param "language"
-                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: id, language: "null").Result;
+                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: id,
+                    language: "null", includeImageLanguage: null).Result;
 
-                if (movie == null || movieImages == null) return null;
+                movieView = MovieViewModel.convertToViewModel(movieUA, movieImages);
 
-                movieView = MovieViewModel.convertToViewModel(movie, movieImages);
-                movieView = CorrectNullValues(movieView);
+                movieView = CorrectNullValues(movieView, movieEN);
             }
             return movieView;
         }
 
         public MovieViewModel GetRandomMovie()
         {
-            MovieViewModel movieView;
+            int id;
             using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
-                int randomId = _moviesList.GetRandomMovieID();
-                //get all info about movie we need without imgs
-                Movie movie = client.GetMovieAsync(movieId: randomId,
-                    language: "uk-UK", includeImageLanguage: null,
-                    MovieMethods.Credits).Result;
-                //get imgs of film without param "language"
-                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: randomId, language: "null").Result;
                 while (true)
                 {
-                    if (movieImages.Backdrops.Count < 3)
-                        return GetRandomMovie();
-                    else break;
+                    id = _moviesList.GetRandomMovieID();
+                    Movie movie = client.GetMovieAsync(movieId: id,
+                        language: "en", includeImageLanguage: null,
+                        MovieMethods.Videos | MovieMethods.Images).Result;
+                    if (movie.Images.Backdrops.Count > 5 &&
+                        movie.Videos.Results.Where(vid => vid.Type.Equals("Trailer"))
+                        .Count() > 0) break;
                 }
-                movieView = MovieViewModel.convertToViewModel(movie, movieImages);
-
-                movieView = CorrectNullValues(movieView);
-                if (movieView == null) return GetRandomMovie();
             }
-            return movieView;
+
+            return this.GetMovieById(id);
         }
 
-        private MovieViewModel CorrectNullValues(MovieViewModel movieViewModel)
+        private MovieViewModel CorrectNullValues(MovieViewModel inputMovie, Movie movieEN)
         {
-            if (movieViewModel.Title == "" || movieViewModel.Overview == "" || movieViewModel.Tagline == "")
-                SetTextFields(movieViewModel);
-            return movieViewModel;
-        }
-
-        private void SetTextFields(MovieViewModel movieViewModel)
-        {
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            var videos = movieEN.Videos.Results;
+            string videoKey = null;
+            if(videos.Count > 0)
             {
-                Movie movie = client.GetMovieAsync(movieId: movieViewModel.Id,
-                    language: "en-US").Result;
-                movieViewModel.Overview = movie.Overview;
-                movieViewModel.Tagline = movie.Tagline;
-                movieViewModel.Title = movie.Title;
+                videoKey = videos.Where(vid => vid.Type.Equals("Trailer"))
+                    .Where(video => video.Site.Equals("YouTube"))
+                    .Take(1).First().Key;
             }
+            if (inputMovie.Title == "") inputMovie.Title = movieEN.Title;
+            if (inputMovie.Overview == "") inputMovie.Overview = movieEN.Overview;
+            if (inputMovie.Tagline == "") inputMovie.Tagline = movieEN.Tagline;
+            if (inputMovie.Trailer == null && videoKey!=null) inputMovie.Trailer = videoKey;
+            if (inputMovie.PosterPath == "") inputMovie.PosterPath = movieEN.PosterPath;
+            if (inputMovie.MainBackdropPath == "") inputMovie.MainBackdropPath = movieEN.BackdropPath;
+
+            return inputMovie;
         }
     }
 }

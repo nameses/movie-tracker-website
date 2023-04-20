@@ -51,10 +51,12 @@
                 <div class="dropdown-menu" id="dropdownMenu">
                     <a asp-controller="Home" asp-action="Index">Головна</a>
                     <a>Профіль</a>
-                    <div class="hidden-links">
+                    <div class="main-links">
+                        <hr />
                         <a asp-controller="MoviePage" asp-action="random">Досліджуй</a>
                         <a asp-controller="Movies" asp-action="Index">Фільми</a>
                         <a>Статистика</a>
+                        <hr />
                     </div>
                     <a asp-controller="PersonalMovies" asp-action="Index">Переглянуті</a>
                     <a asp-controller="PersonalMovies" asp-action="Index">До перегляду</a>
@@ -101,7 +103,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/dropdown-menu.js"></script>
+    <script src="~/js/dropdown-menu.js"></script>
     <script crossorigin="anonymous" src="https://kit.fontawesome.com/78efb955e0.js"></script>
     @await RenderSectionAsync("scripts", required: false)
 </body>

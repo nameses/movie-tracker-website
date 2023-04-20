@@ -14,7 +14,7 @@ namespace movie_tracker_website.Utilities
         private readonly IConfiguration _config;
 
         private static List<int> MoviesIdsList { get; set; }
-        private const int PageNumber = 6;
+        private const int PageNumber = 10;
 
         public MoviesList(ILogger<MoviesList> logger,
             IConfiguration config)
@@ -33,13 +33,16 @@ namespace movie_tracker_website.Utilities
             var moviesIdList = new List<int>();
             using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
-                for (int page = 0; page < PageNumber; page++)
+                for (int page = 1; page <= PageNumber; page++)
                 {
                     var topRatedList = client.GetMovieTopRatedListAsync(page: page).Result;
 
                     foreach (var result in topRatedList.Results)
                     {
-                        moviesIdList.Add(result.Id);
+                        if (result.OriginalLanguage != "ja" &&
+                            result.OriginalLanguage != "hi" &&
+                            result.OriginalLanguage != "ko")
+                            moviesIdList.Add(result.Id);
                     }
                 }
             }
