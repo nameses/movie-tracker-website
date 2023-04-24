@@ -1,6 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
 
+.turnColorGreen {
+    color: green !important;
+}
+
+.turnColorWhite {
+    color: white !important;
+}
+
 body, html {
     background-color: #050505;
     width: 100%;
@@ -63,7 +71,6 @@ hr {
         z-index: 1;
         width: 100%;
         height: 100%;
-        
     }
 
         .main .trailer-full .trailer h6 {
@@ -74,11 +81,11 @@ hr {
         .main .trailer-full .trailer .video-container {
             display: flex;
             justify-content: center;
-            align-content:center;
+            align-content: center;
             width: 100%;
             height: 80vh;
-            
         }
+
             .main .trailer-full .trailer .video-container iframe {
                 width: 100%;
                 height: 100%;
@@ -247,8 +254,14 @@ hr {
                     height: 100%;
                 }
 
+                    .main .main-blocks .rating .icons-block .icons button {
+                        background: none;
+                        border: none;
+                        padding: 0;
+                    }
+
                     .main .main-blocks .rating .icons-block .icons i {
-                        color: white;
+                        /*color: white;*/
                         font-size: 20px;
                     }
 

@@ -4,11 +4,35 @@
     <link href="~/css/movie-page-slider.css" rel="stylesheet">
     <!--    slick-slider-->
     <link href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css" rel="stylesheet" type="text/css">
+    <style>
+        .turnColorGreen {
+            color: green!important;
+        }
+
+        .turnColorWhite {
+            color: white !important;
+        }
+    </style>
 }
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
     <script src="../js/single-img-slider.js"></script>
+
+    <script>
+        let watchedSymbol = document.querySelector(".watchedSymbol");
+        console.log(watchedSymbol);
+        let favouriteSymbol = document.getElementById("favouriteSymbol");
+        let toWatchSymbol = document.getElementById("toWatchSymbol");
+        if (watchedSymbol !== null) {
+            if (@Model.Movie.IfWatched.ToString().ToLower() == true) {
+                watchedSymbol.classList.toggle("turnColorGreen");
+            }
+            else {
+                watchedSymbol.classList.toggle("turnColorWhite");
+            }
+        }
+    </script>
 }
 @section backgroundImage{
     <div class="background-photo"><img src="@Config["Constants:BackgroundBaseUrl"]@Model.Movie.MainBackdropPath" /></div>
@@ -57,12 +81,29 @@
             <h1>@Model.Movie.Rating</h1>
             <h6>середня оцінка</h6>
         </span>
-
         <div class="icons-block">
             <div class="icons">
-                <i class="fa-solid fa-eye"></i>
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-solid fa-bookmark"></i>
+                <form id="watchedMovie" method="post" asp-controller="MoviePage"
+                      asp-action="WatchedEntry" asp-route-id="@Model.Movie.Id">
+                    <input type="number" name="ApiId" value="@Model.Movie.Id" hidden/>
+                    <button type="submit">
+                        <i id="watchedSymbol" class="fa-solid fa-eye watchedSymbol"></i>
+                    </button>
+                </form>
+                <form id="favouriteMovie" method="post" asp-controller="MoviePage"
+                      asp-action="FavouriteEntry" asp-route-id="@Model.Movie.Id">
+                    <input type="number" name="ApiId" value="@Model.Movie.Id" hidden />
+                    <button type="submit">
+                        <i id="favouriteSymbol" class="fa-solid fa-heart favouriteSymbol"></i>
+                    </button>
+                </form>
+                <form id="toWatchMovie" method="post" asp-controller="MoviePage"
+                      asp-action="ToWatchEntry" asp-route-id="@Model.Movie.Id">
+                    <input type="number" name="ApiId" value="@Model.Movie.Id" hidden />
+                    <button type="submit">
+                        <i id="toWatchSymbol" class="fa-solid fa-bookmark toWatchSymbol"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
