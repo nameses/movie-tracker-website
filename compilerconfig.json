@@ -48,5 +48,15 @@
     "options": {
       "sourceMap": false
     }
+  },
+  {
+    "outputFile": "wwwroot/css/movie-page.css",
+    "inputFile": "wwwroot/css/movie-page.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
   }
 ]

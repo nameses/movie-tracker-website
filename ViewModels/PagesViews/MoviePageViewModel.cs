@@ -4,5 +4,7 @@
     {
         public AppUserViewModel CurrentUser { get; set; }
         public MovieViewModel Movie { get; set; }
+        public List<MovieViewModel> SimilarMovies { get; set; }
+        public List<MovieViewModel>? ViewedMovies { get; set; }
     }
 }

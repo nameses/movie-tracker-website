@@ -8,7 +8,37 @@
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
-    <script src="../js/single-img-slider.js"></script>
+    <script src="~/js/single-img-slider.js"></script>
+    <script>
+        let watchedSymbol = document.querySelector(".watchedSymbol");
+        let favouriteSymbol = document.querySelector(".favouriteSymbol");
+        let toWatchSymbol = document.querySelector(".toWatchSymbol");
+
+        if (watchedSymbol !== null) {
+            if (@Model.Movie.IfWatched.ToString().ToLower()) {
+                watchedSymbol.classList.toggle("turnColorGreen");
+            }
+            else {
+                watchedSymbol.classList.toggle("turnColorWhite");
+            }
+        }
+
+        if (favouriteSymbol !== null) {
+            if (@Model.Movie.IfFavourite.ToString().ToLower()) {
+                favouriteSymbol.classList.toggle("turnColorGreen");
+            } else {
+                favouriteSymbol.classList.toggle("turnColorWhite");
+            }
+        }
+
+        if (toWatchSymbol !== null) {
+            if (@Model.Movie.IfToWatch.ToString().ToLower()) {
+                toWatchSymbol.classList.toggle("turnColorGreen");
+            } else {
+                toWatchSymbol.classList.toggle("turnColorWhite");
+            }
+        }
+    </script>
 }
 @section backgroundImage{
     <div class="background-photo"><img src="@Config["Constants:BackgroundBaseUrl"]@Model.Movie.MainBackdropPath" /></div>
@@ -57,78 +87,112 @@
             <h1>@Model.Movie.Rating</h1>
             <h6>середня оцінка</h6>
         </span>
-
         <div class="icons-block">
             <div class="icons">
-                <i class="fa-solid fa-eye"></i>
-                <i class="fa-solid fa-heart"></i>
-                <i class="fa-solid fa-bookmark"></i>
+                <form id="watchedMovie" method="post" asp-controller="MoviePage"
+                      asp-action="WatchedEntry" asp-route-id="@Model.Movie.Id">
+                    <input type="number" name="ApiId" value="@Model.Movie.Id" hidden/>
+                    <button type="submit">
+                        <i class="fa-solid fa-eye watchedSymbol"></i>
+                    </button>
+                </form>
+                <form id="favouriteMovie" method="post" asp-controller="MoviePage"
+                      asp-action="FavouriteEntry" asp-route-id="@Model.Movie.Id">
+                    <input type="number" name="ApiId" value="@Model.Movie.Id" hidden />
+                    <button type="submit">
+                        <i class="fa-solid fa-heart favouriteSymbol"></i>
+                    </button>
+                </form>
+                <form id="toWatchMovie" method="post" asp-controller="MoviePage"
+                      asp-action="ToWatchEntry" asp-route-id="@Model.Movie.Id">
+                    <input type="number" name="ApiId" value="@Model.Movie.Id" hidden />
+                    <button type="submit">
+                        <i class="fa-solid fa-bookmark toWatchSymbol"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-<div class="slider-block container">
-    <h6>Світлини з фільму</h6>
-    <hr />
-</div>
-<div class="slider slider-nav">
-    @foreach(var backdrop in Model.Movie.BackdropsPath)
-    {
-        <div class="slide">
-            <div class="slider-image-block">
-                <img src="@Config["Constants:BackdropBaseUrl"]@backdrop">
+@if (Model.Movie.Trailer != null)
+{
+    <div class="trailer-full container">
+        <div class="trailer">
+            <h6>Трейлер</h6>
+            <hr />
+            <div class="video-container">
+                <iframe src="@Config["Constants:VideoBaseUrl"]@Model.Movie.Trailer" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen></iframe>
             </div>
         </div>
-    }
-</div>
+    </div>
+}
 
-<div class="similar-full container">
-    <div class="similar">
+@if (Model.Movie.BackdropsPath!=null && Model.Movie.BackdropsPath.Count > 1)
+{
+    <div class="slider-block container">
+        <h6>Світлини з фільму</h6>
+        <hr />
+    </div>
+    <div class="slider slider-nav">
+        @foreach(var backdrop in Model.Movie.BackdropsPath)
+        {
+            <div class="slide">
+                <div class="slider-image-block">
+                    <img src="@Config["Constants:BackdropBaseUrl"]@backdrop">
+                </div>
+            </div>
+        }
+    </div>
+}
+<div class="movie-list-full container">
+    <div class="movie-list">
         <h6>Схожі фільми</h6>
         <hr />
-        <div class="similar-containers">
-            <div class="similar-component">
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/banshee.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/eternal-sunshine.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/menu.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/western-front.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/taxidriver.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/everything-everywhere.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/the-shining.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/joker.jpg">
-                    </a>
-                </div>
+        <div class="movie-list-containers">
+            <div class="movie-list-component">
+                @for(int i=0;i<Model.SimilarMovies.Count;i++)
+                {
+                    var curMovie = Model.SimilarMovies[i];
+                    //need to set to the 2 last movies class "poster-last"
+                    var className = i < Model.SimilarMovies.Count - 2 ? "poster" : "poster poster-last";
+
+                    <div class="@className">
+                        <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                        <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                            src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="movie-list-full container">
+    <div class="movie-list">
+        <h6>Нещодавно знайдені</h6>
+        <hr />
+        <div class="movie-list-containers">
+            <div class="movie-list-component">
+                @for (int i = 0; i < Model.ViewedMovies.Count; i++)
+                {
+                    var curMovie = Model.ViewedMovies[i];
+                    //need to set to the 2 last movies class "poster-last"
+                    var className = i < Model.ViewedMovies.Count - 2 ? "poster" : "poster poster-last";
+
+                    <div class="@className">
+                        @if (curMovie.Id != -1)
+                        {
+                            <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                                <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                    src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                            </a>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>

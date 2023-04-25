@@ -1,5 +1,8 @@
-﻿using TMDbLib.Objects.General;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Linq;
+using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
+using TMDbLib.Objects.Search;
 
 namespace movie_tracker_website.ViewModels
 {
@@ -9,13 +12,32 @@ namespace movie_tracker_website.ViewModels
         public string Title { get; set; }
         public string ReleaseYear { get; set; }
         public int? Duration { get; set; }
-        public string Tagline { get; set; }
-        public string Overview { get; set; }
-        public string Rating { get; set; }
+        public string? Tagline { get; set; }
+        public string? Overview { get; set; }
+        public string? Rating { get; set; }
         public string PosterPath { get; set; }
-        public string MainBackdropPath { get; set; }
-        public List<string> BackdropsPath { get; set; }
-        public List<string> Actors { get; set; }
+        public string? MainBackdropPath { get; set; }
+        public List<string>? BackdropsPath { get; set; }
+        public string? Trailer { get; set; }
+        public List<string>? Actors { get; set; }
+        public Boolean IfWatched { get; set; } = false;
+        public Boolean IfFavourite { get; set; }
+        public Boolean IfToWatch { get; set; }
+
+        public static MovieViewModel convertToReducedMovieViewModel(dynamic inputMovie)
+        {
+            if (inputMovie is Movie || inputMovie is SearchMovie)
+            {
+                return new MovieViewModel
+                {
+                    Id = inputMovie.Id,
+                    Title = inputMovie.Title,
+                    ReleaseYear = inputMovie.ReleaseDate?.Year.ToString(),
+                    PosterPath = inputMovie.PosterPath
+                };
+            }
+            else throw new ArgumentException("Input must be of type Movie or SearchMovie");
+        }
 
         public static MovieViewModel convertToViewModel(Movie inputMovie, ImagesWithId images)
         {
@@ -24,7 +46,7 @@ namespace movie_tracker_website.ViewModels
                 Id = inputMovie.Id,
                 Title = inputMovie.Title,
                 ReleaseYear = inputMovie.ReleaseDate.Value.Year.ToString(),
-                Duration = inputMovie.Runtime,
+                Duration = inputMovie.Runtime.Value,
                 Tagline = inputMovie.Tagline,
                 Overview = inputMovie.Overview,
                 Rating = inputMovie.VoteAverage.ToString().Replace(',', '.'),
@@ -34,7 +56,7 @@ namespace movie_tracker_website.ViewModels
                             //.OrderBy(data => data.VoteAverage)
                             //.OrderBy(data => data.VoteCount)
                             .Where(data => data.AspectRatio > 1.7)
-                            .OrderBy(a => Guid.NewGuid())
+                            //.OrderBy(a => Guid.NewGuid())
                             .Select(data => data.FilePath)
                             .Take(6).ToList(),
                 Actors = inputMovie.Credits.Cast
