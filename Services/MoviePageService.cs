@@ -141,6 +141,7 @@ namespace movie_tracker_website.Services
 
             return inputMovie;
         }
+
         private List<int> RenewSessionListIds(ISession session, int id)
         {
             List<int> viewedMovies;
@@ -151,11 +152,26 @@ namespace movie_tracker_website.Services
                 viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
 
             //insert id to start of list and delete last element
-            viewedMovies.Insert(0, id);
-            viewedMovies.RemoveAt(viewedMovies.Count - 1);
+            InsertNewId(viewedMovies, id);
 
             session.Set(SessionViewedMoviesName, viewedMovies);
             return viewedMovies;
+        }
+
+        private void InsertNewId(List<int> list, int id)
+        {
+            if (list.Contains(id))
+            {
+                list.Remove(id);
+                list.Insert(0, id);
+            }
+            else
+            {
+                list.Insert(0, id);
+                list.RemoveAt(list.Count - 1);
+            }
+
+            if (list.Count > 8) throw new ArgumentException("List has exceeded its maximum size");
         }
     }
 }
