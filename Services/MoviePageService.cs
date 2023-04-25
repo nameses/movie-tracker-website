@@ -10,6 +10,7 @@ using movie_tracker_website.Services.common;
 using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
 using movie_tracker_website.ViewModels.PagesViews;
+using System.Collections.Generic;
 using TMDbLib.Client;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Languages;
@@ -33,19 +34,18 @@ namespace movie_tracker_website.Services
             _moviesList = moviesList;
         }
 
-        public List<MovieViewModel> ProccessSessionViewedMovies(ISession session, int id)
+        public List<MovieViewModel> ProcessSessionViewedMovies(ISession session, int id)
         {
-            List<int> viewedMovies = new List<int>();
-            //if session is not null -> get it
-            if (!session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
-                viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
-            //session processing
-            viewedMovies.Add(id);
-            session.Set(SessionViewedMoviesName, viewedMovies);
+            List<int> viewedMovies = RenewSessionListIds(session, id);
+
             //convert list of ids to list of models
             List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
             foreach (var movieId in viewedMovies)
-                viewedMovieModels.Add(GetReducedMovieById(movieId));
+            {
+                if (movieId == -1)
+                    viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
+                else viewedMovieModels.Add(GetReducedMovieById(movieId));
+            }
 
             return viewedMovieModels;
         }
@@ -140,6 +140,22 @@ namespace movie_tracker_website.Services
             if (inputMovie.MainBackdropPath == "") inputMovie.MainBackdropPath = movieEN.BackdropPath;
 
             return inputMovie;
+        }
+        private List<int> RenewSessionListIds(ISession session, int id)
+        {
+            List<int> viewedMovies;
+
+            if (session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
+                viewedMovies = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1 };
+            else
+                viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
+
+            //insert id to start of list and delete last element
+            viewedMovies.Insert(0, id);
+            viewedMovies.RemoveAt(viewedMovies.Count - 1);
+
+            session.Set(SessionViewedMoviesName, viewedMovies);
+            return viewedMovies;
         }
     }
 }

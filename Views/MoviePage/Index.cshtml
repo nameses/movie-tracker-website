@@ -184,22 +184,15 @@
                     var className = i < Model.ViewedMovies.Count - 2 ? "poster" : "poster poster-last";
 
                     <div class="@className">
-                        <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
-                            <img title="@curMovie.Title (@curMovie.ReleaseYear)"
-                                 src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
-                        </a>
+                        @if (curMovie.Id != -1)
+                        {
+                            <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                                <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                    src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                            </a>
+                        }
                     </div>
                 }
-                @*@if (8 - Model.ViewedMovies.Count > 0)
-                {
-                    var size = 8 - Model.ViewedMovies.Count;
-                    @for (int i = 0; i < size; i++)
-                    {
-                        var className = i < size - 2 ? "poster" : "poster poster-last";
-                        <div class="@className"></div>
-                    }
-
-                }*@
             </div>
         </div>
     </div>

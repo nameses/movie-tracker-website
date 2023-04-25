@@ -60,16 +60,14 @@ namespace movie_tracker_website.Controllers
 
             var movie = _moviePageService.GetMovieById(id);
             if (movie == null) return NotFound();
-
+            //find out statuses of movie
             movie.IfWatched = user.WatchedMovies.Any(m => m.ApiId == id);
             movie.IfFavourite = user.FavouriteMovies.Any(m => m.ApiId == id);
             movie.IfToWatch = user.MarkedMovies.Any(m => m.ApiId == id);
-
+            //find similar movies to current movie
             List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(id);
-
-            //checks if session is empty or gets a session's elements
-
-            List<MovieViewModel>? viewedMovies = _moviePageService.ProccessSessionViewedMovies(HttpContext.Session, id);
+            //proccess list of recently viewed movies in session
+            List<MovieViewModel>? viewedMovies = _moviePageService.ProcessSessionViewedMovies(HttpContext.Session, id);
 
             //view models prepearing
             var moviePageViewModel = new MoviePageViewModel()
@@ -90,17 +88,21 @@ namespace movie_tracker_website.Controllers
 
             var movie = _moviePageService.GetRandomMovie();
             if (movie == null) return NotFound();
-
+            //find out statuses of movie
             movie.IfWatched = user.WatchedMovies != null && user.WatchedMovies.Any(m => m.ApiId == movie.Id);
             movie.IfFavourite = user.FavouriteMovies != null && user.FavouriteMovies.Any(m => m.ApiId == movie.Id);
             movie.IfToWatch = user.MarkedMovies != null && user.MarkedMovies.Any(m => m.ApiId == movie.Id);
+            //find similar movies to current movie
             List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
+            //proccess list of recently viewed movies in session
+            List<MovieViewModel>? viewedMovies = _moviePageService.ProcessSessionViewedMovies(HttpContext.Session, movie.Id);
 
             var moviePageViewModel = new MoviePageViewModel()
             {
                 CurrentUser = AppUserViewModel.convertToViewModel(user),
                 Movie = movie,
-                SimilarMovies = similarMovies
+                SimilarMovies = similarMovies,
+                ViewedMovies = viewedMovies
             };
 
             return View("Index", moviePageViewModel);
