@@ -21,18 +21,22 @@ namespace movie_tracker_website.ViewModels
         public string? Trailer { get; set; }
         public List<string>? Actors { get; set; }
         public Boolean IfWatched { get; set; } = false;
-        public Boolean? IfFavourite { get; set; }
-        public Boolean? IfToWatch { get; set; }
+        public Boolean IfFavourite { get; set; }
+        public Boolean IfToWatch { get; set; }
 
-        public static MovieViewModel convertToSimilarMovieViewModel(SearchMovie inputMovie)
+        public static MovieViewModel convertToReducedMovieViewModel(dynamic inputMovie)
         {
-            return new MovieViewModel
+            if (inputMovie is Movie || inputMovie is SearchMovie)
             {
-                Id = inputMovie.Id,
-                Title = inputMovie.Title,
-                ReleaseYear = inputMovie.ReleaseDate?.Year.ToString(),
-                PosterPath = inputMovie.PosterPath
-            };
+                return new MovieViewModel
+                {
+                    Id = inputMovie.Id,
+                    Title = inputMovie.Title,
+                    ReleaseYear = inputMovie.ReleaseDate?.Year.ToString(),
+                    PosterPath = inputMovie.PosterPath
+                };
+            }
+            else throw new ArgumentException("Input must be of type Movie or SearchMovie");
         }
 
         public static MovieViewModel convertToViewModel(Movie inputMovie, ImagesWithId images)

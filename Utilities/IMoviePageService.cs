@@ -10,5 +10,7 @@ namespace movie_tracker_website.Utilities
         public MovieViewModel? GetMovieById(int id);
 
         public MovieViewModel GetRandomMovie();
+
+        public List<MovieViewModel> ProccessSessionViewedMovies(ISession session, int id);
     }
 }

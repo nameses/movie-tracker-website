@@ -9,10 +9,17 @@ using movie_tracker_website.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddAuthentication();
+//sessions
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".MovieTracker.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(180);
+    options.Cookie.IsEssential = true;
+});
 //services
 builder.Services.AddScoped<IImageUpload, ImageUpload>();
 builder.Services.AddScoped<IMoviesList, MoviesList>();
@@ -40,6 +47,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

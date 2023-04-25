@@ -4,32 +4,38 @@
     <link href="~/css/movie-page-slider.css" rel="stylesheet">
     <!--    slick-slider-->
     <link href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css" rel="stylesheet" type="text/css">
-    <style>
-        .turnColorGreen {
-            color: green!important;
-        }
-
-        .turnColorWhite {
-            color: white !important;
-        }
-    </style>
 }
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
-    <script src="../js/single-img-slider.js"></script>
-
+    <script src="~/js/single-img-slider.js"></script>
     <script>
         let watchedSymbol = document.querySelector(".watchedSymbol");
-        console.log(watchedSymbol);
-        let favouriteSymbol = document.getElementById("favouriteSymbol");
-        let toWatchSymbol = document.getElementById("toWatchSymbol");
+        let favouriteSymbol = document.querySelector(".favouriteSymbol");
+        let toWatchSymbol = document.querySelector(".toWatchSymbol");
+
         if (watchedSymbol !== null) {
-            if (@Model.Movie.IfWatched.ToString().ToLower() == true) {
+            if (@Model.Movie.IfWatched.ToString().ToLower()) {
                 watchedSymbol.classList.toggle("turnColorGreen");
             }
             else {
                 watchedSymbol.classList.toggle("turnColorWhite");
+            }
+        }
+
+        if (favouriteSymbol !== null) {
+            if (@Model.Movie.IfFavourite.ToString().ToLower()) {
+                favouriteSymbol.classList.toggle("turnColorGreen");
+            } else {
+                favouriteSymbol.classList.toggle("turnColorWhite");
+            }
+        }
+
+        if (toWatchSymbol !== null) {
+            if (@Model.Movie.IfToWatch.ToString().ToLower()) {
+                toWatchSymbol.classList.toggle("turnColorGreen");
+            } else {
+                toWatchSymbol.classList.toggle("turnColorWhite");
             }
         }
     </script>
@@ -87,21 +93,21 @@
                       asp-action="WatchedEntry" asp-route-id="@Model.Movie.Id">
                     <input type="number" name="ApiId" value="@Model.Movie.Id" hidden/>
                     <button type="submit">
-                        <i id="watchedSymbol" class="fa-solid fa-eye watchedSymbol"></i>
+                        <i class="fa-solid fa-eye watchedSymbol"></i>
                     </button>
                 </form>
                 <form id="favouriteMovie" method="post" asp-controller="MoviePage"
                       asp-action="FavouriteEntry" asp-route-id="@Model.Movie.Id">
                     <input type="number" name="ApiId" value="@Model.Movie.Id" hidden />
                     <button type="submit">
-                        <i id="favouriteSymbol" class="fa-solid fa-heart favouriteSymbol"></i>
+                        <i class="fa-solid fa-heart favouriteSymbol"></i>
                     </button>
                 </form>
                 <form id="toWatchMovie" method="post" asp-controller="MoviePage"
                       asp-action="ToWatchEntry" asp-route-id="@Model.Movie.Id">
                     <input type="number" name="ApiId" value="@Model.Movie.Id" hidden />
                     <button type="submit">
-                        <i id="toWatchSymbol" class="fa-solid fa-bookmark toWatchSymbol"></i>
+                        <i class="fa-solid fa-bookmark toWatchSymbol"></i>
                     </button>
                 </form>
             </div>
@@ -141,12 +147,12 @@
         }
     </div>
 }
-<div class="similar-full container">
-    <div class="similar">
+<div class="movie-list-full container">
+    <div class="movie-list">
         <h6>Схожі фільми</h6>
         <hr />
-        <div class="similar-containers">
-            <div class="similar-component">
+        <div class="movie-list-containers">
+            <div class="movie-list-component">
                 @for(int i=0;i<Model.SimilarMovies.Count;i++)
                 {
                     var curMovie = Model.SimilarMovies[i];
@@ -160,6 +166,40 @@
                         </a>
                     </div>
                 }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="movie-list-full container">
+    <div class="movie-list">
+        <h6>Нещодавно знайдені</h6>
+        <hr />
+        <div class="movie-list-containers">
+            <div class="movie-list-component">
+                @for (int i = 0; i < Model.ViewedMovies.Count; i++)
+                {
+                    var curMovie = Model.ViewedMovies[i];
+                    //need to set to the 2 last movies class "poster-last"
+                    var className = i < Model.ViewedMovies.Count - 2 ? "poster" : "poster poster-last";
+
+                    <div class="@className">
+                        <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                            <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                 src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                        </a>
+                    </div>
+                }
+                @*@if (8 - Model.ViewedMovies.Count > 0)
+                {
+                    var size = 8 - Model.ViewedMovies.Count;
+                    @for (int i = 0; i < size; i++)
+                    {
+                        var className = i < size - 2 ? "poster" : "poster poster-last";
+                        <div class="@className"></div>
+                    }
+
+                }*@
             </div>
         </div>
     </div>

@@ -265,28 +265,28 @@ hr {
                         font-size: 20px;
                     }
 
-    .main .similar-full {
+    .main .movie-list-full {
         margin-top: 150px;
         z-index: 1;
     }
 
-        .main .similar-full .similar h6 {
+        .main .movie-list-full .movie-list h6 {
             color: #999999;
             margin-bottom: -15px;
         }
 
-        .main .similar-full .similar .similar-containers .similar-component {
+        .main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
         }
 
-            .main .similar-full .similar .similar-containers .similar-component .poster {
+            .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
                 flex-basis: 20%;
             }
 
-                .main .similar-full .similar .similar-containers .similar-component .poster img {
+                .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster img {
                     width: 100%;
                     height: 100%;
                     border-radius: 10px;
@@ -340,15 +340,15 @@ hr {
 }
 
 @media only screen and (max-width: 992px) {
-    .similar-full {
+    .movie-list-full {
         margin-top: 100px;
     }
 
-        .similar-full .similar .similar-containers .similar-component {
+        .movie-list-full .movie-list .movie-list-containers .movie-list-component {
             flex-wrap: wrap;
         }
 
-            .similar-full .similar .similar-containers .similar-component .poster {
+            .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
                 flex-basis: auto;
                 max-width: 22%;
                 max-height: 22%;
@@ -369,23 +369,23 @@ hr {
         grid-gap: 20px;
     }
 
-    .main .similar-full .similar .similar-containers .similar-component {
+    .main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
         flex-wrap: wrap;
     }
 
-        .main .similar-full .similar .similar-containers .similar-component .poster {
+        .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
             flex-basis: auto;
             max-width: 30%;
             max-height: 30%;
         }
 
-        .main .similar-full .similar .similar-containers .similar-component .poster-last {
+        .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
             display: none;
         }
 }
 
 @media only screen and (min-width: 450px) and (max-width: 576px) {
-    .similar-full .similar .similar-containers .similar-component .poster-last {
+    .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
         display: none;
     }
 }
@@ -400,7 +400,7 @@ hr {
             font-size: 16px;
         }
 
-    .main .similar-full .similar .similar-containers .similar-component .poster {
+    .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
         max-width: 46%;
         max-height: 46%;
     }
