@@ -20,7 +20,7 @@ namespace movie_tracker_website.ViewModels
         public List<string>? BackdropsPath { get; set; }
         public string? Trailer { get; set; }
         public List<string>? Actors { get; set; }
-        public Boolean IfWatched { get; set; } = false;
+        public Boolean IfWatched { get; set; }
         public Boolean IfFavourite { get; set; }
         public Boolean IfToWatch { get; set; }
 

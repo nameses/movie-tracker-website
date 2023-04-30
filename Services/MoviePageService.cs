@@ -119,7 +119,7 @@ namespace movie_tracker_website.Services
                 }
             }
 
-            return this.GetMovieById(id);
+            return GetMovieById(id);
         }
 
         private MovieViewModel CorrectNullValues(MovieViewModel inputMovie, Movie movieEN)

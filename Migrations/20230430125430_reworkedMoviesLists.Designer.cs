@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using movie_tracker_website.Data;
 
@@ -11,9 +12,11 @@ using movie_tracker_website.Data;
 namespace movie_tracker_website.Migrations
 {
     [DbContext(typeof(AuthDBContext))]
-    partial class AuthDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230430125430_reworkedMoviesLists")]
+    partial class reworkedMoviesLists
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,7 +247,7 @@ namespace movie_tracker_website.Migrations
                     b.Property<bool>("IfFavourite")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IfToWatch")
+                    b.Property<bool>("IfMarked")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IfWatched")

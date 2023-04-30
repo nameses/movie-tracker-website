@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using movie_tracker_website.Areas.Identity.Data;
 using movie_tracker_website.Data;
+using movie_tracker_website.Models;
 using movie_tracker_website.Services;
 using movie_tracker_website.Services.common;
 using movie_tracker_website.Utilities;
@@ -20,7 +21,6 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class MoviePageController : Controller
     {
-        private const string SessionViewedMoviesName = "viewvedMovies";
 
         private readonly ILogger<MoviePageController> _logger;
         private readonly Data.AuthDBContext _context;
@@ -53,17 +53,20 @@ namespace movie_tracker_website.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
-                .Include(u => u.WatchedMovies)
-                .Include(u => u.FavouriteMovies)
-                .Include(u => u.MarkedMovies)
+                .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             var movie = _moviePageService.GetMovieById(id);
             if (movie == null) return NotFound();
             //find out statuses of movie
-            movie.IfWatched = user.WatchedMovies.Any(m => m.ApiId == id);
-            movie.IfFavourite = user.FavouriteMovies.Any(m => m.ApiId == id);
-            movie.IfToWatch = user.MarkedMovies.Any(m => m.ApiId == id);
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
+            if (movieFromDB != null)
+            {
+                movie.IfWatched = movieFromDB.IfWatched;
+                movie.IfFavourite = movieFromDB.IfFavourite;
+                movie.IfToWatch = movieFromDB.IfToWatch;
+            }
+
             //find similar movies to current movie
             List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(id);
             //proccess list of recently viewed movies in session
@@ -88,10 +91,14 @@ namespace movie_tracker_website.Controllers
 
             var movie = _moviePageService.GetRandomMovie();
             if (movie == null) return NotFound();
-            //find out statuses of movie
-            movie.IfWatched = user.WatchedMovies != null && user.WatchedMovies.Any(m => m.ApiId == movie.Id);
-            movie.IfFavourite = user.FavouriteMovies != null && user.FavouriteMovies.Any(m => m.ApiId == movie.Id);
-            movie.IfToWatch = user.MarkedMovies != null && user.MarkedMovies.Any(m => m.ApiId == movie.Id);
+
+            Models.Movie movieFromDB = user.RelatedMovies.FirstOrDefault(m => m.ApiId == movie.Id);
+            if (movieFromDB != null)
+            {
+                movie.IfWatched = movieFromDB.IfWatched;
+                movie.IfFavourite = movieFromDB.IfFavourite;
+                movie.IfToWatch = movieFromDB.IfToWatch;
+            }
             //find similar movies to current movie
             List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
             //proccess list of recently viewed movies in session
@@ -109,54 +116,59 @@ namespace movie_tracker_website.Controllers
         }
 
         [HttpPost]
+        [Route("MoviePage/WatchedEntry/{id}")]
         public async Task<IActionResult> WatchedEntry(MovieEntry movieEntry)
         {
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
-                .Include(u => u.WatchedMovies)
+                .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            //add movie to watched list or remove
-            if (user.WatchedMovies.Any(m => m.ApiId == movieEntry.ApiId) == false)
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
+            if (movieFromDB != null)
             {
-                user.WatchedMovies.Add(new Models.Movie()
-                {
-                    ApiId = movieEntry.ApiId,
-                    TimeWatched = DateTime.Now,
-                });
+                movieFromDB.IfWatched = !movieFromDB.IfWatched;
+                //set new time if movie is corrected to watched
+                if (movieFromDB.IfWatched)
+                    movieFromDB.TimeWatched = DateTime.Now;
             }
+            //add new movie entry then
             else
             {
-                var movie = user.WatchedMovies.Find(m => m.ApiId == movieEntry.ApiId);
-                //user.WatchedMovies.Remove(movie);
-                _context.Movies.Remove(movie);
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = movieEntry.ApiId,
+                    IfWatched = true,
+                    TimeWatched = DateTime.Now,
+                });
             }
             var res = await _userManager.UpdateAsync(user);
             return RedirectToAction("Index", "MoviePage", new { id = movieEntry.ApiId });
         }
 
         [HttpPost]
+        [Route("MoviePage/FavouriteEntry/{id}")]
         public async Task<IActionResult> FavouriteEntry(MovieEntry movieEntry)
         {
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
-                .Include(u => u.FavouriteMovies)
+                .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            //add movie to watched list or remove
-            if (user.FavouriteMovies.Any(m => m.ApiId == movieEntry.ApiId) == false)
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
+            if (movieFromDB != null)
             {
-                user.FavouriteMovies.Add(new Models.Movie()
-                {
-                    ApiId = movieEntry.ApiId,
-                    TimeWatched = DateTime.Now,
-                });
+                movieFromDB.IfFavourite = !movieFromDB.IfFavourite;
             }
+            //add new movie entry then
             else
             {
-                var movie = user.FavouriteMovies.Find(m => m.ApiId == movieEntry.ApiId);
-                //user.WatchedMovies.Remove(movie);
-                _context.Movies.Remove(movie);
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = movieEntry.ApiId,
+                    IfFavourite = true,
+                    TimeWatched = DateTime.Now,
+                });
             }
 
             var res = await _userManager.UpdateAsync(user);
@@ -164,27 +176,28 @@ namespace movie_tracker_website.Controllers
         }
 
         [HttpPost]
+        [Route("MoviePage/ToWatchEntry/{id}")]
         public async Task<IActionResult> ToWatchEntry(MovieEntry movieEntry)
         {
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
-                .Include(u => u.MarkedMovies)
+                .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            //add movie to watched list or remove
-            if (user.MarkedMovies.Any(m => m.ApiId == movieEntry.ApiId) == false)
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
+            if (movieFromDB != null)
             {
-                user.MarkedMovies.Add(new Models.Movie()
-                {
-                    ApiId = movieEntry.ApiId,
-                    TimeWatched = DateTime.Now,
-                });
+                movieFromDB.IfToWatch = !movieFromDB.IfToWatch;
             }
+            //add new movie entry then
             else
             {
-                var movie = user.MarkedMovies.Find(m => m.ApiId == movieEntry.ApiId);
-                //user.WatchedMovies.Remove(movie);
-                _context.Movies.Remove(movie);
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = movieEntry.ApiId,
+                    IfToWatch = true,
+                    TimeWatched = DateTime.Now,
+                });
             }
 
             var res = await _userManager.UpdateAsync(user);
