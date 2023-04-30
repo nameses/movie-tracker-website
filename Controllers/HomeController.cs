@@ -44,6 +44,7 @@ namespace movie_tracker_website.Controllers
                 .FindAll(m => m.IfWatched)
                 //.OrderBy((m1, m2) => m1.TimeWatched.CompareTo(m2.TimeWatched));
                 .OrderBy(m => m.TimeWatched)
+                .Reverse()
                 .Take(8)
                 .Select(m => _moviePageService.GetReducedMovieById(m.ApiId))
                 .ToList();

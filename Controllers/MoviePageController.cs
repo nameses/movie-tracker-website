@@ -57,7 +57,7 @@ namespace movie_tracker_website.Controllers
 
             var movie = _moviePageService.GetMovieById(id);
             if (movie == null) return NotFound();
-            //find out statuses of movie
+
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
             if (movieFromDB != null)
             {
@@ -86,7 +86,11 @@ namespace movie_tracker_website.Controllers
         [Route("MoviePage/random")]
         public async Task<IActionResult> RandomMovie()
         {
-            AppUser user = _userManager.GetUserAsync(User).Result;
+            //AppUser user = _userManager.GetUserAsync(User).Result;
+            var userId = _userManager.GetUserId(User);
+            var user = await _context.Users
+                .Include(u => u.RelatedMovies)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             var movie = _moviePageService.GetRandomMovie();
             if (movie == null) return NotFound();
