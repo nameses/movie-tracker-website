@@ -241,11 +241,14 @@ namespace movie_tracker_website.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AppUserId1")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<bool>("IfFavourite")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("AppUserId2")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<bool>("IfToWatch")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IfWatched")
+                        .HasColumnType("bit");
 
                     b.Property<double?>("Rating")
                         .HasColumnType("float");
@@ -256,10 +259,6 @@ namespace movie_tracker_website.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
-
-                    b.HasIndex("AppUserId1");
-
-                    b.HasIndex("AppUserId2");
 
                     b.ToTable("Movies");
                 });
@@ -318,25 +317,13 @@ namespace movie_tracker_website.Migrations
             modelBuilder.Entity("movie_tracker_website.Models.Movie", b =>
                 {
                     b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", null)
-                        .WithMany("FavouriteMovies")
+                        .WithMany("RelatedMovies")
                         .HasForeignKey("AppUserId");
-
-                    b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", null)
-                        .WithMany("MarkedMovies")
-                        .HasForeignKey("AppUserId1");
-
-                    b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", null)
-                        .WithMany("WatchedMovies")
-                        .HasForeignKey("AppUserId2");
                 });
 
             modelBuilder.Entity("movie_tracker_website.Areas.Identity.Data.AppUser", b =>
                 {
-                    b.Navigation("FavouriteMovies");
-
-                    b.Navigation("MarkedMovies");
-
-                    b.Navigation("WatchedMovies");
+                    b.Navigation("RelatedMovies");
                 });
 #pragma warning restore 612, 618
         }

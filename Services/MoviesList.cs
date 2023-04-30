@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using movie_tracker_website.Data;
 using movie_tracker_website.Exceptions;
 using System.ComponentModel;
 using System.Xml.Linq;
@@ -14,7 +15,7 @@ namespace movie_tracker_website.Utilities
         private readonly IConfiguration _config;
 
         private static List<int> MoviesIdsList { get; set; }
-        private const int PageNumber = 10;
+        private const int PageNumber = 15;
 
         public MoviesList(ILogger<MoviesList> logger,
             IConfiguration config)
