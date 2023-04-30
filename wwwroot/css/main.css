@@ -1,9 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
 body, html {
   background-color: #050505;
   width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 p {
@@ -16,6 +17,7 @@ h1, h2, h4, h5, h6 {
   font-family: "Merriweather", serif;
   color: #ffffff;
   margin: 0;
+  z-index: 5;
 }
 
 hr {
@@ -25,40 +27,73 @@ hr {
 
 .content {
   height: 100vh;
+  z-index: 2;
 }
 
 .main {
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(0, #050505, rgba(5, 5, 5, 0.3)), url("../img/landing.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+  z-index: 1;
+}
+.main .background-photo {
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  z-index: 0;
+}
+.main .background-photo img {
+  height: auto;
+  width: 100%;
+}
+.main .background-photo:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  z-index: 0;
+  background: linear-gradient(0, #050505, rgba(5, 5, 5, 0.3));
+}
+.main .title-container {
+  z-index: 2;
 }
 .main .title-container .title-text-main {
   margin-top: 20%;
+  position: relative;
+}
+.main .title-container .title-text-main h1 {
+  z-index: 2;
 }
 .main .title-container .title-text-main .title-h6-text {
   font-family: "Merriweather", serif;
   margin-top: 10px;
   color: #999999;
 }
-.main .recent-full .recent h6 {
+.main .movie-list-full {
+  margin-top: 100px;
+  z-index: 1;
+}
+.main .movie-list-full .movie-list {
+  position: relative;
+}
+.main .movie-list-full .movie-list h6 {
+  z-index: 5;
   color: #999999;
   margin-bottom: -15px;
-  margin-top: 60px;
 }
-.main .recent-full .recent .recent-containers .recent-component {
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
 }
-.main .recent-full .recent .recent-containers .recent-component .poster {
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
+  z-index: 2;
   flex-basis: 20%;
-  max-width: 215px;
-  max-height: 320px;
 }
-.main .recent-full .recent .recent-containers .recent-component .poster a img {
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster img {
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -71,36 +106,43 @@ hr {
   }
 }
 @media only screen and (max-width: 992px) {
-  .recent-full {
+  .main .movie-list-full {
     margin-top: 100px;
   }
-  .recent-full .recent .recent-containers .recent-component {
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
     flex-wrap: wrap;
   }
-  .recent-full .recent .recent-containers .recent-component .poster {
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
     flex-basis: auto;
-    min-width: 20%;
-    min-height: 20%;
+    max-width: 22%;
+    max-height: 22%;
   }
 }
 @media only screen and (max-width: 576px) {
-  .title-container .title-text-main h1 {
+  .main .title-container .title-text-main h1 {
     font-size: 24px;
   }
-  .recent-full .recent .recent-containers .recent-component .poster {
-    min-width: 30%;
-    min-height: 30%;
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
+    flex-wrap: wrap;
+  }
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
+    flex-basis: auto;
+    max-width: 30%;
+    max-height: 30%;
+  }
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
+    display: none;
   }
 }
 @media only screen and (min-width: 450px) and (max-width: 576px) {
-  .recent-full .recent .recent-containers .recent-component .poster-last {
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
     display: none;
   }
 }
 @media only screen and (max-width: 450px) {
-  .recent-full .recent .recent-containers .recent-component .poster {
-    min-width: 45%;
-    min-height: 45%;
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
+    max-width: 46%;
+    max-height: 46%;
   }
 }
 h3 {
@@ -113,5 +155,3 @@ a:link {
   color: #ffffff;
   text-decoration: none;
 }
-
-/*# sourceMappingURL=main.css.map */
