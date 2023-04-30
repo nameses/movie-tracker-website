@@ -50,6 +50,25 @@ namespace movie_tracker_website.Services
             return viewedMovieModels;
         }
 
+        public List<MovieViewModel>? ShowSessionViewedMovies(ISession session)
+        {
+            if (!session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
+            {
+                List<int> viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
+                //convert list of ids to list of models
+                List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
+                foreach (var movieId in viewedMovies)
+                {
+                    if (movieId == -1)
+                        viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
+                    else viewedMovieModels.Add(GetReducedMovieById(movieId));
+                }
+
+                return viewedMovieModels;
+            }
+            return null;
+        }
+
         public List<MovieViewModel> GetSimilarMovies(int id)
         {
             using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))

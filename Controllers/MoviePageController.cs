@@ -21,7 +21,6 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class MoviePageController : Controller
     {
-
         private readonly ILogger<MoviePageController> _logger;
         private readonly Data.AuthDBContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -92,7 +91,7 @@ namespace movie_tracker_website.Controllers
             var movie = _moviePageService.GetRandomMovie();
             if (movie == null) return NotFound();
 
-            Models.Movie movieFromDB = user.RelatedMovies.FirstOrDefault(m => m.ApiId == movie.Id);
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
             if (movieFromDB != null)
             {
                 movie.IfWatched = movieFromDB.IfWatched;

@@ -4,12 +4,19 @@
 @section head{
     <title>Homepage</title>
 }
+@section backgroundImage{
+    <div class="background-photo">
+        <img src="~/img/landing.jpg" />
+    </div>
+}
 
 @using Microsoft.AspNetCore.Identity
 @using movie_tracker_website.Areas.Identity.Data
 
 @model movie_tracker_website.ViewModels.PagesViews.HomeViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
 @inject UserManager<AppUser> UserManager
+
 <div class="title-container container">
     <div class="title-text-main">
         <h1>
@@ -18,53 +25,63 @@
     </div>
 </div>
 
-<div class="recent-full container">
-    <div class="recent">
-        <h6>Нещодавно переглянуті</h6>
-        <hr />
-        <div class="recent-containers">
-            <div class="recent-component">
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="../img/banshee.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="../img/eternal-sunshine.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="../img/menu.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="../img/western-front.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="../img/taxidriver.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="../img/everything-everywhere.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="../img/the-shining.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="../img/joker.jpg">
-                    </a>
+@if (Model.WatchedMovies != null)
+{
+    <div class="movie-list-full container">
+        <div class="movie-list">
+            <h6>Нещодавно переглянуті</h6>
+            <hr />
+            <div class="movie-list-containers">
+                <div class="movie-list-component">
+                    @for (int i = 0; i < Model.WatchedMovies.Count; i++)
+                    {
+                        var curMovie = Model.WatchedMovies[i];
+                        //need to set to the 2 last movies class "poster-last"
+                        var className = i < Model.WatchedMovies.Count - 2 ? "poster" : "poster poster-last";
+
+                        <div class="@className">
+                            @if (curMovie.Id != -1)
+                            {
+                                <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                                    <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                         src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                                </a>
+                            }
+                            
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
+
+@if (Model.ViewedMovies != null)
+{
+    <div class="movie-list-full container">
+        <div class="movie-list">
+            <h6>Нещодавно показані</h6>
+            <hr />
+            <div class="movie-list-containers">
+                <div class="movie-list-component">
+                    @for (int i = 0; i < Model.ViewedMovies.Count; i++)
+                    {
+                        var curMovie = Model.ViewedMovies[i];
+                        //need to set to the 2 last movies class "poster-last"
+                        var className = i < Model.ViewedMovies.Count - 2 ? "poster" : "poster poster-last";
+
+                        <div class="@className">
+                            @if (curMovie.Id != -1)
+                            {
+                                <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                                    <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                         src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
