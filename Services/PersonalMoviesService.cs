@@ -46,12 +46,12 @@ namespace movie_tracker_website.Services
             if (pageIndex < 1) pageIndex = 1;
             if (pageIndex > totalPages) pageIndex = totalPages;
             //get PagesCountPerPage movies
-            var movies = allMovies.Skip((pageIndex - 1) * MovieCountPerPage)
-            .Take(MovieCountPerPage)
-            .OrderBy(m => m.TimeWatched)
-            .Reverse()
-            .Select(m => _movieService.GetReducedMovieById(m.ApiId))
-            .ToList();
+            var movies = allMovies.OrderBy(m => m.TimeWatched)
+                .Skip((pageIndex - 1) * MovieCountPerPage)
+                .Take(MovieCountPerPage)
+                //.Reverse()
+                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .ToList();
             //for correct viewing
             if (movies.Count != 0 && movies.Count < 8)
                 for (int i = movies.Count; i <= 8; i++)
