@@ -25,6 +25,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IImageUpload, ImageUpload>();
 builder.Services.AddScoped<IMoviesList, MoviesList>();
 builder.Services.AddScoped<IMoviePageService, MoviePageService>();
+builder.Services.AddScoped<IMovieSessionListService, MovieSessionListService>();
 builder.Services.AddScoped<IPersonalMoviesService, PersonalMoviesService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 

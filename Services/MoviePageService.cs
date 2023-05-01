@@ -25,51 +25,47 @@ namespace movie_tracker_website.Services
         private readonly IMoviesList _moviesList;
         private readonly AuthDBContext _context;
         private readonly IMovieService _movieService;
+        private readonly IMovieSessionListService _movieSessionListService;
 
         public MoviePageService(IConfiguration config,
             IMoviesList moviesList,
             AuthDBContext context,
-            IMovieService movieService)
+            IMovieService movieService,
+            IMovieSessionListService movieSessionListService)
         {
             _context = context;
             _movieService = movieService;
+            _movieSessionListService = movieSessionListService;
             _config = config;
             _moviesList = moviesList;
         }
 
-        public List<MovieViewModel> ProcessSessionViewedMovies(ISession session, int id)
+        public MoviePageViewModel GetMoviePageViewModel(int id, ISession session, AppUser user)
         {
-            List<int> viewedMovies = RenewSessionListIds(session, id);
+            var movie = _movieService.GetMovieById(id);
+            if (movie == null) return null;
 
-            //convert list of ids to list of models
-            List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
-            foreach (var movieId in viewedMovies)
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
+            if (movieFromDB != null)
             {
-                if (movieId == -1)
-                    viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
-                else viewedMovieModels.Add(_movieService.GetReducedMovieById(movieId));
+                movie.IfWatched = movieFromDB.IfWatched;
+                movie.IfFavourite = movieFromDB.IfFavourite;
+                movie.IfToWatch = movieFromDB.IfToWatch;
             }
 
-            return viewedMovieModels;
-        }
+            //find similar movies to current movie
+            List<MovieViewModel> similarMovies = GetSimilarMovies(id);
+            //proccess list of recently viewed movies in session
+            List<MovieViewModel>? viewedMovies = _movieSessionListService.ProcessSessionViewedMovies(session, id);
 
-        public List<MovieViewModel>? ShowSessionViewedMovies(ISession session)
-        {
-            if (!session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
+            //view models prepearing
+            return new MoviePageViewModel()
             {
-                List<int> viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
-                //convert list of ids to list of models
-                List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
-                foreach (var movieId in viewedMovies)
-                {
-                    if (movieId == -1)
-                        viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
-                    else viewedMovieModels.Add(_movieService.GetReducedMovieById(movieId));
-                }
-
-                return viewedMovieModels;
-            }
-            return null;
+                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                Movie = movie,
+                SimilarMovies = similarMovies,
+                ViewedMovies = viewedMovies
+            };
         }
 
         public List<MovieViewModel> GetSimilarMovies(int id)
@@ -104,38 +100,6 @@ namespace movie_tracker_website.Services
             }
 
             return _movieService.GetMovieById(id);
-        }
-
-        private List<int> RenewSessionListIds(ISession session, int id)
-        {
-            List<int> viewedMovies;
-
-            if (session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
-                viewedMovies = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1 };
-            else
-                viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
-
-            //insert id to start of list and delete last element
-            InsertNewId(viewedMovies, id);
-
-            session.Set(SessionViewedMoviesName, viewedMovies);
-            return viewedMovies;
-        }
-
-        private void InsertNewId(List<int> list, int id)
-        {
-            if (list.Contains(id))
-            {
-                list.Remove(id);
-                list.Insert(0, id);
-            }
-            else
-            {
-                list.Insert(0, id);
-                list.RemoveAt(list.Count - 1);
-            }
-
-            if (list.Count > 8) throw new ArgumentException("List has exceeded its maximum size");
         }
     }
 }

@@ -19,13 +19,15 @@ namespace movie_tracker_website.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMoviePageService _moviePageService;
         private readonly IMovieService _movieService;
+        private readonly IMovieSessionListService _movieSessionListService;
 
         public HomeController(ILogger<HomeController> logger,
                 AuthDBContext context,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment,
                 IMoviePageService moviePageService,
-                IMovieService movieService)
+                IMovieService movieService,
+                IMovieSessionListService movieSessionListService)
         {
             _logger = logger;
             _context = context;
@@ -33,6 +35,7 @@ namespace movie_tracker_website.Controllers
             _webHostEnvironment = webHostEnvironment;
             _moviePageService = moviePageService;
             _movieService = movieService;
+            _movieSessionListService = movieSessionListService;
         }
 
         public async Task<IActionResult> Index()
@@ -57,7 +60,7 @@ namespace movie_tracker_website.Controllers
                     watchedMovies.Add(new MovieViewModel() { Id = -1 });
 
             //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = _moviePageService.ShowSessionViewedMovies(HttpContext.Session);
+            List<MovieViewModel>? viewedMovies = _movieSessionListService.ShowSessionViewedMovies(HttpContext.Session);
 
             var homeViewModel = new HomeViewModel()
             {
