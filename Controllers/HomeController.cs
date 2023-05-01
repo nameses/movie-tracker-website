@@ -49,8 +49,8 @@ namespace movie_tracker_website.Controllers
                 .Select(m => _moviePageService.GetReducedMovieById(m.ApiId))
                 .ToList();
 
-            if (watchedMovies.Count < 8)
-                for(int i = watchedMovies.Count; i<=8; i++)
+            if (watchedMovies.Count != 0 && watchedMovies.Count < 8)
+                for (int i = watchedMovies.Count; i <= 8; i++)
                     watchedMovies.Add(new MovieViewModel() { Id = -1 });
 
             //proccess list of recently viewed movies in session
