@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
 body, html {
   background-color: #050505;
@@ -26,6 +26,12 @@ hr {
 
 .content {
   height: 100vh;
+}
+
+.disabled {
+  /* Add styling for the disabled button here */
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .main {
@@ -71,12 +77,14 @@ hr {
 }
 .main .films-bar-full .films-bar .films-bar-containers .films-bar-component {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
 }
 .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
   flex-basis: 20%;
+  max-width: 10.933%;
 }
 .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster img {
   width: 100%;
@@ -91,16 +99,14 @@ hr {
 }
 .main .films-bar-full .films-bar .footer-bar .page-manage .paginate-pages {
   display: flex;
+  justify-content: space-between;
+  flex-direction: row;
   gap: 10px;
 }
-.main .films-bar-full .films-bar .footer-bar .page-manage .paginate-pages .paginate-page {
+.main .films-bar-full .films-bar .footer-bar .page-manage .paginate-pages .page-num p {
   font-family: "Merriweather", serif;
   color: #999999;
   font-size: 20px;
-}
-.main .films-bar-full .films-bar .footer-bar .page-manage .paginate-pages .current-page {
-  font-weight: 600;
-  color: #FFFFFF;
 }
 .main .films-bar-full .films-bar .footer-bar .page-manage .btn-managing {
   border-radius: 10px;
@@ -127,6 +133,9 @@ hr {
   }
   .main .films-bar-full h6 {
     font-size: 12px;
+  }
+  .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
+    max-width: 10.6%;
   }
 }
 @media only screen and (max-width: 992px) {
@@ -200,5 +209,3 @@ a:link {
   color: #ffffff;
   text-decoration: none;
 }
-
-/*# sourceMappingURL=watched-movies.css.map */
