@@ -11,10 +11,6 @@ namespace movie_tracker_website.Utilities
 
         public List<MovieViewModel> GetSimilarMovies(int id);
 
-        public MovieViewModel? GetMovieById(int id);
-
-        public MovieViewModel? GetReducedMovieById(int id);
-
         public MovieViewModel GetRandomMovie();
     }
 }

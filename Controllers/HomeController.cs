@@ -18,18 +18,21 @@ namespace movie_tracker_website.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMoviePageService _moviePageService;
+        private readonly IMovieService _movieService;
 
         public HomeController(ILogger<HomeController> logger,
                 AuthDBContext context,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment,
-                IMoviePageService moviePageService)
+                IMoviePageService moviePageService,
+                IMovieService movieService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             _moviePageService = moviePageService;
+            _movieService = movieService;
         }
 
         public async Task<IActionResult> Index()
@@ -46,7 +49,7 @@ namespace movie_tracker_website.Controllers
                 .OrderBy(m => m.TimeWatched)
                 .Reverse()
                 .Take(8)
-                .Select(m => _moviePageService.GetReducedMovieById(m.ApiId))
+                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
                 .ToList();
 
             if (watchedMovies.Count != 0 && watchedMovies.Count < 8)

@@ -2,12 +2,13 @@
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using movie_tracker_website.Data;
 using movie_tracker_website.Exceptions;
+using movie_tracker_website.Utilities;
 using System.ComponentModel;
 using System.Xml.Linq;
 using TMDbLib.Client;
 using TMDbLib.Objects.Movies;
 
-namespace movie_tracker_website.Utilities
+namespace movie_tracker_website.Services.common
 {
     public class MoviesList : IMoviesList
     {
@@ -15,7 +16,7 @@ namespace movie_tracker_website.Utilities
         private readonly IConfiguration _config;
 
         private static List<int> MoviesIdsList { get; set; }
-        private const int PageNumber = 15;
+        private const int PageNumber = 30;
 
         public MoviesList(ILogger<MoviesList> logger,
             IConfiguration config)

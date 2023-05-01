@@ -28,6 +28,7 @@ namespace movie_tracker_website.Controllers
         private readonly IConfiguration _config;
         private readonly IMoviesList _moviesList;
         private readonly IMoviePageService _moviePageService;
+        private readonly IMovieService _movieService;
 
         public MoviePageController(ILogger<MoviePageController> logger,
                 AuthDBContext context,
@@ -35,7 +36,8 @@ namespace movie_tracker_website.Controllers
                 IWebHostEnvironment webHostEnvironment,
                 IConfiguration config,
                 IMoviesList moviesList,
-                IMoviePageService moviePageService)
+                IMoviePageService moviePageService,
+                IMovieService movieService)
         {
             _logger = logger;
             _context = context;
@@ -44,6 +46,7 @@ namespace movie_tracker_website.Controllers
             _config = config;
             _moviesList = moviesList;
             _moviePageService = moviePageService;
+            _movieService = movieService;
         }
 
         [HttpGet]
@@ -55,7 +58,7 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var movie = _moviePageService.GetMovieById(id);
+            var movie = _movieService.GetMovieById(id);
             if (movie == null) return NotFound();
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);

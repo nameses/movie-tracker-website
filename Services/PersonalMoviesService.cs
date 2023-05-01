@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using movie_tracker_website.Areas.Identity.Data;
 using movie_tracker_website.Data;
+using movie_tracker_website.Services.common;
 using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
 using movie_tracker_website.ViewModels.PagesViews;
@@ -14,17 +15,17 @@ namespace movie_tracker_website.Services
         private readonly IMoviesList _moviesList;
         private readonly AuthDBContext _context;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IMoviePageService _moviePageService;
+        private readonly IMovieService _movieService;
 
         public PersonalMoviesService(IConfiguration config,
             IMoviesList moviesList,
             AuthDBContext context,
             UserManager<AppUser> userManager,
-            IMoviePageService moviePageService)
+            IMovieService movieService)
         {
             _context = context;
             _userManager = userManager;
-            _moviePageService = moviePageService;
+            _movieService = movieService;
             _config = config;
             _moviesList = moviesList;
         }
@@ -49,7 +50,7 @@ namespace movie_tracker_website.Services
             .Take(MovieCountPerPage)
             .OrderBy(m => m.TimeWatched)
             .Reverse()
-            .Select(m => _moviePageService.GetReducedMovieById(m.ApiId))
+            .Select(m => _movieService.GetReducedMovieById(m.ApiId))
             .ToList();
             //for correct viewing
             if (movies.Count != 0 && movies.Count < 8)
