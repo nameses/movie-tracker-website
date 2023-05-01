@@ -24,6 +24,8 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IImageUpload, ImageUpload>();
 builder.Services.AddScoped<IMoviesList, MoviesList>();
 builder.Services.AddScoped<IMoviePageService, MoviePageService>();
+builder.Services.AddScoped<IPersonalMoviesService, PersonalMoviesService>();
+
 //db contexts
 builder.Services.AddDbContext<AuthDBContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
