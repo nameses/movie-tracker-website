@@ -9,5 +9,9 @@ namespace movie_tracker_website.Utilities
         public List<MovieViewModel>? GetListMovieViewModelsByPage(int pageIndex, int MovieCountPerPage);
 
         public PersonalMoviesViewModel? GetWatchedMoviesViewModel(int pageIndex, int MovieCountPerPage, AppUser user);
+
+        public PersonalMoviesViewModel? GetFavouriteMoviesViewModel(int pageIndex, int MovieCountPerPage, AppUser user);
+
+        public PersonalMoviesViewModel? GetToWatchMoviesViewModel(int pageIndex, int MovieCountPerPage, AppUser user);
     }
 }
