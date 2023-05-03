@@ -14,7 +14,7 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class PersonalMoviesController : Controller
     {
-        private const int MovieCountPerPage = 8;
+        private const int MovieCountPerPage = 16;
 
         private readonly ILogger<PersonalMoviesController> _logger;
         private readonly UserManager<AppUser> _userManager;
@@ -44,13 +44,15 @@ namespace movie_tracker_website.Controllers
             _personalMoviesService = personalMoviesService;
         }
 
-        public async Task<IActionResult> Index(int pageIndex = 1)
+        [HttpGet]
+        [Route("PersonalMovies/Index")]
+        public async Task<IActionResult> Index(int pageIndex)
         {
             return RedirectToAction("GetWatchedMovies", "PersonalMovies", new { pageIndex = pageIndex });
         }
 
         [HttpGet]
-        [Route("PersonalMovies/GetWatchedMovies/{pageIndex}")]
+        [Route("PersonalMovies/GetWatchedMovies/{pageIndex=1}")]
         public async Task<IActionResult> GetWatchedMovies(int pageIndex)
         {
             var userId = _userManager.GetUserId(User);
@@ -61,8 +63,12 @@ namespace movie_tracker_website.Controllers
             //check if pageindex < 1
             if (pageIndex < 1) return RedirectToAction("GetWatchedMovies", "PersonalMovies", new { pageIndex = 1 });
             //check if pageindex > total pages
-            int totalPages = user.RelatedMovies.Select(m => m.IfWatched).Count() / MovieCountPerPage;
-            if (totalPages % MovieCountPerPage > 0) totalPages++;
+            int allMoviesCount = user.RelatedMovies.FindAll(m => m.IfWatched).Count();
+            int totalPages = allMoviesCount / MovieCountPerPage;
+
+            if ((allMoviesCount - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
+                totalPages++;
+
             if (pageIndex > totalPages)
                 return RedirectToAction("GetWatchedMovies", "PersonalMovies", new { pageIndex = totalPages });
 
@@ -72,7 +78,7 @@ namespace movie_tracker_website.Controllers
         }
 
         [HttpGet]
-        [Route("PersonalMovies/GetFavouriteMovies/{pageIndex}")]
+        [Route("PersonalMovies/GetFavouriteMovies/{pageIndex=1}")]
         public async Task<IActionResult> GetFavouriteMovies(int pageIndex)
         {
             var userId = _userManager.GetUserId(User);
@@ -83,8 +89,12 @@ namespace movie_tracker_website.Controllers
             //check if pageindex < 1
             if (pageIndex < 1) return RedirectToAction("GetFavouriteMovies", "PersonalMovies", new { pageIndex = 1 });
             //check if pageindex > total pages
-            int totalPages = user.RelatedMovies.Select(m => m.IfFavourite).Count() / MovieCountPerPage;
-            if (totalPages % MovieCountPerPage > 0) totalPages++;
+            int allMoviesCount = user.RelatedMovies.FindAll(m => m.IfFavourite).Count();
+            int totalPages = allMoviesCount / MovieCountPerPage;
+
+            if ((allMoviesCount - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
+                totalPages++;
+
             if (pageIndex > totalPages)
                 return RedirectToAction("GetFavouriteMovies", "PersonalMovies", new { pageIndex = totalPages });
 
@@ -94,7 +104,7 @@ namespace movie_tracker_website.Controllers
         }
 
         [HttpGet]
-        [Route("PersonalMovies/GetToWatchMovies/{pageIndex}")]
+        [Route("PersonalMovies/GetToWatchMovies/{pageIndex=1}")]
         public async Task<IActionResult> GetToWatchMovies(int pageIndex)
         {
             var userId = _userManager.GetUserId(User);
@@ -105,8 +115,12 @@ namespace movie_tracker_website.Controllers
             //check if pageindex < 1
             if (pageIndex < 1) return RedirectToAction("GetToWatchMovies", "PersonalMovies", new { pageIndex = 1 });
             //check if pageindex > total pages
-            int totalPages = user.RelatedMovies.Select(m => m.IfToWatch).Count() / MovieCountPerPage;
-            if (totalPages % MovieCountPerPage > 0) totalPages++;
+            int allMoviesCount = user.RelatedMovies.FindAll(m => m.IfFavourite).Count();
+            int totalPages = allMoviesCount / MovieCountPerPage;
+
+            if ((allMoviesCount - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
+                totalPages++;
+
             if (pageIndex > totalPages)
                 return RedirectToAction("GetToWatchMovies", "PersonalMovies", new { pageIndex = totalPages });
 

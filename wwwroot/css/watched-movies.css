@@ -50,7 +50,7 @@ hr {
   justify-content: space-between;
   align-items: center;
 }
-.main .films-bar-full .films-bar .top-bar h6 {
+.main .films-bar-full .films-bar .top-bar a h6 {
   color: #999999;
 }
 .main .films-bar-full .films-bar .top-bar i {

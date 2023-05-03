@@ -16,6 +16,17 @@
         //disable prev btn if first page
         if (@Model.CurrentPage == 1)
             document.querySelector(".btn-prev").classList.add("disabled");
+
+        //btns of topbar
+        var pagename = "@Model.PageName";
+        var btnTopic;
+        if (pagename === "GetWatchedMovies")
+            btnTopic = document.querySelector(".watched-topic");
+        if (pagename === "GetFavouriteMovies")
+            btnTopic = document.querySelector(".favourite-topic");
+        if (pagename === "GetToWatchMovies")
+            btnTopic = document.querySelector(".to-watch-topic");
+        btnTopic.style.color = "#FFFFFF";
     </script>
 }
 
@@ -26,14 +37,13 @@
     <div class="films-bar">
         <div class="top-bar">
             <div class="topics">
-                <h6 id="watched-topic">Переглянуті</h6>
-                <h6 id="favourite-topic">Улюблені</h6>
-                <h6 id="to-watch-topic">До перегляду</h6>
+                <a asp-action="GetWatchedMovies"><h6 class="watched-topic">Переглянуті</h6></a>
+                <a asp-action="GetFavouriteMovies"><h6 class="favourite-topic">Улюблені</h6></a>
+                <a asp-action="GetToWatchMovies"><h6 class="to-watch-topic">До перегляду</h6></a>
             </div>
+            
             <script>
-                var watchedTopic = document.getElementById("watched-topic");
-                watchedTopic.style.color = "#FFFFFF";
-            //later will be ability for changing topic-status and other filters from backend
+                
             </script>
             <!--later logic of gallery will be changed-->
             <div class="filters">

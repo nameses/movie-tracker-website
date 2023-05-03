@@ -58,10 +58,10 @@
                         <a>Статистика</a>
                         <hr />
                     </div>
-                    <a asp-controller="PersonalMovies" asp-action="Index">Переглянуті</a>
-                    <a asp-controller="PersonalMovies" asp-action="Index">До перегляду</a>
-                    <a asp-controller="PersonalMovies" asp-action="Index">Улюблені</a>
-                    <a>Щоденник</a>
+                    <a asp-controller="PersonalMovies" asp-action="GetWatchedMovies">Переглянуті</a>
+                    <a asp-controller="PersonalMovies" asp-action="GetFavouriteMovies">Улюблені</a>
+                    <a asp-controller="PersonalMovies" asp-action="GetToWatchMovies">До перегляду</a>
+                    @*<a>Щоденник</a>*@
                     <a asp-area="Identity" asp-page="/Account/Logout">Вийти</a>
                 </div>
             </div>

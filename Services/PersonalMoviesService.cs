@@ -41,7 +41,8 @@ namespace movie_tracker_website.Services
             List<Models.Movie> allMovies = user.RelatedMovies
                 .FindAll(m => m.IfWatched);
             int totalPages = allMovies.Count / MovieCountPerPage;
-            if (allMovies.Count % MovieCountPerPage > 0) totalPages++;
+            if ((allMovies.Count - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
+                totalPages++;
             //get PagesCountPerPage movies
             var movies = allMovies.OrderBy(m => m.TimeWatched)
                 .Skip((pageIndex - 1) * MovieCountPerPage)
@@ -69,7 +70,8 @@ namespace movie_tracker_website.Services
             List<Models.Movie> allMovies = user.RelatedMovies
                 .FindAll(m => m.IfFavourite);
             int totalPages = allMovies.Count / MovieCountPerPage;
-            if (allMovies.Count % MovieCountPerPage > 0) totalPages++;
+            if ((allMovies.Count - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
+                totalPages++;
             //get PagesCountPerPage movies
             var movies = allMovies.OrderBy(m => m.TimeWatched)
                 .Skip((pageIndex - 1) * MovieCountPerPage)
@@ -97,7 +99,8 @@ namespace movie_tracker_website.Services
             List<Models.Movie> allMovies = user.RelatedMovies
                 .FindAll(m => m.IfToWatch);
             int totalPages = allMovies.Count / MovieCountPerPage;
-            if (allMovies.Count % MovieCountPerPage > 0) totalPages++;
+            if ((allMovies.Count-totalPages*MovieCountPerPage) % MovieCountPerPage > 0) 
+                totalPages++;
             //get PagesCountPerPage movies
             var movies = allMovies.OrderBy(m => m.TimeWatched)
                 .Skip((pageIndex - 1) * MovieCountPerPage)
