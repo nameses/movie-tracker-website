@@ -28,6 +28,8 @@ namespace movie_tracker_website.Controllers
         private readonly IConfiguration _config;
         private readonly IMoviesList _moviesList;
         private readonly IMoviePageService _moviePageService;
+        private readonly IMovieService _movieService;
+        private readonly IMovieSessionListService _movieSessionListService;
 
         public MoviePageController(ILogger<MoviePageController> logger,
                 AuthDBContext context,
@@ -35,7 +37,9 @@ namespace movie_tracker_website.Controllers
                 IWebHostEnvironment webHostEnvironment,
                 IConfiguration config,
                 IMoviesList moviesList,
-                IMoviePageService moviePageService)
+                IMoviePageService moviePageService,
+                IMovieService movieService,
+                IMovieSessionListService movieSessionListService)
         {
             _logger = logger;
             _context = context;
@@ -44,6 +48,8 @@ namespace movie_tracker_website.Controllers
             _config = config;
             _moviesList = moviesList;
             _moviePageService = moviePageService;
+            _movieService = movieService;
+            _movieSessionListService = movieSessionListService;
         }
 
         [HttpGet]
@@ -55,30 +61,7 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var movie = _moviePageService.GetMovieById(id);
-            if (movie == null) return NotFound();
-
-            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
-            if (movieFromDB != null)
-            {
-                movie.IfWatched = movieFromDB.IfWatched;
-                movie.IfFavourite = movieFromDB.IfFavourite;
-                movie.IfToWatch = movieFromDB.IfToWatch;
-            }
-
-            //find similar movies to current movie
-            List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(id);
-            //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = _moviePageService.ProcessSessionViewedMovies(HttpContext.Session, id);
-
-            //view models prepearing
-            var moviePageViewModel = new MoviePageViewModel()
-            {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
-                Movie = movie,
-                SimilarMovies = similarMovies,
-                ViewedMovies = viewedMovies
-            };
+            var moviePageViewModel = _moviePageService.GetMoviePageViewModel(id, HttpContext.Session, user);
             return View(moviePageViewModel);
         }
 
@@ -105,7 +88,7 @@ namespace movie_tracker_website.Controllers
             //find similar movies to current movie
             List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
             //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = _moviePageService.ProcessSessionViewedMovies(HttpContext.Session, movie.Id);
+            List<MovieViewModel>? viewedMovies = _movieSessionListService.ProcessSessionViewedMovies(HttpContext.Session, movie.Id);
 
             var moviePageViewModel = new MoviePageViewModel()
             {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using movie_tracker_website.Utilities;
 
-namespace movie_tracker_website.Services
+namespace movie_tracker_website.Services.common
 {
     public class ImageUpload : IImageUpload
     {

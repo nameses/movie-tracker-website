@@ -24,49 +24,48 @@ namespace movie_tracker_website.Services
         private readonly IConfiguration _config;
         private readonly IMoviesList _moviesList;
         private readonly AuthDBContext _context;
+        private readonly IMovieService _movieService;
+        private readonly IMovieSessionListService _movieSessionListService;
 
         public MoviePageService(IConfiguration config,
             IMoviesList moviesList,
-            AuthDBContext context)
+            AuthDBContext context,
+            IMovieService movieService,
+            IMovieSessionListService movieSessionListService)
         {
             _context = context;
+            _movieService = movieService;
+            _movieSessionListService = movieSessionListService;
             _config = config;
             _moviesList = moviesList;
         }
 
-        public List<MovieViewModel> ProcessSessionViewedMovies(ISession session, int id)
+        public MoviePageViewModel GetMoviePageViewModel(int id, ISession session, AppUser user)
         {
-            List<int> viewedMovies = RenewSessionListIds(session, id);
+            var movie = _movieService.GetMovieById(id);
+            if (movie == null) return null;
 
-            //convert list of ids to list of models
-            List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
-            foreach (var movieId in viewedMovies)
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
+            if (movieFromDB != null)
             {
-                if (movieId == -1)
-                    viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
-                else viewedMovieModels.Add(GetReducedMovieById(movieId));
+                movie.IfWatched = movieFromDB.IfWatched;
+                movie.IfFavourite = movieFromDB.IfFavourite;
+                movie.IfToWatch = movieFromDB.IfToWatch;
             }
 
-            return viewedMovieModels;
-        }
+            //find similar movies to current movie
+            List<MovieViewModel> similarMovies = GetSimilarMovies(id);
+            //proccess list of recently viewed movies in session
+            List<MovieViewModel>? viewedMovies = _movieSessionListService.ProcessSessionViewedMovies(session, id);
 
-        public List<MovieViewModel>? ShowSessionViewedMovies(ISession session)
-        {
-            if (!session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
+            //view models prepearing
+            return new MoviePageViewModel()
             {
-                List<int> viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
-                //convert list of ids to list of models
-                List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
-                foreach (var movieId in viewedMovies)
-                {
-                    if (movieId == -1)
-                        viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
-                    else viewedMovieModels.Add(GetReducedMovieById(movieId));
-                }
-
-                return viewedMovieModels;
-            }
-            return null;
+                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                Movie = movie,
+                SimilarMovies = similarMovies,
+                ViewedMovies = viewedMovies
+            };
         }
 
         public List<MovieViewModel> GetSimilarMovies(int id)
@@ -81,44 +80,6 @@ namespace movie_tracker_website.Services
                     .Select(MovieViewModel.convertToReducedMovieViewModel)
                     .ToList();
             }
-        }
-
-        public MovieViewModel? GetMovieById(int id)
-        {
-            MovieViewModel movieView;
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
-            {
-                //get all info about movie we need without imgs
-                Movie movieUA = client.GetMovieAsync(movieId: id,
-                    language: "uk-UK", includeImageLanguage: null,
-                    MovieMethods.Credits).Result;
-
-                Movie movieEN = client.GetMovieAsync(movieId: id,
-                    language: "en", includeImageLanguage: null,
-                    MovieMethods.Videos | MovieMethods.Images).Result;
-                //get imgs of film without param "language"
-                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: id,
-                    language: "null", includeImageLanguage: null).Result;
-
-                movieView = MovieViewModel.convertToViewModel(movieUA, movieImages);
-
-                movieView = CorrectNullValues(movieView, movieEN);
-            }
-            return movieView;
-        }
-
-        public MovieViewModel? GetReducedMovieById(int id)
-        {
-            MovieViewModel? model = null;
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
-            {
-                var movie = client.GetMovieAsync(id, language: "uk-UK").Result;
-                model = MovieViewModel.convertToReducedMovieViewModel(movie);
-
-                //if movie title == null then find new movie title
-                model.Title ??= client.GetMovieAsync(id, language: "en").Result.Title;
-            }
-            return model;
         }
 
         public MovieViewModel GetRandomMovie()
@@ -138,59 +99,7 @@ namespace movie_tracker_website.Services
                 }
             }
 
-            return GetMovieById(id);
-        }
-
-        private MovieViewModel CorrectNullValues(MovieViewModel inputMovie, Movie movieEN)
-        {
-            var videos = movieEN.Videos.Results;
-            string videoKey = null;
-            if (videos.Count > 0)
-            {
-                videoKey = videos.Where(vid => vid.Type.Equals("Trailer"))
-                    .Where(video => video.Site.Equals("YouTube"))
-                    .Take(1).First().Key;
-            }
-            if (inputMovie.Title == "") inputMovie.Title = movieEN.Title;
-            if (inputMovie.Overview == "") inputMovie.Overview = movieEN.Overview;
-            if (inputMovie.Tagline == "") inputMovie.Tagline = movieEN.Tagline;
-            if (inputMovie.Trailer == null && videoKey != null) inputMovie.Trailer = videoKey;
-            if (inputMovie.PosterPath == "") inputMovie.PosterPath = movieEN.PosterPath;
-            if (inputMovie.MainBackdropPath == "") inputMovie.MainBackdropPath = movieEN.BackdropPath;
-
-            return inputMovie;
-        }
-
-        private List<int> RenewSessionListIds(ISession session, int id)
-        {
-            List<int> viewedMovies;
-
-            if (session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
-                viewedMovies = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1 };
-            else
-                viewedMovies = session.Get<List<int>>(SessionViewedMoviesName);
-
-            //insert id to start of list and delete last element
-            InsertNewId(viewedMovies, id);
-
-            session.Set(SessionViewedMoviesName, viewedMovies);
-            return viewedMovies;
-        }
-
-        private void InsertNewId(List<int> list, int id)
-        {
-            if (list.Contains(id))
-            {
-                list.Remove(id);
-                list.Insert(0, id);
-            }
-            else
-            {
-                list.Insert(0, id);
-                list.RemoveAt(list.Count - 1);
-            }
-
-            if (list.Count > 8) throw new ArgumentException("List has exceeded its maximum size");
+            return _movieService.GetMovieById(id);
         }
     }
 }

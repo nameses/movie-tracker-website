@@ -18,18 +18,24 @@ namespace movie_tracker_website.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMoviePageService _moviePageService;
+        private readonly IMovieService _movieService;
+        private readonly IMovieSessionListService _movieSessionListService;
 
         public HomeController(ILogger<HomeController> logger,
                 AuthDBContext context,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment,
-                IMoviePageService moviePageService)
+                IMoviePageService moviePageService,
+                IMovieService movieService,
+                IMovieSessionListService movieSessionListService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             _moviePageService = moviePageService;
+            _movieService = movieService;
+            _movieSessionListService = movieSessionListService;
         }
 
         public async Task<IActionResult> Index()
@@ -46,15 +52,15 @@ namespace movie_tracker_website.Controllers
                 .OrderBy(m => m.TimeWatched)
                 .Reverse()
                 .Take(8)
-                .Select(m => _moviePageService.GetReducedMovieById(m.ApiId))
+                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
                 .ToList();
 
-            if (watchedMovies.Count < 8)
-                for(int i = watchedMovies.Count; i<=8; i++)
+            if (watchedMovies.Count != 0 && watchedMovies.Count < 8)
+                for (int i = watchedMovies.Count; i <= 8; i++)
                     watchedMovies.Add(new MovieViewModel() { Id = -1 });
 
             //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = _moviePageService.ShowSessionViewedMovies(HttpContext.Session);
+            List<MovieViewModel>? viewedMovies = _movieSessionListService.ShowSessionViewedMovies(HttpContext.Session);
 
             var homeViewModel = new HomeViewModel()
             {

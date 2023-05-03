@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using movie_tracker_website.Utilities;
 using movie_tracker_website.Services;
+using movie_tracker_website.Services.common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,10 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IImageUpload, ImageUpload>();
 builder.Services.AddScoped<IMoviesList, MoviesList>();
 builder.Services.AddScoped<IMoviePageService, MoviePageService>();
+builder.Services.AddScoped<IMovieSessionListService, MovieSessionListService>();
+builder.Services.AddScoped<IPersonalMoviesService, PersonalMoviesService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+
 //db contexts
 builder.Services.AddDbContext<AuthDBContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
