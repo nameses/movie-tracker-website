@@ -1,0 +1,14 @@
+﻿@section styles{
+    <link href="~/css/profile.css" rel="stylesheet">
+}
+@section head{
+    <title>@Model.CurrentUser.Username's profile</title>
+}
+@section scripts{
+
+}
+
+@model movie_tracker_website.ViewModels.PagesViews.ProfileViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
+
+<img src="@Config["Constants:UploadImagesPath"]@Model.CurrentUser.ImagePath" />

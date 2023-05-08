@@ -1,0 +1,82 @@
+﻿body, html {
+    background-color: #050505;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+p {
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+h1, h2, h4, h5, h6 {
+    font-family: "Merriweather", serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+hr {
+    border: 1px solid #999999;
+    height: 1px;
+}
+
+.content {
+    height: 100vh;
+    z-index: 2;
+}
+
+.main {
+    width: 100%;
+    min-height: 100vh;
+    z-index: 1;
+}
+//1200-992-768-576-450-375
+@media only screen and (max-width: 1200px) {
+    .main {
+        background-size: 100% auto;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .main {
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .main {
+    }
+}
+
+@media only screen and (max-width: 992px) {
+}
+
+@media only screen and (min-width: 576px) and (max-width: 768px) {
+}
+
+@media only screen and (max-width: 576px) {
+}
+
+@media only screen and (min-width: 450px) and (max-width: 576px) {
+}
+
+@media only screen and (max-width: 450px) {
+}
+
+h3 {
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+a:link {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

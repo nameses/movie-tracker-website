@@ -78,5 +78,15 @@
     "options": {
       "sourceMap": false
     }
+  },
+  {
+    "outputFile": "wwwroot/css/profile.css",
+    "inputFile": "wwwroot/css/profile.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
   }
 ]
