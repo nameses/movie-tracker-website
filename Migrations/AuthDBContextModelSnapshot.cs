@@ -227,6 +227,31 @@ namespace movie_tracker_website.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("movie_tracker_website.Models.Follower", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("FollowerUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FollowingUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowerUserId");
+
+                    b.HasIndex("FollowingUserId");
+
+                    b.ToTable("Followers");
+                });
+
             modelBuilder.Entity("movie_tracker_website.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -239,6 +264,7 @@ namespace movie_tracker_website.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AppUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IfFavourite")
@@ -250,8 +276,8 @@ namespace movie_tracker_website.Migrations
                     b.Property<bool>("IfWatched")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("Rating")
-                        .HasColumnType("float");
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("TimeWatched")
                         .HasColumnType("datetime2");
@@ -261,6 +287,35 @@ namespace movie_tracker_website.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("movie_tracker_website.Models.UserStatistic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("FavouriteAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ToWatchAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WatchedAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.ToTable("UserStatistics");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -314,16 +369,56 @@ namespace movie_tracker_website.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("movie_tracker_website.Models.Follower", b =>
+                {
+                    b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", "FollowerUser")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", "FollowingUser")
+                        .WithMany("Followings")
+                        .HasForeignKey("FollowingUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("FollowerUser");
+
+                    b.Navigation("FollowingUser");
+                });
+
             modelBuilder.Entity("movie_tracker_website.Models.Movie", b =>
                 {
-                    b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", null)
+                    b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", "AppUser")
                         .WithMany("RelatedMovies")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("movie_tracker_website.Models.UserStatistic", b =>
+                {
+                    b.HasOne("movie_tracker_website.Areas.Identity.Data.AppUser", "AppUser")
+                        .WithOne("UserStatistic")
+                        .HasForeignKey("movie_tracker_website.Models.UserStatistic", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("movie_tracker_website.Areas.Identity.Data.AppUser", b =>
                 {
+                    b.Navigation("Followers");
+
+                    b.Navigation("Followings");
+
                     b.Navigation("RelatedMovies");
+
+                    b.Navigation("UserStatistic");
                 });
 #pragma warning restore 612, 618
         }
