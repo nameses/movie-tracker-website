@@ -1,6 +1,7 @@
 # Custom ignore files
 wwwroot/uploads/
 appsettings.json
+Migrations/
 
 # User-specific files
 *.rsuser
