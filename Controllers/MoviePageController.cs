@@ -116,7 +116,11 @@ namespace movie_tracker_website.Controllers
                 movieFromDB.IfWatched = !movieFromDB.IfWatched;
                 //set new time if movie is corrected to watched
                 if (movieFromDB.IfWatched)
+                {
+                    user.UserStatistic.WatchedAmount++;
+
                     movieFromDB.TimeWatched = DateTime.Now;
+                }
             }
             //add new movie entry then
             else

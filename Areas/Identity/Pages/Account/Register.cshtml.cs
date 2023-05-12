@@ -131,6 +131,10 @@ namespace movie_tracker_website.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 user.ImagePath = newFileName;
+                user.UserStatistic = new Models.UserStatistic()
+                {
+                    AppUserId = user.Id
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
