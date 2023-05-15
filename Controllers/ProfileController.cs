@@ -50,6 +50,7 @@ namespace movie_tracker_website.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             var profileViewModel = _profileService.GetProfileViewModel(user);

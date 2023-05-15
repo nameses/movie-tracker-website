@@ -108,6 +108,7 @@ namespace movie_tracker_website.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
@@ -118,13 +119,14 @@ namespace movie_tracker_website.Controllers
                 if (movieFromDB.IfWatched)
                 {
                     user.UserStatistic.WatchedAmount++;
-
                     movieFromDB.TimeWatched = DateTime.Now;
                 }
             }
             //add new movie entry then
             else
             {
+                user.UserStatistic.WatchedAmount++;
+
                 user.RelatedMovies.Add(new Models.Movie()
                 {
                     ApiId = movieEntry.ApiId,
@@ -143,16 +145,22 @@ namespace movie_tracker_website.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
             if (movieFromDB != null)
             {
                 movieFromDB.IfFavourite = !movieFromDB.IfFavourite;
+                if (movieFromDB.IfFavourite)
+                {
+                    user.UserStatistic.FavouriteAmount++;
+                }
             }
             //add new movie entry then
             else
             {
+                user.UserStatistic.FavouriteAmount++;
                 user.RelatedMovies.Add(new Models.Movie()
                 {
                     ApiId = movieEntry.ApiId,
@@ -172,16 +180,22 @@ namespace movie_tracker_website.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
             if (movieFromDB != null)
             {
                 movieFromDB.IfToWatch = !movieFromDB.IfToWatch;
+                if (movieFromDB.IfToWatch)
+                {
+                    user.UserStatistic.ToWatchAmount++;
+                }
             }
             //add new movie entry then
             else
             {
+                user.UserStatistic.ToWatchAmount++;
                 user.RelatedMovies.Add(new Models.Movie()
                 {
                     ApiId = movieEntry.ApiId,

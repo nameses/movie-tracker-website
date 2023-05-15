@@ -18,6 +18,7 @@ namespace movie_tracker_website.Services
         private readonly IMoviesList _moviesList;
         private readonly IMoviePageService _moviePageService;
         private readonly IMovieService _movieService;
+        private readonly IStatisticService _statisticService;
 
         public ProfileService(ILogger<MoviePageController> logger,
                 AuthDBContext context,
@@ -26,7 +27,8 @@ namespace movie_tracker_website.Services
                 IConfiguration config,
                 IMoviesList moviesList,
                 IMoviePageService moviePageService,
-                IMovieService movieService)
+                IMovieService movieService,
+                IStatisticService statisticService)
         {
             _logger = logger;
             _context = context;
@@ -36,28 +38,37 @@ namespace movie_tracker_website.Services
             _moviesList = moviesList;
             _moviePageService = moviePageService;
             _movieService = movieService;
+            _statisticService = statisticService;
         }
 
         public ProfileViewModel GetProfileViewModel(AppUser user)
         {
+            int FilmsCount = 4;
             var favMovies = user.RelatedMovies
                 .Where(movie => movie.IfWatched && movie.IfFavourite)// && movie.Rating == 5)
-                .OrderBy(movie => movie.TimeWatched)
-                .Take(4)
+                .OrderByDescending(movie => movie.TimeWatched)
+                .Take(FilmsCount)
                 .Select(m => _movieService.GetReducedMovieById(m.ApiId))
                 .ToList();
             var recentMovies = user.RelatedMovies
-                .Where(movie => movie.IfWatched && movie.IfFavourite)// && movie.Rating == 5)
-                .OrderBy(movie => movie.TimeWatched)
-                .Take(4)
+                .Where(movie => movie.IfWatched)
+                .OrderByDescending(movie => movie.TimeWatched)
+                .Take(FilmsCount)
                 .Select(m => _movieService.GetReducedMovieById(m.ApiId))
                 .ToList();
+
+            for (int i = favMovies.Count; i < FilmsCount; i++) 
+                favMovies.Add(new MovieViewModel() { Id = -1 });
+            for (int i = recentMovies.Count; i < FilmsCount; i++)
+                recentMovies.Add(new MovieViewModel() { Id = -1 });
+            if (recentMovies.Count > 0) { }
 
             return new ProfileViewModel
             {
                 CurrentUser = AppUserViewModel.convertToViewModel(user),
                 FavouriteMovies = favMovies,
-                RecentMovies = recentMovies
+                RecentMovies = recentMovies,
+                Statistic = _statisticService.GetUserStatistic(user),
             };
         }
     }
