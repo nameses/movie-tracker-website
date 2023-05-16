@@ -38,7 +38,7 @@ hr {
   width: 100%;
   height: 100%;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-areas: "user-info migration migration" "fav-movies fav-movies statistic" "recent-movies recent-movies followers";
+  grid-template-areas: "user-info tags tags" "fav-movies fav-movies statistic" "recent-movies recent-movies followers";
   grid-gap: 40px;
 }
 .main .main-blocks .user-info {
@@ -81,8 +81,39 @@ hr {
   font-size: 20px;
   margin: 0;
 }
-.main .main-blocks .migration {
-  grid-area: migration;
+.main .main-blocks .tags {
+  grid-area: tags;
+  padding-top: 50px;
+}
+.main .main-blocks .tags h6 {
+  color: #999999;
+  margin-bottom: -15px;
+}
+.main .main-blocks .tags .tags-btns {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.main .main-blocks .tags .tags-btns .tag-name {
+  border-radius: 10px;
+  border: none;
+  background: #1A1A1A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.main .main-blocks .tags .tags-btns .tag-name a {
+  text-align: center;
+}
+.main .main-blocks .tags .tags-btns .tag-name a h4 {
+  color: #ffffff;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
 }
 .main .main-blocks .fav-movies {
   grid-area: fav-movies;
@@ -152,6 +183,9 @@ hr {
   height: 100%;
   border-radius: 10px;
   border: 1px solid #999999;
+}
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster .empty-poster {
+  background-color: #434343;
 }
 @media only screen and (max-width: 1200px) {
   .main .main {

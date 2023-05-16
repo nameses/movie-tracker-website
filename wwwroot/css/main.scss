@@ -19,7 +19,7 @@ h1, h2, h4, h5, h6 {
     font-family: 'Merriweather', serif;
     color: #ffffff;
     margin: 0;
-    z-index:5;
+    z-index: 5;
 }
 
 hr {
@@ -36,7 +36,6 @@ hr {
     width: 100%;
     min-height: 100vh;
     z-index: 1;
-
 
     .background-photo {
         position: absolute;
@@ -67,7 +66,8 @@ hr {
 
         .title-text-main {
             margin-top: 20%;
-            position:relative;
+            position: relative;
+
             h1 {
                 z-index: 2;
             }
@@ -85,7 +85,8 @@ hr {
         z-index: 1;
 
         .movie-list {
-            position:relative;
+            position: relative;
+
             h6 {
                 z-index: 5;
                 color: #999999;

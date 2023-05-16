@@ -39,7 +39,7 @@ hr {
         height: 100%;
         grid-template-columns: 1fr 2fr 1fr;
         grid-template-areas:
-            "user-info migration migration" "fav-movies fav-movies statistic" "recent-movies recent-movies followers";
+            "user-info tags tags" "fav-movies fav-movies statistic" "recent-movies recent-movies followers";
         grid-gap: 40px;
 
         .user-info {
@@ -92,8 +92,44 @@ hr {
             }
         }
 
-        .migration {
-            grid-area: migration;
+        .tags {
+            grid-area: tags;
+            padding-top: 50px;
+
+            h6 {
+                color: #999999;
+                margin-bottom: -15px;
+            }
+
+            .tags-btns {
+                display: flex;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+
+                .tag-name {
+                    border-radius: 10px;
+                    border: none;
+                    background: #1A1A1A;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 10px;
+                    margin-top: 10px;
+                    margin-right: 10px;
+
+                    a {
+                        text-align: center;
+
+                        h4 {
+                            color: #ffffff;
+                            font-family: "Montserrat", sans-serif;
+                            font-size: 16px;
+                            font-weight: 600;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
         }
 
         .fav-movies {
@@ -119,12 +155,12 @@ hr {
                 flex-wrap: wrap;
 
                 .statistic-block {
-                    width:50%;
+                    width: 50%;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    margin:10px 0;
+                    margin: 10px 0;
 
                     h2 {
                         font-size: 40px;
@@ -168,7 +204,6 @@ hr {
                 }
             }
 
-
             .movie-list-containers {
                 .movie-list-component {
                     display: flex;
@@ -176,7 +211,7 @@ hr {
                     align-items: center;
                     gap: 20px;
 
-                    .poster {   
+                    .poster {
                         flex-basis: 25%;
 
                         img {
@@ -184,6 +219,10 @@ hr {
                             height: 100%;
                             border-radius: 10px;
                             border: 1px solid #999999;
+                        }
+
+                        .empty-poster {
+                            background-color:#434343;
                         }
                     }
                 }
