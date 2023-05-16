@@ -2,7 +2,7 @@
 wwwroot/uploads/
 appsettings.json
 Migrations/
-
+Migrations/AuthDBContextModelSnapshot.cs
 # User-specific files
 *.rsuser
 *.suo

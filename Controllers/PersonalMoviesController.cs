@@ -62,14 +62,14 @@ namespace movie_tracker_website.Controllers
             //redirection to correct vals
             //check if pageindex < 1
             if (pageIndex < 1) return RedirectToAction("GetWatchedMovies", "PersonalMovies", new { pageIndex = 1 });
-            //check if pageindex > total pages
+
             int allMoviesCount = user.RelatedMovies.FindAll(m => m.IfWatched).Count();
             int totalPages = allMoviesCount / MovieCountPerPage;
 
             if ((allMoviesCount - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
                 totalPages++;
 
-            if (pageIndex > totalPages)
+            if (totalPages != 0 && pageIndex > totalPages)
                 return RedirectToAction("GetWatchedMovies", "PersonalMovies", new { pageIndex = totalPages });
 
             var personalMoviesViewModel = _personalMoviesService.GetWatchedMoviesViewModel(pageIndex, MovieCountPerPage, user);
@@ -95,7 +95,7 @@ namespace movie_tracker_website.Controllers
             if ((allMoviesCount - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
                 totalPages++;
 
-            if (pageIndex > totalPages)
+            if (totalPages != 0 && pageIndex > totalPages)
                 return RedirectToAction("GetFavouriteMovies", "PersonalMovies", new { pageIndex = totalPages });
 
             var personalMoviesViewModel = _personalMoviesService.GetFavouriteMoviesViewModel(pageIndex, MovieCountPerPage, user);
@@ -121,7 +121,7 @@ namespace movie_tracker_website.Controllers
             if ((allMoviesCount - totalPages * MovieCountPerPage) % MovieCountPerPage > 0)
                 totalPages++;
 
-            if (pageIndex > totalPages)
+            if (totalPages != 0 && pageIndex > totalPages)
                 return RedirectToAction("GetToWatchMovies", "PersonalMovies", new { pageIndex = totalPages });
 
             var personalMoviesViewModel = _personalMoviesService.GetToWatchMoviesViewModel(pageIndex, MovieCountPerPage, user);

@@ -28,25 +28,20 @@
             </div>
         </div>
     </div>
-    <div class="migration" hidden>
-        @*<h2></h2>
-        <h3></h3>
-        <div class="btn-block">
-            <div class="btn-component">
-                <button>
-                    <a href="" class="link">
-                        <h3>Імпорт</h3>
-                    </a>
-                </button>
+    <div class="tags">
+        @if(Model.Tags!=null)
+        {
+            <h6>Вподобання</h6>
+            <hr />
+            <div class="tags-btns">
+                @foreach (var tag in Model.Tags)
+                {
+                    <div class="tag-name">
+                        <a><h4>@tag</h4></a>
+                    </div>
+                }
             </div>
-            <div class="btn-component">
-                <button>
-                    <a href="" class="link">
-                        <h3>Експорт</h3>
-                    </a>
-                </button>
-            </div>
-        </div>*@
+        }
     </div>
     <div class="fav-movies">
         <div class="movie-list-full container">
@@ -66,6 +61,12 @@
                                     <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
                                         <img title="@curMovie.Title (@curMovie.ReleaseYear)"
                                              src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a>
+                                        <img class="empty-poster" src="~/img/empty-poster.jpg">
                                     </a>
                                 }
                             </div>

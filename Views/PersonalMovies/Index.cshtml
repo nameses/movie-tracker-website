@@ -88,6 +88,8 @@
                 }
             </div>
         </div>
+        @if (Model.TotalPages != 0)
+        {
         <div class="footer-bar">
             <hr />
             <div class="page-manage">
@@ -141,6 +143,12 @@
                 </button>
             </div>
         </div>
+        } else
+        {
+            <div class="empty-message">
+                <h2>На жаль, тут ще пусто!</h2>
+            </div>
+        }
     </div>
 </div>
 

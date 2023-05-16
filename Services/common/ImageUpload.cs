@@ -24,7 +24,7 @@ namespace movie_tracker_website.Services.common
                 }
                 return Path.GetFileName(filepath);
             }
-            return null;
+            else throw new FileLoadException();
         }
 
         private string EnsureFileName(string filename)
