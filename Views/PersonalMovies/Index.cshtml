@@ -88,6 +88,8 @@
                 }
             </div>
         </div>
+        @if (Model.TotalPages != 0)
+        {
         <div class="footer-bar">
             <hr />
             <div class="page-manage">
@@ -121,13 +123,17 @@
                     {
                         <div class="page-num"><p>...</p></div>
                     }
-                    <div class="page-num">
-                        <a asp-action="@Model.PageName" asp-route-pageIndex="@Model.TotalPages">
-                            <p @(Model.TotalPages == Model.CurrentPage ? "class=current-page" : "")>
-                                @Model.TotalPages
-                            </p>
-                        </a>
-                    </div>
+                    @if (Model.TotalPages > 1)
+                    {
+                        <div class="page-num">
+                            <a asp-action="@Model.PageName" asp-route-pageIndex="@Model.TotalPages">
+                                <p @(Model.TotalPages == Model.CurrentPage ? "class=current-page" : "")>
+                                    @Model.TotalPages
+                                </p>
+                            </a>
+                        </div>
+                    }
+                    
                     
                 </div>
                 <button class="btn-managing btn-next">
@@ -137,6 +143,12 @@
                 </button>
             </div>
         </div>
+        } else
+        {
+            <div class="empty-message">
+                <h2>На жаль, тут ще пусто!</h2>
+            </div>
+        }
     </div>
 </div>
 

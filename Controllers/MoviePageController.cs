@@ -30,6 +30,7 @@ namespace movie_tracker_website.Controllers
         private readonly IMoviePageService _moviePageService;
         private readonly IMovieService _movieService;
         private readonly IMovieSessionListService _movieSessionListService;
+        private readonly ITagService _tagService;
 
         public MoviePageController(ILogger<MoviePageController> logger,
                 AuthDBContext context,
@@ -39,7 +40,8 @@ namespace movie_tracker_website.Controllers
                 IMoviesList moviesList,
                 IMoviePageService moviePageService,
                 IMovieService movieService,
-                IMovieSessionListService movieSessionListService)
+                IMovieSessionListService movieSessionListService,
+                ITagService tagService)
         {
             _logger = logger;
             _context = context;
@@ -50,6 +52,7 @@ namespace movie_tracker_website.Controllers
             _moviePageService = moviePageService;
             _movieService = movieService;
             _movieSessionListService = movieSessionListService;
+            _tagService = tagService;
         }
 
         [HttpGet]
@@ -108,6 +111,7 @@ namespace movie_tracker_website.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
@@ -116,17 +120,24 @@ namespace movie_tracker_website.Controllers
                 movieFromDB.IfWatched = !movieFromDB.IfWatched;
                 //set new time if movie is corrected to watched
                 if (movieFromDB.IfWatched)
+                {
+                    user.UserStatistic.WatchedAmount++;
                     movieFromDB.TimeWatched = DateTime.Now;
+                }
             }
             //add new movie entry then
             else
             {
+                user.UserStatistic.WatchedAmount++;
+
                 user.RelatedMovies.Add(new Models.Movie()
                 {
                     ApiId = movieEntry.ApiId,
                     IfWatched = true,
                     TimeWatched = DateTime.Now,
                 });
+                //add tags for user
+                _tagService.AddTagsForUser(user, movieEntry.ApiId);
             }
             var res = await _userManager.UpdateAsync(user);
             return RedirectToAction("Index", "MoviePage", new { id = movieEntry.ApiId });
@@ -139,16 +150,22 @@ namespace movie_tracker_website.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
             if (movieFromDB != null)
             {
                 movieFromDB.IfFavourite = !movieFromDB.IfFavourite;
+                if (movieFromDB.IfFavourite)
+                {
+                    user.UserStatistic.FavouriteAmount++;
+                }
             }
             //add new movie entry then
             else
             {
+                user.UserStatistic.FavouriteAmount++;
                 user.RelatedMovies.Add(new Models.Movie()
                 {
                     ApiId = movieEntry.ApiId,
@@ -168,16 +185,22 @@ namespace movie_tracker_website.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
             if (movieFromDB != null)
             {
                 movieFromDB.IfToWatch = !movieFromDB.IfToWatch;
+                if (movieFromDB.IfToWatch)
+                {
+                    user.UserStatistic.ToWatchAmount++;
+                }
             }
             //add new movie entry then
             else
             {
+                user.UserStatistic.ToWatchAmount++;
                 user.RelatedMovies.Add(new Models.Movie()
                 {
                     ApiId = movieEntry.ApiId,

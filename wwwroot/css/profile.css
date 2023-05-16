@@ -1,0 +1,208 @@
+﻿body, html {
+  background-color: #050505;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+h1, h2, h4, h5, h6 {
+  font-family: "Merriweather", serif;
+  color: #ffffff;
+  margin: 0;
+}
+
+hr {
+  border: 1px solid #999999;
+  height: 1px;
+}
+
+.content {
+  height: 100vh;
+  z-index: 2;
+}
+
+.main {
+  width: 100%;
+  min-height: 100vh;
+  z-index: 1;
+}
+.main .main-blocks {
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas: "user-info tags tags" "fav-movies fav-movies statistic" "recent-movies recent-movies followers";
+  grid-gap: 40px;
+}
+.main .main-blocks .user-info {
+  margin: 80px 0 40px 0;
+  grid-area: user-info;
+  display: flex;
+  justify-content: flex-start;
+}
+.main .main-blocks .user-info .img-block {
+  margin-right: 30px;
+}
+.main .main-blocks .user-info .img-block img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.main .main-blocks .user-info .text-info-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.main .main-blocks .user-info .text-info-block .username {
+  font-size: 36px;
+}
+.main .main-blocks .user-info .text-info-block .btn-component .btn-settings {
+  border-radius: 10px;
+  border: none;
+  background: #434343;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+.main .main-blocks .user-info .text-info-block .btn-component .btn-settings a {
+  text-align: center;
+}
+.main .main-blocks .user-info .text-info-block .btn-component .btn-settings a h3 {
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+}
+.main .main-blocks .tags {
+  grid-area: tags;
+  padding-top: 50px;
+}
+.main .main-blocks .tags h6 {
+  color: #999999;
+  margin-bottom: -15px;
+}
+.main .main-blocks .tags .tags-btns {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.main .main-blocks .tags .tags-btns .tag-name {
+  border-radius: 10px;
+  border: none;
+  background: #1A1A1A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.main .main-blocks .tags .tags-btns .tag-name a {
+  text-align: center;
+}
+.main .main-blocks .tags .tags-btns .tag-name a h4 {
+  color: #ffffff;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+.main .main-blocks .fav-movies {
+  grid-area: fav-movies;
+}
+.main .main-blocks .statistic {
+  grid-area: statistic;
+  /*width: 50%;*/
+}
+.main .main-blocks .statistic .topbar-text h6 {
+  color: #999999;
+  margin-bottom: -15px;
+}
+.main .main-blocks .statistic .statistic-full {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  /*flex-basis: 25%;*/
+  flex-wrap: wrap;
+}
+.main .main-blocks .statistic .statistic-full .statistic-block {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+.main .main-blocks .statistic .statistic-full .statistic-block h2 {
+  font-size: 40px;
+}
+.main .main-blocks .statistic .statistic-full .statistic-block h4 {
+  font-size: 20px;
+  color: #999999;
+}
+.main .main-blocks .recent-movies {
+  grid-area: recent-movies;
+}
+.main .main-blocks .followers {
+  grid-area: followers;
+}
+.main .main-blocks .followers .topbar-text h6 {
+  color: #999999;
+  margin-bottom: -15px;
+}
+.main .movie-list-full {
+  z-index: 1;
+}
+.main .movie-list-full .movie-list .topbar-text {
+  display: flex;
+  justify-content: space-between;
+}
+.main .movie-list-full .movie-list .topbar-text h6 {
+  color: #999999;
+  margin-bottom: -15px;
+}
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
+  flex-basis: 25%;
+}
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid #999999;
+}
+.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster .empty-poster {
+  background-color: #434343;
+}
+@media only screen and (max-width: 1200px) {
+  .main .main {
+    background-size: 100% auto;
+  }
+}
+.main h3 {
+  font-family: "Montserrat", sans-serif;
+  color: #ffffff;
+  margin: 0;
+}
+.main a:link {
+  color: #ffffff;
+  text-decoration: none;
+}
+.main .container-fluid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

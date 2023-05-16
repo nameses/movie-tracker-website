@@ -50,7 +50,7 @@
                 </div>
                 <div class="dropdown-menu" id="dropdownMenu">
                     <a asp-controller="Home" asp-action="Index">Головна</a>
-                    <a>Профіль</a>
+                    <a asp-controller="Profile" asp-action="Index">Профіль</a>
                     <div class="main-links">
                         <hr />
                         <a asp-controller="MoviePage" asp-action="random">Досліджуй</a>
@@ -67,39 +67,41 @@
             </div>
         </header>
         @RenderBody()
-    </div>
 
-    <div class="footer-full container">
-        <div class="footer">
-            <hr />
-            <div class="footer-containers">
-                <div class="footer-component">
-                    <div class="text">
-                        <h1>tracker</h1>
+        <div class="footer-full container">
+            <div class="footer">
+                <hr />
+                <div class="footer-containers">
+                    <div class="footer-component">
+                        <div class="text">
+                            <h1>tracker</h1>
+                        </div>
+                        <div class="icons">
+                            <i class="fa-brands fa-telegram"></i>
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-discord"></i>
+                        </div>
                     </div>
-                    <div class="icons">
-                        <i class="fa-brands fa-telegram"></i>
-                        <i class="fa-brands fa-facebook"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                        <i class="fa-brands fa-discord"></i>
+                    <div class="footer-component">
+                        <div class="text">
+                            <a><p>Благодійна підтримка проекту</p></a>
+                        </div>
+                        <div class="text">
+                            <p>Потрібна допомога? tracker.help@gmail.com</p>
+                        </div>
                     </div>
-                </div>
-                <div class="footer-component">
-                    <div class="text">
-                        <a><p>Благодійна підтримка проекту</p></a>
-                    </div>
-                    <div class="text">
-                        <p>Потрібна допомога? tracker.help@gmail.com</p>
-                    </div>
-                </div>
-                <div class="footer-bottom-component">
-                    <div class="text">
-                        <p>© 2023 tracker. Film data by TMDB.</p>
+                    <div class="footer-bottom-component">
+                        <div class="text">
+                            <p>© 2023 tracker. Film data by TMDB.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

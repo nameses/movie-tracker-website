@@ -58,6 +58,8 @@ namespace movie_tracker_website.Controllers
             if (watchedMovies.Count != 0 && watchedMovies.Count < 8)
                 for (int i = watchedMovies.Count; i <= 8; i++)
                     watchedMovies.Add(new MovieViewModel() { Id = -1 });
+            else if (watchedMovies.Count == 0)
+                watchedMovies = null;
 
             //proccess list of recently viewed movies in session
             List<MovieViewModel>? viewedMovies = _movieSessionListService.ShowSessionViewedMovies(HttpContext.Session);

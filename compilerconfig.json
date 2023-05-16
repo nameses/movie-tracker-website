@@ -1,37 +1,27 @@
 ﻿[
   {
+    "outputFile": "wwwroot/css/profile.css",
+    "inputFile": "wwwroot/css/profile.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/watched-movies.css",
+    "inputFile": "wwwroot/css/watched-movies.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
     "outputFile": "wwwroot/css/common/authentication/authentication-layout.css",
     "inputFile": "wwwroot/css/common/authentication/authentication-layout.scss",
-    "minify": {
-      "enabled": false
-    },
-    "options": {
-      "sourceMap": false
-    }
-  },
-  {
-    "outputFile": "wwwroot/css/common/authentication/login.css",
-    "inputFile": "wwwroot/css/common/authentication/login.scss",
-    "minify": {
-      "enabled": false
-    },
-    "options": {
-      "sourceMap": false
-    }
-  },
-  {
-    "outputFile": "wwwroot/css/common/authentication/register.css",
-    "inputFile": "wwwroot/css/common/authentication/register.scss",
-    "minify": {
-      "enabled": false
-    },
-    "options": {
-      "sourceMap": false
-    }
-  },
-  {
-    "outputFile": "wwwroot/css/common/authentication/reg-conf.css",
-    "inputFile": "wwwroot/css/common/authentication/reg-conf.scss",
     "minify": {
       "enabled": false
     },
@@ -50,8 +40,28 @@
     }
   },
   {
-    "outputFile": "wwwroot/css/movie-page.css",
-    "inputFile": "wwwroot/css/movie-page.scss",
+    "outputFile": "wwwroot/css/common/authentication/login.css",
+    "inputFile": "wwwroot/css/common/authentication/login.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/common/authentication/reg-conf.css",
+    "inputFile": "wwwroot/css/common/authentication/reg-conf.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/common/authentication/register.css",
+    "inputFile": "wwwroot/css/common/authentication/register.scss",
     "minify": {
       "enabled": false
     },
@@ -70,8 +80,8 @@
     }
   },
   {
-    "outputFile": "wwwroot/css/watched-movies.css",
-    "inputFile": "wwwroot/css/watched-movies.scss",
+    "outputFile": "wwwroot/css/movie-page.css",
+    "inputFile": "wwwroot/css/movie-page.scss",
     "minify": {
       "enabled": false
     },

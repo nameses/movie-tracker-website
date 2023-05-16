@@ -126,6 +126,10 @@ hr {
   font-weight: 400;
   margin: 0;
 }
+.main .films-bar-full .films-bar .empty-message {
+  margin-top: 50px;
+  margin-bottom: 500px;
+}
 
 @media only screen and (max-width: 1200px) {
   .main {
