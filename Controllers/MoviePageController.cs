@@ -30,6 +30,7 @@ namespace movie_tracker_website.Controllers
         private readonly IMoviePageService _moviePageService;
         private readonly IMovieService _movieService;
         private readonly IMovieSessionListService _movieSessionListService;
+        private readonly ITagService _tagService;
 
         public MoviePageController(ILogger<MoviePageController> logger,
                 AuthDBContext context,
@@ -39,7 +40,8 @@ namespace movie_tracker_website.Controllers
                 IMoviesList moviesList,
                 IMoviePageService moviePageService,
                 IMovieService movieService,
-                IMovieSessionListService movieSessionListService)
+                IMovieSessionListService movieSessionListService,
+                ITagService tagService)
         {
             _logger = logger;
             _context = context;
@@ -50,6 +52,7 @@ namespace movie_tracker_website.Controllers
             _moviePageService = moviePageService;
             _movieService = movieService;
             _movieSessionListService = movieSessionListService;
+            _tagService = tagService;
         }
 
         [HttpGet]
@@ -133,6 +136,8 @@ namespace movie_tracker_website.Controllers
                     IfWatched = true,
                     TimeWatched = DateTime.Now,
                 });
+                //add tags for user
+                _tagService.AddTagsForUser(user, movieEntry.ApiId);
             }
             var res = await _userManager.UpdateAsync(user);
             return RedirectToAction("Index", "MoviePage", new { id = movieEntry.ApiId });

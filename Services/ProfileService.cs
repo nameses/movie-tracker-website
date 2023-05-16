@@ -19,6 +19,7 @@ namespace movie_tracker_website.Services
         private readonly IMoviePageService _moviePageService;
         private readonly IMovieService _movieService;
         private readonly IStatisticService _statisticService;
+        private readonly ITagService _tagService;
 
         public ProfileService(ILogger<MoviePageController> logger,
                 AuthDBContext context,
@@ -28,7 +29,8 @@ namespace movie_tracker_website.Services
                 IMoviesList moviesList,
                 IMoviePageService moviePageService,
                 IMovieService movieService,
-                IStatisticService statisticService)
+                IStatisticService statisticService,
+                ITagService tagService)
         {
             _logger = logger;
             _context = context;
@@ -39,6 +41,7 @@ namespace movie_tracker_website.Services
             _moviePageService = moviePageService;
             _movieService = movieService;
             _statisticService = statisticService;
+            _tagService = tagService;
         }
 
         public ProfileViewModel GetProfileViewModel(AppUser user)
@@ -57,11 +60,12 @@ namespace movie_tracker_website.Services
                 .Select(m => _movieService.GetReducedMovieById(m.ApiId))
                 .ToList();
 
-            for (int i = favMovies.Count; i < FilmsCount; i++) 
+            for (int i = favMovies.Count; i < FilmsCount; i++)
                 favMovies.Add(new MovieViewModel() { Id = -1 });
+
             for (int i = recentMovies.Count; i < FilmsCount; i++)
                 recentMovies.Add(new MovieViewModel() { Id = -1 });
-            if (recentMovies.Count > 0) { }
+            //if (recentMovies.Count > 0) { }
 
             return new ProfileViewModel
             {
@@ -69,6 +73,7 @@ namespace movie_tracker_website.Services
                 FavouriteMovies = favMovies,
                 RecentMovies = recentMovies,
                 Statistic = _statisticService.GetUserStatistic(user),
+                Tags = _tagService.GetImportantTags(user, 10)
             };
         }
     }
