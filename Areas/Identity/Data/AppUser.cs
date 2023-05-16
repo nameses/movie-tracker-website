@@ -19,4 +19,5 @@ public class AppUser : IdentityUser
 
     public virtual List<Follower> Followers { get; set; } = new List<Follower> { };
     public virtual List<Follower> Followings { get; set; } = new List<Follower> { };
+    public List<Tag> Tags { get; set; } = new List<Tag> { };
 }

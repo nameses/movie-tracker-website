@@ -30,6 +30,7 @@ builder.Services.AddScoped<IPersonalMoviesService, PersonalMoviesService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
 //db contexts
 builder.Services.AddDbContext<AuthDBContext>(options =>

@@ -16,6 +16,7 @@ public class AuthDBContext : IdentityDbContext<AppUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //Movie model
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<AppUser>()
             .HasMany(e => e.RelatedMovies)
@@ -27,6 +28,7 @@ public class AuthDBContext : IdentityDbContext<AppUser>
             .HasForeignKey(e => e.AppUserId)
             .IsRequired();
 
+        //UserStatistic model
         modelBuilder.Entity<AppUser>()
             .HasOne(e => e.UserStatistic)
             .WithOne(e => e.AppUser)
@@ -38,6 +40,7 @@ public class AuthDBContext : IdentityDbContext<AppUser>
             .HasForeignKey<UserStatistic>(e => e.AppUserId)
             .IsRequired();
 
+        //Follower model
         modelBuilder.Entity<AppUser>()
             .HasMany(e => e.Followers)
             .WithOne(e => e.FollowerUser)
@@ -59,9 +62,24 @@ public class AuthDBContext : IdentityDbContext<AppUser>
             .HasForeignKey(e => e.FollowingUserId)
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
+
+        //Tag for each User
+        modelBuilder.Entity<AppUser>()
+        .HasMany(e => e.Tags)
+        .WithMany(e => e.Users);
+
+        //n:n relationship
+        modelBuilder.Entity<AppUser>()
+        .HasMany(e => e.Tags)
+        .WithMany(e => e.Users)
+        .UsingEntity<AppUserTag>(
+            l => l.HasOne<Tag>().WithMany().HasForeignKey(e => e.TagId),
+            r => r.HasOne<AppUser>().WithMany().HasForeignKey(e => e.UserId));
     }
 
     public DbSet<Movie> Movies { get; set; }
     public DbSet<UserStatistic> UserStatistics { get; set; }
     public DbSet<Follower> Followers { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<AppUserTag> AppUserTags { get; set; }
 }
