@@ -46,15 +46,16 @@ public class AuthDBContext : IdentityDbContext<AppUser>
             .WithOne(e => e.FollowerUser)
             .HasForeignKey(e => e.FollowerUserId)
             .IsRequired();
-        modelBuilder.Entity<AppUser>()
-            .HasMany(e => e.Followings)
-            .WithOne(e => e.FollowingUser)
-            .HasForeignKey(e => e.FollowingUserId)
-            .IsRequired();
         modelBuilder.Entity<Follower>()
             .HasOne(e => e.FollowerUser)
             .WithMany(e => e.Followers)
             .HasForeignKey(e => e.FollowerUserId)
+            .IsRequired();
+
+        modelBuilder.Entity<AppUser>()
+            .HasMany(e => e.Followings)
+            .WithOne(e => e.FollowingUser)
+            .HasForeignKey(e => e.FollowingUserId)
             .IsRequired();
         modelBuilder.Entity<Follower>()
             .HasOne(e => e.FollowingUser)

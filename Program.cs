@@ -21,7 +21,7 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(180);
     options.Cookie.IsEssential = true;
 });
-//services
+//services for controllers
 builder.Services.AddScoped<IImageUpload, ImageUpload>();
 builder.Services.AddScoped<IMoviesList, MoviesList>();
 builder.Services.AddScoped<IMoviePageService, MoviePageService>();
