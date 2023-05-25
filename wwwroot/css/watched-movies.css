@@ -39,6 +39,7 @@ hr {
   min-height: 100vh;
 }
 .main .films-bar-full {
+  margin-bottom: 100px;
   margin-top: 50px;
 }
 .main .films-bar-full h6 {

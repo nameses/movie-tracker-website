@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
-    <Content Remove="Views\Search\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +18,6 @@
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
-    <None Include="Views\Search\Index.cshtml" />
   </ItemGroup>
 
   <!--<ItemGroup>
