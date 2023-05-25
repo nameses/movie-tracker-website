@@ -1,0 +1,57 @@
+﻿@section styles{
+    <link href="~/css/search.css" rel="stylesheet">
+}
+@section head{
+    <title>@Model.CurrentUser.Username's profile</title>
+}
+@section scripts{
+
+}
+
+@model movie_tracker_website.ViewModels.PagesViews.SearchViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
+
+
+<div class="found-movies-full container">
+    <div class="found-movies">
+        <h6>Знайдені результати "@Model.Query"</h6>
+        <hr class="main-hr"/>
+        @foreach (var mov in Model.Movies)
+        {
+            <div class="movie">
+                <div class="poster">
+                    <div class="poster-block">
+                        <img title="@mov.Title (@mov.ReleaseYear)"
+                            src="@Config["Constants:PosterBaseUrl"]@mov.PosterPath">
+                    </div>
+                </div>
+                <div class="text-full">
+                    <div class="title">
+                        <h2>@mov.Title (@mov.ReleaseYear)</h2>
+                    </div>
+                    <div class="other-info">
+                        @if(mov.OriginalTitle!=null)
+                        {
+                            <h4>Original title: @mov.OriginalTitle</h4>
+                        }
+                        else if(mov.OriginalLanguage!=null)
+                        {
+                            <h4>Original language: @mov.OriginalLanguage</h4>
+                        }
+                        @if (mov.Director != null)
+                        {
+                            <div class="director">
+                                <h4>Directed by <span class="director-span">@mov.Director</span></h4>
+                            </div>
+                        }
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <hr />
+        }
+
+    </div>
+
+</div>

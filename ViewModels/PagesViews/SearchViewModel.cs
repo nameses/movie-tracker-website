@@ -2,6 +2,8 @@
 {
     public class SearchViewModel
     {
+        public AppUserViewModel? CurrentUser { get; set; }
         public List<MovieViewModel> Movies { get; set; }
+        public string? Query { get; set; }
     }
 }

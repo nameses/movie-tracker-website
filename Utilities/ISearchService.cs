@@ -5,6 +5,6 @@ namespace movie_tracker_website.Utilities
 {
     public interface ISearchService
     {
-        public async Task<SearchViewModel> GetMoviesByQuery(string query);
+        public Task<SearchViewModel> GetMoviesByQuery(AppUser user, string query);
     }
 }

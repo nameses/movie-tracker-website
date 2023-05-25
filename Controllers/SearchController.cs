@@ -48,13 +48,13 @@ namespace movie_tracker_website.Controllers
             _searchService = searchService;
         }
 
-        [Route("Search/Index/{query=null}")]
+        [Route("Search/Index")]
         public async Task<IActionResult> Index(string query)
         {
             return RedirectToAction("GetMoviesByQuery", "Search", new { query = query });
         }
 
-        [Route("Search/GetMoviesByQuery/{query=null}")]
+        [Route("Search/GetMoviesByQuery")]
         public async Task<IActionResult> GetMoviesByQuery(string query)
         {
             var userId = _userManager.GetUserId(User);
@@ -63,7 +63,7 @@ namespace movie_tracker_website.Controllers
                 //.Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var searchViewModel = await _searchService.GetMoviesByQuery(query);
+            var searchViewModel = await _searchService.GetMoviesByQuery(user, query);
 
             return View("Index", searchViewModel);
         }

@@ -9,17 +9,35 @@ namespace movie_tracker_website.ViewModels
     public class MovieViewModel
     {
         public int Id { get; set; }
+
+        //text info
+
         public string Title { get; set; }
-        public string ReleaseYear { get; set; }
-        public int? Duration { get; set; }
+        public string OriginalTitle { get; set; }
+        public string OriginalLanguage { get; set; }
         public string? Tagline { get; set; }
         public string? Overview { get; set; }
+
+        //values
+
         public string? Rating { get; set; }
+        public string ReleaseYear { get; set; }
+        public int? Duration { get; set; }
+
+        //imgs&videos
+
         public string PosterPath { get; set; }
         public string? MainBackdropPath { get; set; }
         public List<string>? BackdropsPath { get; set; }
         public string? Trailer { get; set; }
+
+        //credits
+
         public List<string>? Actors { get; set; }
+        public string? Director { get; set; }
+
+        //bools
+
         public Boolean IfWatched { get; set; }
         public Boolean IfFavourite { get; set; }
         public Boolean IfToWatch { get; set; }
@@ -39,6 +57,21 @@ namespace movie_tracker_website.ViewModels
             else throw new ArgumentException("Input must be of type Movie or SearchMovie");
         }
 
+        public static MovieViewModel convertToSearchMovieViewModel(Movie inputMovie)
+        {
+            var crew = inputMovie.Credits.Crew;
+            return new MovieViewModel
+            {
+                Id = inputMovie.Id,
+                Title = inputMovie.Title,
+                OriginalTitle = inputMovie.OriginalTitle,
+                OriginalLanguage = inputMovie.OriginalLanguage,
+                ReleaseYear = inputMovie.ReleaseDate?.Year.ToString(),
+                PosterPath = inputMovie.PosterPath,
+                Director = crew != null ? crew.Find(m => m.Job == "Director").Name : null
+            };
+        }
+
         public static MovieViewModel convertToViewModel(Movie inputMovie, ImagesWithId images)
         {
             return new MovieViewModel
@@ -53,10 +86,7 @@ namespace movie_tracker_website.ViewModels
                 PosterPath = inputMovie.PosterPath,
                 MainBackdropPath = inputMovie.BackdropPath,
                 BackdropsPath = images.Backdrops
-                            //.OrderBy(data => data.VoteAverage)
-                            //.OrderBy(data => data.VoteCount)
                             .Where(data => data.AspectRatio > 1.7)
-                            //.OrderBy(a => Guid.NewGuid())
                             .Select(data => data.FilePath)
                             .Take(6).ToList(),
                 Actors = inputMovie.Credits.Cast

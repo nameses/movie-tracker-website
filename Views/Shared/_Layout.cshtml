@@ -24,12 +24,12 @@
                         <h1>tracker</h1>
                     </a>
                 </span>
-                <fieldset class="search-form">
-                    <input type="text">
+                <form asp-controller="Search" asp-action="GetMoviesByQuery" class="search-form">
+                    <input id="query" name="query" class="query" type="text">
                     <button class="action" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
-                </fieldset>
+                </form>
             </div>
             <div class="menu">
                 <a asp-controller="MoviePage" asp-action="random"><h3>ДОСЛІДЖУЙ</h3></a>

@@ -8,6 +8,7 @@ using movie_tracker_website.ViewModels.PagesViews;
 using NuGet.Packaging;
 using TMDbLib.Client;
 using TMDbLib.Objects.General;
+using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 
 namespace movie_tracker_website.Services
@@ -48,19 +49,24 @@ namespace movie_tracker_website.Services
             _profileService = profileService;
         }
 
-        public async Task<SearchViewModel> GetMoviesByQuery(string query)
+        public async Task<SearchViewModel> GetMoviesByQuery(AppUser user, string query)
         {
             var movies = new List<MovieViewModel>();
             using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
                 SearchContainer<SearchMovie> results = await client.SearchMovieAsync(query);
                 movies.AddRange(results.Results
-                    .Select(m => MovieViewModel.convertToSearchMovieViewModel(m)));
+                    .Select(mov => client.GetMovieAsync(mov.Id,
+                            MovieMethods.AlternativeTitles | MovieMethods.Credits).Result)
+                    .Where(mov => mov.PosterPath != null)
+                    .Select(MovieViewModel.convertToSearchMovieViewModel));
             }
 
             return new SearchViewModel()
             {
-                Movies = movies
+                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                Movies = movies,
+                Query = query
             };
         }
     }
