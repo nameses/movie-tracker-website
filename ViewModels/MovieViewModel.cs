@@ -59,7 +59,7 @@ namespace movie_tracker_website.ViewModels
 
         public static MovieViewModel convertToSearchMovieViewModel(Movie inputMovie)
         {
-            var crew = inputMovie.Credits.Crew;
+            var director = inputMovie.Credits.Crew.FirstOrDefault(m => m.Job == "Director");
             return new MovieViewModel
             {
                 Id = inputMovie.Id,
@@ -68,7 +68,7 @@ namespace movie_tracker_website.ViewModels
                 OriginalLanguage = inputMovie.OriginalLanguage,
                 ReleaseYear = inputMovie.ReleaseDate?.Year.ToString(),
                 PosterPath = inputMovie.PosterPath,
-                Director = crew != null ? crew.Find(m => m.Job == "Director").Name : null
+                Director = director?.Name
             };
         }
 

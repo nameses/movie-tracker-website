@@ -55,7 +55,7 @@ namespace movie_tracker_website.Controllers
         }
 
         [Route("Search/GetMoviesByQuery")]
-        public async Task<IActionResult> GetMoviesByQuery(string query)
+        public async Task<IActionResult> GetMoviesByQuery(string query, int pageIndex)
         {
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
@@ -63,7 +63,7 @@ namespace movie_tracker_website.Controllers
                 //.Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var searchViewModel = await _searchService.GetMoviesByQuery(user, query);
+            var searchViewModel = await _searchService.GetMoviesByQuery(user, query, pageIndex);
 
             return View("Index", searchViewModel);
         }

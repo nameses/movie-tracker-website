@@ -27,10 +27,18 @@ hr {
   z-index: 2;
 }
 
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .main {
   width: 100%;
   min-height: 100vh;
   z-index: 1;
+}
+.main .found-movies-full {
+  margin-bottom: 80px;
 }
 .main .found-movies-full .found-movies .main-hr {
   opacity: 50%;
@@ -87,6 +95,53 @@ hr {
   background-color: #1A1A1A;
   padding: 5px;
   border-radius: 10px;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage .paginate-pages {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage .paginate-pages .page-num p {
+  font-family: "Merriweather", serif;
+  font-variant-numeric: lining-nums;
+  color: #999999;
+  font-size: 20px;
+  text-align: center;
+  padding: 2px;
+  margin: 0;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage .paginate-pages .page-num form .btn-num p:hover {
+  color: #fff;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage .paginate-pages .page-num form .btn-num {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage .btn-managing {
+  border-radius: 10px;
+  border: none;
+  background: #1A1A1A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage .btn-managing a {
+  text-align: center;
+}
+.main .found-movies-full .found-movies .footer-bar .page-manage .btn-managing a h5 {
+  color: #999999;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0;
 }
 
 @media only screen and (max-width: 1200px) {

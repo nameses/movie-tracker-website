@@ -49,12 +49,25 @@ namespace movie_tracker_website.Services
             _profileService = profileService;
         }
 
-        public async Task<SearchViewModel> GetMoviesByQuery(AppUser user, string query)
+        public async Task<SearchViewModel> GetMoviesByQuery(AppUser user, string query, int pageIndex)
         {
+            int totalPages = 0;
+            if (pageIndex < 1) pageIndex = 1;
+
             var movies = new List<MovieViewModel>();
             using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
-                SearchContainer<SearchMovie> results = await client.SearchMovieAsync(query);
+                SearchContainer<SearchMovie> results = await client.SearchMovieAsync(query, page: pageIndex);
+                //pages processing
+                totalPages = results.TotalPages;
+
+                //if (results.Results.Count == 0)
+                if (pageIndex > totalPages)
+                {
+                    pageIndex = totalPages;
+                    results = await client.SearchMovieAsync(query, page: pageIndex);
+                }
+                //add movies
                 movies.AddRange(results.Results
                     .Select(mov => client.GetMovieAsync(mov.Id,
                             MovieMethods.AlternativeTitles | MovieMethods.Credits).Result)
@@ -66,7 +79,10 @@ namespace movie_tracker_website.Services
             {
                 CurrentUser = AppUserViewModel.convertToViewModel(user),
                 Movies = movies,
-                Query = query
+                Query = query,
+                CurrentPage = pageIndex,
+                TotalPages = totalPages,
+                PageName = "GetMoviesByQuery"
             };
         }
     }

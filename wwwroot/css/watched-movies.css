@@ -29,7 +29,6 @@ hr {
 }
 
 .disabled {
-  /* Add styling for the disabled button here */
   pointer-events: none;
   opacity: 0.5;
 }
