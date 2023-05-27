@@ -57,5 +57,24 @@ namespace movie_tracker_website.Controllers
 
             return View(profileViewModel);
         }
+
+        [HttpGet]
+        [Route("Profile/{username}")]
+        public async Task<IActionResult> GetProfile(string username)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var currentUser = await _context.Users
+                .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
+                .Include(u => u.Followings)
+                .FirstOrDefaultAsync(u => u.Id == currentUserId);
+            //if current user == searching profile
+            if (currentUser.NormalizedUserName == username.ToUpper())
+                return RedirectToAction("Index","Profile");
+
+            var profileViewModel = _profileService.GetProfileById(currentUser, username);
+
+            return View("UserProfile", profileViewModel);
+        }
     }
 }

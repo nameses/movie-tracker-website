@@ -7,6 +7,9 @@ namespace movie_tracker_website.ViewModels
     {
         [Required]
         [DataType(DataType.Text)]
+        public string Id { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
         public string Username { get; set; }
 
         [Required]
@@ -20,6 +23,7 @@ namespace movie_tracker_website.ViewModels
         {
             return new AppUserViewModel()
             {
+                Id = user.Id,
                 Username = user.UserName,
                 Email = user.Email,
                 ImagePath = user.ImagePath

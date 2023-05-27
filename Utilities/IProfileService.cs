@@ -6,5 +6,7 @@ namespace movie_tracker_website.Utilities
     public interface IProfileService
     {
         public ProfileViewModel GetProfileViewModel(AppUser user);
+
+        public ProfileViewModel GetProfileById(AppUser currentUser, string username);
     }
 }

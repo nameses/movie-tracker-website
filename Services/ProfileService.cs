@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using movie_tracker_website.Areas.Identity.Data;
 using movie_tracker_website.Controllers;
 using movie_tracker_website.Data;
@@ -65,11 +66,51 @@ namespace movie_tracker_website.Services
 
             for (int i = recentMovies.Count; i < FilmsCount; i++)
                 recentMovies.Add(new MovieViewModel() { Id = -1 });
-            //if (recentMovies.Count > 0) { }
 
-            return new ProfileViewModel
+            return new ProfileViewModel()
             {
                 CurrentUser = AppUserViewModel.convertToViewModel(user),
+                FavouriteMovies = favMovies,
+                RecentMovies = recentMovies,
+                Statistic = _statisticService.GetUserStatistic(user),
+                Tags = _tagService.GetImportantTags(user, 10)
+            };
+        }
+
+        public ProfileViewModel GetProfileById(AppUser currentUser, string username)
+        {
+            var user = _context.Users
+                .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
+                .Include(u => u.Followings)
+                .Include(u => u.Followers)
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == username.ToUpper())
+                .Result;
+
+            int FilmsCount = 4;
+            var favMovies = user.RelatedMovies
+                .Where(movie => movie.IfWatched && movie.IfFavourite)// && movie.Rating == 5)
+                .OrderByDescending(movie => movie.TimeWatched)
+                .Take(FilmsCount)
+                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .ToList();
+            var recentMovies = user.RelatedMovies
+                .Where(movie => movie.IfWatched)
+                .OrderByDescending(movie => movie.TimeWatched)
+                .Take(FilmsCount)
+                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .ToList();
+
+            for (int i = favMovies.Count; i < FilmsCount; i++)
+                favMovies.Add(new MovieViewModel() { Id = -1 });
+
+            for (int i = recentMovies.Count; i < FilmsCount; i++)
+                recentMovies.Add(new MovieViewModel() { Id = -1 });
+            return new ProfileViewModel()
+            {
+                CurrentUser = AppUserViewModel.convertToViewModel(currentUser),
+                IsUserFollowed = currentUser.Followings.FirstOrDefault(u => u.FollowingUserId == user.Id) != null,
+                UserProfile = AppUserViewModel.convertToViewModel(user),
                 FavouriteMovies = favMovies,
                 RecentMovies = recentMovies,
                 Statistic = _statisticService.GetUserStatistic(user),

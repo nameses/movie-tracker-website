@@ -1,0 +1,151 @@
+﻿@section styles{
+    <link href="~/css/profile.css" rel="stylesheet">
+    <link href="~/css/user-profile.css" rel="stylesheet">
+
+}
+@section head{
+    <title>@Model.UserProfile?.Username's profile</title>
+}
+@section scripts{
+
+}
+
+@model movie_tracker_website.ViewModels.PagesViews.ProfileViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
+
+<div class="main-blocks container">
+    <div class="user-info">
+        <div class="img-block">
+            <img src="@Config["Constants:UploadImagesPath"]@Model.UserProfile?.ImagePath" />
+        </div>
+        <div class="text-info-block">
+            <h3 class="username">@Model.UserProfile?.Username</h3>
+            @*<h4 class="country"></h4>*@
+            @if (Model.IsUserFollowed == true)
+            {
+                <div class="btn-component">
+                    <form asp-action="Unfollow" asp-route-username="@Model.UserProfile.Username" method="post">
+                        <button class="btn-unfollow" type="submit">
+                            <p>Відписатись</p>
+                        </button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="btn-component">
+                    <form asp-action="Follow" asp-route-username="@Model.UserProfile.Username" method="post">
+                        <button class="btn-follow" type="submit">
+                            <p>Підписатись</p>
+                        </button>
+                    </form>
+                </div>
+            }
+            
+        </div>
+    </div>
+    <div class="tags">
+        @if (Model.Tags != null)
+        {
+            <h6>Вподобання</h6>
+            <hr />
+            <div class="tags-btns">
+                @foreach (var tag in Model.Tags)
+                {
+                    <div class="tag-name">
+                        <a><h4>@tag</h4></a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="fav-movies">
+        <div class="movie-list-full container">
+            <div class="movie-list">
+                <div class="topbar-text">
+                    <h6>Улюблені фільми</h6>
+                    <a href=""><h6>Більше...</h6></a>
+                </div>
+                <hr />
+                <div class="movie-list-containers">
+                    <div class="movie-list-component">
+                        @foreach (var curMovie in Model.FavouriteMovies)
+                        {
+                            <div class="poster">
+                                @if (curMovie.Id != -1)
+                                {
+                                    <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                                        <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                             src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a>
+                                        <img class="empty-poster" src="~/img/empty-poster.jpg">
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="statistic">
+        <div class="topbar-text">
+            <h6>Статистика</h6>
+        </div>
+        <hr />
+        <div class="statistic-full">
+            @foreach (var stat in Model.Statistic.StatisticDict)
+            {
+                <div class="statistic-block">
+                    <h2>@stat.Value</h2>
+                    <h4>@stat.Key</h4>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="recent-movies">
+        <div class="movie-list-full container">
+            <div class="movie-list">
+                <div class="topbar-text">
+                    <h6>Останні оцінки</h6>
+                </div>
+                <hr />
+                <div class="movie-list-containers">
+                    <div class="movie-list-component">
+                        @foreach (var curMovie in Model.RecentMovies)
+                        {
+                            <div class="poster">
+                                @if (curMovie.Id != -1)
+                                {
+                                    <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                                        <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                             src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="followers">
+        <div class="topbar-text">
+            <h6>Фолловери</h6>
+        </div>
+        <hr />
+        <div class="followers-full">
+            @*@foreach (var stat in Model.Followers)
+            {
+                <div class="statistic-block">
+                    <h2>@stat.Value</h2>
+                    <h4>@stat.Key</h4>
+                </div>
+            }*@
+        </div>
+    </div>
+</div>
