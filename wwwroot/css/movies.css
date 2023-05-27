@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap");
 body, html {
   background-color: #050505;
@@ -31,111 +31,6 @@ hr {
 .main {
   width: 100%;
   min-height: 100vh;
-}
-.main .search-bar {
-  margin-top: 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-.main .search-bar .find-by-full {
-  display: flex;
-  align-items: center;
-}
-.main .search-bar .find-by-full .title {
-  width: 20%;
-  margin-right: 10px;
-}
-.main .search-bar .find-by-full .title h3 {
-  color: #999999;
-  font-family: "Merriweather", serif;
-  font-size: 20px;
-  white-space: nowrap;
-}
-.main .search-bar .find-by-full .filters {
-  display: flex;
-  gap: 30px;
-  width: 100%;
-  justify-content: space-around;
-  background-color: #1A1A1A;
-  border-radius: 20px;
-  padding: 15px;
-}
-.main .search-bar .find-by-full .filters .filter {
-  display: flex;
-  justify-content: space-between;
-  gap: 5px;
-  align-items: center;
-}
-.main .search-bar .find-by-full .filters .filter h3 {
-  font-size: 20px;
-  color: #999999;
-}
-.main .search-bar .find-by-full .filters .filter i {
-  color: #999999;
-}
-.main .search-bar .find-by-full .filters-second-row {
-  display: none;
-  gap: 30px;
-  width: 100%;
-  justify-content: space-evenly;
-  background-color: #1A1A1A;
-  border-radius: 20px;
-  padding: 15px;
-}
-.main .search-bar .find-by-full .filters-second-row .filter {
-  display: flex;
-  justify-content: space-between;
-  gap: 5px;
-  align-items: center;
-}
-.main .search-bar .find-by-full .filters-second-row .filter h3 {
-  font-size: 20px;
-  color: #999999;
-}
-.main .search-bar .find-by-full .filters-second-row .filter i {
-  color: #999999;
-}
-.main .search-bar .search-movie {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  align-items: center;
-}
-.main .search-bar .search-movie .title {
-  display: none;
-}
-.main .search-bar .search-movie .title h3 {
-  font-family: "Merriweather", serif;
-  margin-right: 10px;
-  font-size: 20px;
-  color: #999999;
-  white-space: nowrap;
-}
-.main .search-bar .search-movie .search-form {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  background-color: #1a1a1a;
-  border-radius: 20px;
-  padding: 5px;
-}
-.main .search-bar .search-movie .search-form input[type=text] {
-  width: 100%;
-  border: none;
-  background-color: transparent;
-  color: #ffffff;
-  outline: none;
-  box-sizing: border-box;
-  padding: 5px;
-}
-.main .search-bar .search-movie .search-form button[type=submit] {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: #999999;
-  padding-right: 10px;
 }
 .main .films-bar-full {
   margin-top: 60px;
@@ -239,20 +134,6 @@ hr {
     background-size: 100% auto;
   }
 }
-@media only screen and (min-width: 992px) and (max-width: 1200px) {
-  .main .search-bar .find-by-full .title h3 {
-    font-size: 16px;
-  }
-  .main .search-bar .find-by-full .filters {
-    gap: 20px;
-  }
-  .main .search-bar .find-by-full .filters .filter h3 {
-    font-size: 16px;
-  }
-  .main .search-bar .find-by-full .filters .filter i {
-    font-size: 12px;
-  }
-}
 @media only screen and (max-width: 992px) {
   .main .films-bar-full {
     margin-top: 100px;
@@ -266,75 +147,10 @@ hr {
     max-height: 22%;
   }
 }
-@media only screen and (min-width: 768px) and (max-width: 992px) {
-  .main .search-bar {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-  }
-  .main .search-bar .find-by-full .title {
-    display: flex;
-  }
-  .main .search-bar .find-by-full .filters .filter h3 {
-    font-size: 16px;
-  }
-  .main .search-bar .find-by-full .filters .filter i {
-    font-size: 12px;
-  }
-  .main .search-bar .search-movie {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  .main .search-bar .search-movie .title {
-    display: flex;
-  }
-}
 @media only screen and (max-width: 576px) {
   .main .films-bar-full .films-bar .films-bar-containers .films-bar-component .poster {
     max-width: 30%;
     max-height: 30%;
-  }
-  .main .search-bar {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-  }
-  .main .search-bar .find-by-full {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-  }
-  .main .search-bar .find-by-full .title {
-    display: none;
-  }
-  .main .search-bar .find-by-full .filters {
-    gap: 60px;
-  }
-  .main .search-bar .find-by-full .filters .filter-last {
-    display: none;
-  }
-  .main .search-bar .find-by-full .filters .filter {
-    gap: 5px;
-  }
-  .main .search-bar .find-by-full .filters .filter h3 {
-    font-size: 20px;
-  }
-  .main .search-bar .find-by-full .filters .filter i {
-    font-size: 16px;
-  }
-  .main .search-bar .find-by-full .filters-second-row {
-    display: flex;
-    margin-top: 10px;
-  }
-  .main .search-bar .search-movie {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  .main .search-bar .search-movie .title {
-    display: flex;
-    font-size: 16px;
   }
   .main .donate-bar span h1 {
     font-size: 24px;
@@ -350,27 +166,6 @@ hr {
     max-width: 46%;
     max-height: 46%;
   }
-  .main .search-bar .find-by-full .filters {
-    gap: 30px;
-  }
-  .main .search-bar .find-by-full .filters .filter h3 {
-    font-size: 16px;
-  }
-  .main .search-bar .find-by-full .filters .filter i {
-    font-size: 12px;
-  }
-  .main .search-bar .find-by-full .filters-second-row {
-    gap: 20px;
-  }
-  .main .search-bar .find-by-full .filters-second-row .filter h3 {
-    font-size: 16px;
-  }
-  .main .search-bar .find-by-full .filters-second-row .filter i {
-    font-size: 12px;
-  }
-  .main .search-bar .search-movie .title {
-    font-size: 12px;
-  }
   .main .donate-bar span h1 {
     font-size: 20px;
   }
@@ -385,5 +180,3 @@ a:link {
   color: #ffffff;
   text-decoration: none;
 }
-
-/*# sourceMappingURL=movies.css.map */
