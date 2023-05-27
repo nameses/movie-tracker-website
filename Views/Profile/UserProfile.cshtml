@@ -25,7 +25,7 @@
             {
                 <div class="btn-component">
                     <form asp-action="Unfollow" asp-route-username="@Model.UserProfile.Username" method="post">
-                        <button class="btn-unfollow" type="submit">
+                        <button class="btn-fol-control btn-unfollow" type="submit">
                             <p>Відписатись</p>
                         </button>
                     </form>
@@ -35,7 +35,7 @@
             {
                 <div class="btn-component">
                     <form asp-action="Follow" asp-route-username="@Model.UserProfile.Username" method="post">
-                        <button class="btn-follow" type="submit">
+                        <button class="btn-fol-control btn-follow" type="submit">
                             <p>Підписатись</p>
                         </button>
                     </form>

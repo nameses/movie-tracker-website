@@ -108,5 +108,15 @@
     "options": {
       "sourceMap": false
     }
+  },
+  {
+    "outputFile": "wwwroot/css/user-profile.css",
+    "inputFile": "wwwroot/css/user-profile.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
   }
 ]

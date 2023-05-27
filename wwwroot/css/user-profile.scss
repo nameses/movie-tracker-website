@@ -1,0 +1,36 @@
+﻿.main {
+    .main-blocks {
+        .user-info {
+            .text-info-block {
+                .btn-component {
+                    form {
+                        .btn-fol-control {
+                            border-radius: 10px;
+                            border: none;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 8px;
+
+                            p {
+                                text-align: center;
+                                color: white;
+                                font-weight: 600;
+                                font-size: 20px;
+                                margin: 0;
+                            }
+                        }
+
+                        .btn-unfollow {
+                            background: #fca311;
+                        }
+
+                        .btn-follow {
+                            background: #434343;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
