@@ -117,5 +117,35 @@ namespace movie_tracker_website.Services
                 Tags = _tagService.GetImportantTags(user, 10)
             };
         }
+
+        public void Follow(AppUser currentUser, string usernameToFollow)
+        {
+            var user = _context.Users
+                .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
+                .Include(u => u.Followings)
+                .Include(u => u.Followers)
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == usernameToFollow.ToUpper())
+                .Result;
+            var follower = new Models.Follower()
+            {
+                FollowerUserId = currentUser.Id,
+                FollowingUserId = user.Id,
+            };
+            _context.Followers.Add(follower);
+            _context.SaveChanges();
+        }
+
+        public void Unfollow(AppUser currentUser, string usernameToUnfollow)
+        {
+            var user = _context.Users
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == usernameToUnfollow.ToUpper())
+                .Result;
+
+            var follower = _context.Followers.FirstOrDefault(f => f.FollowerUserId == currentUser.Id && f.FollowingUserId == user.Id);
+            _context.Followers.Remove(follower);
+
+            _context.SaveChanges();
+        }
     }
 }
