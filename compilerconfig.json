@@ -88,5 +88,15 @@
     "options": {
       "sourceMap": false
     }
+  },
+  {
+    "outputFile": "wwwroot/css/search.css",
+    "inputFile": "wwwroot/css/search.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
   }
 ]

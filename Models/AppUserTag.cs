@@ -11,7 +11,7 @@ namespace movie_tracker_website.Models
         [Required]
         public string UserId { get; set; }
 
-        [DefaultValue(0)]
+        [DefaultValue(1)]
         public int ValueImportance { get; set; }
     }
 }

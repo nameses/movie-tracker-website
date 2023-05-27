@@ -29,7 +29,6 @@ hr {
 }
 
 .disabled {
-  /* Add styling for the disabled button here */
   pointer-events: none;
   opacity: 0.5;
 }
@@ -39,6 +38,7 @@ hr {
   min-height: 100vh;
 }
 .main .films-bar-full {
+  margin-bottom: 100px;
   margin-top: 50px;
 }
 .main .films-bar-full h6 {

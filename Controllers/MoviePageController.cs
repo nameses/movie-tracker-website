@@ -89,9 +89,9 @@ namespace movie_tracker_website.Controllers
                 movie.IfToWatch = movieFromDB.IfToWatch;
             }
             //find similar movies to current movie
-            List<MovieViewModel> similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
-            //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = _movieSessionListService.ProcessSessionViewedMovies(HttpContext.Session, movie.Id);
+            var similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
+            //process list of recently viewed movies in session
+            var viewedMovies = _movieSessionListService.ProcessSessionViewedMovies(HttpContext.Session, movie.Id);
 
             var moviePageViewModel = new MoviePageViewModel()
             {
