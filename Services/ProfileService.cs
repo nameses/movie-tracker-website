@@ -47,9 +47,15 @@ namespace movie_tracker_website.Services
 
         public ProfileViewModel GetProfileViewModel(AppUser user)
         {
+            var followings = user.Followings
+                .Select(f =>
+                    AppUserViewModel.ConvertToReducedViewModel(
+                        _context.Users.FirstOrDefault(u => u.Id == f.FollowingUserId)))
+                .ToList();
+
             int FilmsCount = 4;
             var favMovies = user.RelatedMovies
-                .Where(movie => movie.IfWatched && movie.IfFavourite)// && movie.Rating == 5)
+                .Where(movie => movie.IfWatched && movie.IfFavourite)
                 .OrderByDescending(movie => movie.TimeWatched)
                 .Take(FilmsCount)
                 .Select(m => _movieService.GetReducedMovieById(m.ApiId))
@@ -72,12 +78,13 @@ namespace movie_tracker_website.Services
                 CurrentUser = AppUserViewModel.convertToViewModel(user),
                 FavouriteMovies = favMovies,
                 RecentMovies = recentMovies,
+                Followings = followings,
                 Statistic = _statisticService.GetUserStatistic(user),
                 Tags = _tagService.GetImportantTags(user, 10)
             };
         }
 
-        public ProfileViewModel GetProfileById(AppUser currentUser, string username)
+        public ProfileViewModel GetProfileByUsername(AppUser currentUser, string username)
         {
             var user = _context.Users
                 .Include(u => u.RelatedMovies)
@@ -86,6 +93,15 @@ namespace movie_tracker_website.Services
                 .Include(u => u.Followers)
                 .FirstOrDefaultAsync(u => u.NormalizedUserName == username.ToUpper())
                 .Result;
+
+            //var followings = user.Followings
+            //    .Select(f => AppUserViewModel.ConvertToReducedViewModel(f.FollowingUser))
+            //    .ToList();
+            var followings = user.Followings
+                .Select(f =>
+                    AppUserViewModel.ConvertToReducedViewModel(
+                        _context.Users.FirstOrDefault(u => u.Id == f.FollowingUserId)))
+                .ToList();
 
             int FilmsCount = 4;
             var favMovies = user.RelatedMovies
@@ -113,6 +129,7 @@ namespace movie_tracker_website.Services
                 UserProfile = AppUserViewModel.convertToViewModel(user),
                 FavouriteMovies = favMovies,
                 RecentMovies = recentMovies,
+                Followings = followings,
                 Statistic = _statisticService.GetUserStatistic(user),
                 Tags = _tagService.GetImportantTags(user, 10)
             };

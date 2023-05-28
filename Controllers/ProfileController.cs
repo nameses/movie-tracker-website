@@ -52,6 +52,8 @@ namespace movie_tracker_website.Controllers
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
                 .Include(u => u.UserStatistic)
+                .Include(u => u.Followers)
+                .Include(u => u.Followings)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             var profileViewModel = _profileService.GetProfileViewModel(user);
@@ -67,13 +69,14 @@ namespace movie_tracker_website.Controllers
             var currentUser = await _context.Users
                 .Include(u => u.RelatedMovies)
                 .Include(u => u.UserStatistic)
+                .Include(u => u.Followers)
                 .Include(u => u.Followings)
                 .FirstOrDefaultAsync(u => u.Id == currentUserId);
             //if current user == searching profile
             if (currentUser.NormalizedUserName == username.ToUpper())
                 return RedirectToAction("Index", "Profile");
 
-            var profileViewModel = _profileService.GetProfileById(currentUser, username);
+            var profileViewModel = _profileService.GetProfileByUsername(currentUser, username);
 
             return View("UserProfile", profileViewModel);
         }

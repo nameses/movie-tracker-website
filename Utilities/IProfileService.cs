@@ -7,7 +7,7 @@ namespace movie_tracker_website.Utilities
     {
         public ProfileViewModel GetProfileViewModel(AppUser user);
 
-        public ProfileViewModel GetProfileById(AppUser currentUser, string username);
+        public ProfileViewModel GetProfileByUsername(AppUser currentUser, string username);
 
         public void Follow(AppUser currentUser, string usernameToFollow);
 

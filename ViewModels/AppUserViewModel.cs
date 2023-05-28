@@ -29,5 +29,14 @@ namespace movie_tracker_website.ViewModels
                 ImagePath = user.ImagePath
             };
         }
+        public static AppUserViewModel ConvertToReducedViewModel(AppUser user)
+        {
+            return new AppUserViewModel()
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                ImagePath = user.ImagePath
+            };
+        }
     }
 }

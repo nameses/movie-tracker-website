@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="tags">
-        @if(Model.Tags!=null)
+        @if (Model.Tags != null && Model.Tags.Count > 0)
         {
             <h6>Вподобання</h6>
             <hr />
@@ -110,6 +110,12 @@
                                              src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
                                     </a>
                                 }
+                                else
+                                {
+                                    <a>
+                                        <img class="empty-poster" src="~/img/empty-poster.jpg">
+                                    </a>
+                                }
                             </div>
                         }
                     </div>
@@ -117,19 +123,23 @@
             </div>
         </div>
     </div>
-    <div class="followers">
+    <div class="followings">
+        
         <div class="topbar-text">
-            <h6>Фолловери</h6>
+            <h6>Підписки</h6>
         </div>
         <hr />
-        <div class="followers-full">
-            @*@foreach (var stat in Model.Followers)
+        <div class="followings-full">
+            @foreach (var following in Model.Followings)
             {
-                <div class="statistic-block">
-                    <h2>@stat.Value</h2>
-                    <h4>@stat.Key</h4>
+                <div class="img-block">
+                    <a asp-action="GetProfile" asp-route-username="@following.Username">
+                        <img src="@Config["Constants:UploadImagesPath"]@following.ImagePath"
+                             title="@following.Username" />
+                    </a>
                 </div>
-            }*@
+            }
         </div>
+        
     </div>
 </div>
