@@ -15,7 +15,7 @@ namespace movie_tracker_website.Services.common
         private readonly ILogger<MoviesList> _logger;
         private readonly IConfiguration _config;
 
-        private static List<int> MoviesIdsList { get; set; }
+        private static List<int>? MoviesIdsList { get; set; }
         private const int PageNumber = 50;
 
         public MoviesList(ILogger<MoviesList> logger,
@@ -78,7 +78,9 @@ namespace movie_tracker_website.Services.common
             {
                 if (MoviesIdsList == null || MoviesIdsList.Count == 0)
                     DownloadMovieList();
-                return MoviesIdsList[new Random().Next(0, MoviesIdsList.Count - 1)];
+                if (MoviesIdsList != null)
+                    return MoviesIdsList[new Random().Next(0, MoviesIdsList.Count - 1)];
+                else throw new MovieIdListNullException();
             }
             catch (MovieIdListNullException e)
             {

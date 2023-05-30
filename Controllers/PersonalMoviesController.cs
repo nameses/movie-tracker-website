@@ -14,7 +14,7 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class PersonalMoviesController : Controller
     {
-        private const int MovieCountPerPage = 32;
+        private const int MovieCountPerPage = 8;
 
         private readonly ILogger<PersonalMoviesController> _logger;
         private readonly UserManager<AppUser> _userManager;
@@ -72,7 +72,7 @@ namespace movie_tracker_website.Controllers
             if (totalPages != 0 && pageIndex > totalPages)
                 return RedirectToAction("GetWatchedMovies", "PersonalMovies", new { pageIndex = totalPages });
 
-            var personalMoviesViewModel = _personalMoviesService.GetWatchedMoviesViewModel(pageIndex, MovieCountPerPage, user);
+            var personalMoviesViewModel = await _personalMoviesService.GetWatchedMoviesAsync(pageIndex, MovieCountPerPage, user);
 
             return View("Index", personalMoviesViewModel);
         }
@@ -98,7 +98,7 @@ namespace movie_tracker_website.Controllers
             if (totalPages != 0 && pageIndex > totalPages)
                 return RedirectToAction("GetFavouriteMovies", "PersonalMovies", new { pageIndex = totalPages });
 
-            var personalMoviesViewModel = _personalMoviesService.GetFavouriteMoviesViewModel(pageIndex, MovieCountPerPage, user);
+            var personalMoviesViewModel = await _personalMoviesService.GetFavouriteMoviesAsync(pageIndex, MovieCountPerPage, user);
 
             return View("Index", personalMoviesViewModel);
         }
@@ -124,7 +124,7 @@ namespace movie_tracker_website.Controllers
             if (totalPages != 0 && pageIndex > totalPages)
                 return RedirectToAction("GetToWatchMovies", "PersonalMovies", new { pageIndex = totalPages });
 
-            var personalMoviesViewModel = _personalMoviesService.GetToWatchMoviesViewModel(pageIndex, MovieCountPerPage, user);
+            var personalMoviesViewModel = await _personalMoviesService.GetToWatchMoviesAsync(pageIndex, MovieCountPerPage, user);
 
             return View("Index", personalMoviesViewModel);
         }
