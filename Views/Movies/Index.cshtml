@@ -13,124 +13,52 @@
 }
 
 @model movie_tracker_website.ViewModels.PagesViews.MoviesViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
 
-
+@if (Model.Popular?.Count > 0)
+{
 <div class="slider-full-container ">
     <div class="slider-block container">
         <h6>Популярні цього тижня</h6>
         <hr />
     </div>
     <div class="slider slider-nav container">
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/joker.jpg">
-                </a>
+        @foreach(var movie in Model.Popular)
+        {
+            <div class="slide">
+                <div class="slider-image-block">
+                    <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@movie.Id">
+                        <img title="@movie.Title (@movie.ReleaseYear)"
+                             src="@Config["Constants:PosterBaseUrl"]@movie.PosterPath">
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/everything-everywhere.jpg">
-                </a>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/menu.jpg">
-                </a>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/banshee.jpg">
-                </a>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/the-shining.jpg">
-                </a>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/western-front.jpg">
-                </a>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/taxidriver.jpg">
-                </a>
-            </div>
-        </div>
-        <div class="slide">
-            <div class="slider-image-block">
-                <a href="movie-page.html">
-                    <img src="~/img/irishman.jpg">
-                </a>
-            </div>
-        </div>
+        }
     </div>
 </div>
-
-<div class="films-bar-full container">
-    <div class="films-bar">
+}
+@if(Model.WatchedByFriends?.Count>0)
+{
+<div class="movie-list-full container">
+    <div class="movie-list">
         <h6>Переглянуте друзями</h6>
         <hr />
-        <div class="films-bar-containers">
-            <div class="films-bar-component">
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/banshee.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/eternal-sunshine.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/menu.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/western-front.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/taxidriver.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/everything-everywhere.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/the-shining.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/joker.jpg">
-                    </a>
-                </div>
+        <div class="movie-list-containers">
+            <div class="movie-list-component">
+                @foreach (var movie in Model.WatchedByFriends)
+                {
+                    <div class="poster">
+                        <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@movie.Id">
+                            <img title="@movie.Title (@movie.ReleaseYear)"
+                                 src="@Config["Constants:PosterBaseUrl"]@movie.PosterPath">
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
-
+}
 <div class="donate-bar container">
     <span>
         <h1>Хочеш підтримати роботу проєкту?</h1>
@@ -143,55 +71,25 @@
         </button>
     </div>
 </div>
-
-<div class="films-bar-full container">
-    <div class="films-bar">
+@if (Model.Recommendations?.Count > 0)
+{
+<div class="movie-list-full container">
+    <div class="movie-list">
         <h6>Щорічний Оскар</h6>
         <hr />
-        <div class="films-bar-containers">
-            <div class="films-bar-component">
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/western-front.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/the-shining.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/taxidriver.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/menu.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/Bullet_Train.jpg">
-                    </a>
-                </div>
-                <div class="poster">
-                    <a href="movie-page.html">
-                        <img src="~/img/joker.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/everything-everywhere.jpg">
-                    </a>
-                </div>
-                <div class="poster poster-last">
-                    <a href="movie-page.html">
-                        <img src="~/img/avatar-2.jpg">
-                    </a>
-                </div>
+        <div class="movie-list-containers">
+            <div class="movie-list-component">
+                @foreach (var movie in Model.Recommendations)
+                {
+                    <div class="poster">
+                        <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@movie.Id">
+                            <img title="@movie.Title (@movie.ReleaseYear)"
+                                 src="@Config["Constants:PosterBaseUrl"]@movie.PosterPath">
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
-    
+}

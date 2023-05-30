@@ -33,17 +33,18 @@ hr {
     width: 100%;
     min-height: 100vh;
 
-    .films-bar-full {
-        margin-top: 60px;
+    .movie-list-full {
+        margin-top: 100px;
+        z-index: 1;
 
-        .films-bar {
+        .movie-list {
             h6 {
                 color: #999999;
                 margin-bottom: -15px;
             }
 
-            .films-bar-containers {
-                .films-bar-component {
+            .movie-list-containers {
+                .movie-list-component {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -173,12 +174,12 @@ hr {
 
 @media only screen and (max-width: 992px) {
     .main {
-        .films-bar-full {
+        .movie-list-full {
             margin-top: 100px;
 
-            .films-bar {
-                .films-bar-containers {
-                    .films-bar-component {
+            .movie-list {
+                .movie-list-containers {
+                    .movie-list-component {
                         flex-wrap: wrap;
 
                         .poster {
@@ -198,13 +199,21 @@ hr {
 
 @media only screen and (max-width: 576px) {
     .main {
-        .films-bar-full {
-            .films-bar {
-                .films-bar-containers {
-                    .films-bar-component {
+        .movie-list-full {
+            //margin-top: 100px;
+            .movie-list {
+                .movie-list-containers {
+                    .movie-list-component {
+                        flex-wrap: wrap;
+
                         .poster {
+                            flex-basis: auto;
                             max-width: 30%;
                             max-height: 30%;
+                        }
+
+                        .poster-last {
+                            display: none;
                         }
                     }
                 }
@@ -221,33 +230,17 @@ hr {
 
 @media only screen and (min-width: 450px) and (max-width: 576px) {
     .main {
-        .films-bar-full {
-            .films-bar {
-                .films-bar-containers {
-                    .films-bar-component {
-                        .poster-last {
-                            display: none;
-                        }
-                    }
-                }
-            }
+        .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
+            display: none;
         }
     }
 }
 
 @media only screen and (max-width: 450px) {
     .main {
-        .films-bar-full {
-            .films-bar {
-                .films-bar-containers {
-                    .films-bar-component {
-                        .poster {
-                            max-width: 46%;
-                            max-height: 46%;
-                        }
-                    }
-                }
-            }
+        .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
+            max-width: 46%;
+            max-height: 46%;
         }
 
         .donate-bar {
