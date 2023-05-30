@@ -56,7 +56,7 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.Followings)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var profileViewModel = _profileService.GetProfileViewModel(user);
+            var profileViewModel = await _profileService.GetProfileAsync(user);
 
             return View(profileViewModel);
         }
@@ -76,7 +76,7 @@ namespace movie_tracker_website.Controllers
             if (currentUser.NormalizedUserName == username.ToUpper())
                 return RedirectToAction("Index", "Profile");
 
-            var profileViewModel = _profileService.GetProfileByUsername(currentUser, username);
+            var profileViewModel = await _profileService.GetProfileByUsernameAsync(currentUser, username);
 
             return View("UserProfile", profileViewModel);
         }

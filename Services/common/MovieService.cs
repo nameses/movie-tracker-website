@@ -19,10 +19,10 @@ namespace movie_tracker_website.Services.common
             _config = config;
         }
 
-        public MovieViewModel? GetMovieById(int id)
+        public async Task<MovieViewModel> GetMovieAsync(int id)
         {
             MovieViewModel movieView;
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            using (var client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
                 //get all info about movie we need without imgs
                 Movie movieUA = client.GetMovieAsync(movieId: id,
@@ -33,8 +33,8 @@ namespace movie_tracker_website.Services.common
                     language: "en", includeImageLanguage: null,
                     MovieMethods.Videos | MovieMethods.Images).Result;
                 //get imgs of film without param "language"
-                ImagesWithId movieImages = client.GetMovieImagesAsync(movieId: id,
-                    language: "null", includeImageLanguage: null).Result;
+                ImagesWithId movieImages = await client.GetMovieImagesAsync(movieId: id,
+                    language: "null", includeImageLanguage: null);
 
                 movieView = MovieViewModel.convertToViewModel(movieUA, movieImages);
 
@@ -43,34 +43,36 @@ namespace movie_tracker_website.Services.common
             return movieView;
         }
 
-        public MovieViewModel? GetReducedMovieById(int id)
+        public async Task<MovieViewModel> GetReducedMovieAsync(int id)
         {
-            MovieViewModel? model = null;
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            MovieViewModel model;
+            using (TMDbClient client = new(_config["APIKeys:TMDBAPI"]))
             {
-                var movie = client.GetMovieAsync(id, language: "uk-UK").Result;
+                var movie = await client.GetMovieAsync(id, language: "uk-UK");
                 model = MovieViewModel.convertToReducedMovieViewModel(movie);
 
                 //if movie title == null then find new movie title
-                model.Title ??= client.GetMovieAsync(id, language: "en").Result.Title;
+                model.Title ??= (await client.GetMovieAsync(id, language: "en")).Title;
             }
             return model;
         }
 
-        private MovieViewModel CorrectNullValues(MovieViewModel inputMovie, Movie movieEN)
+        private static MovieViewModel CorrectNullValues(MovieViewModel inputMovie, Movie movieEN)
         {
             var videos = movieEN.Videos.Results;
-            string videoKey = null;
+            string videoKey;
+            //get trailer from youtube
             if (videos.Count > 0)
             {
                 videoKey = videos.Where(vid => vid.Type.Equals("Trailer"))
                     .Where(video => video.Site.Equals("YouTube"))
-                    .Take(1).First().Key;
+                    .First().Key;
+
+                if (inputMovie.Trailer == null && videoKey != null) inputMovie.Trailer = videoKey;
             }
             if (inputMovie.Title == "") inputMovie.Title = movieEN.Title;
             if (inputMovie.Overview == "") inputMovie.Overview = movieEN.Overview;
             if (inputMovie.Tagline == "") inputMovie.Tagline = movieEN.Tagline;
-            if (inputMovie.Trailer == null && videoKey != null) inputMovie.Trailer = videoKey;
             if (inputMovie.PosterPath == "") inputMovie.PosterPath = movieEN.PosterPath;
             if (inputMovie.MainBackdropPath == "") inputMovie.MainBackdropPath = movieEN.BackdropPath;
 

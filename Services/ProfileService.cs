@@ -11,6 +11,7 @@ namespace movie_tracker_website.Services
 {
     public class ProfileService : IProfileService
     {
+        private const int FilmsCount = 4;
         private readonly ILogger<MoviePageController> _logger;
         private readonly AuthDBContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -45,33 +46,27 @@ namespace movie_tracker_website.Services
             _tagService = tagService;
         }
 
-        public ProfileViewModel GetProfileViewModel(AppUser user)
+        public async Task<ProfileViewModel> GetProfileAsync(AppUser user)
         {
             var followings = user.Followings
-                .Select(f =>
-                    AppUserViewModel.ConvertToReducedViewModel(
+                .Select(f => AppUserViewModel.ConvertToReducedViewModel(
                         _context.Users.FirstOrDefault(u => u.Id == f.FollowingUserId)))
                 .ToList();
 
-            int FilmsCount = 4;
-            var favMovies = user.RelatedMovies
+            var tasks = user.RelatedMovies
                 .Where(movie => movie.IfWatched && movie.IfFavourite)
                 .OrderByDescending(movie => movie.TimeWatched)
                 .Take(FilmsCount)
-                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
                 .ToList();
-            var recentMovies = user.RelatedMovies
+            var favMovies = (await Task.WhenAll(tasks)).ToList();
+            tasks = user.RelatedMovies
                 .Where(movie => movie.IfWatched)
                 .OrderByDescending(movie => movie.TimeWatched)
                 .Take(FilmsCount)
-                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
                 .ToList();
-
-            for (int i = favMovies.Count; i < FilmsCount; i++)
-                favMovies.Add(new MovieViewModel() { Id = -1 });
-
-            for (int i = recentMovies.Count; i < FilmsCount; i++)
-                recentMovies.Add(new MovieViewModel() { Id = -1 });
+            var recentMovies = (await Task.WhenAll(tasks)).ToList();
 
             return new ProfileViewModel()
             {
@@ -84,7 +79,7 @@ namespace movie_tracker_website.Services
             };
         }
 
-        public ProfileViewModel GetProfileByUsername(AppUser currentUser, string username)
+        public async Task<ProfileViewModel> GetProfileByUsernameAsync(AppUser currentUser, string username)
         {
             var user = _context.Users
                 .Include(u => u.RelatedMovies)
@@ -94,34 +89,26 @@ namespace movie_tracker_website.Services
                 .FirstOrDefaultAsync(u => u.NormalizedUserName == username.ToUpper())
                 .Result;
 
-            //var followings = user.Followings
-            //    .Select(f => AppUserViewModel.ConvertToReducedViewModel(f.FollowingUser))
-            //    .ToList();
             var followings = user.Followings
-                .Select(f =>
-                    AppUserViewModel.ConvertToReducedViewModel(
+                .Select(f => AppUserViewModel.ConvertToReducedViewModel(
                         _context.Users.FirstOrDefault(u => u.Id == f.FollowingUserId)))
                 .ToList();
 
-            int FilmsCount = 4;
-            var favMovies = user.RelatedMovies
+            var tasks = user.RelatedMovies
                 .Where(movie => movie.IfWatched && movie.IfFavourite)// && movie.Rating == 5)
                 .OrderByDescending(movie => movie.TimeWatched)
                 .Take(FilmsCount)
-                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
                 .ToList();
-            var recentMovies = user.RelatedMovies
+            var favMovies = (await Task.WhenAll(tasks)).ToList();
+            tasks = user.RelatedMovies
                 .Where(movie => movie.IfWatched)
                 .OrderByDescending(movie => movie.TimeWatched)
                 .Take(FilmsCount)
-                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
                 .ToList();
+            var recentMovies = (await Task.WhenAll(tasks)).ToList();
 
-            for (int i = favMovies.Count; i < FilmsCount; i++)
-                favMovies.Add(new MovieViewModel() { Id = -1 });
-
-            for (int i = recentMovies.Count; i < FilmsCount; i++)
-                recentMovies.Add(new MovieViewModel() { Id = -1 });
             return new ProfileViewModel()
             {
                 CurrentUser = AppUserViewModel.convertToViewModel(currentUser),

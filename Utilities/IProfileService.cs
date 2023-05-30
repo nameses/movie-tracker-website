@@ -5,9 +5,9 @@ namespace movie_tracker_website.Utilities
 {
     public interface IProfileService
     {
-        public ProfileViewModel GetProfileViewModel(AppUser user);
+        public Task<ProfileViewModel> GetProfileAsync(AppUser user);
 
-        public ProfileViewModel GetProfileByUsername(AppUser currentUser, string username);
+        public Task<ProfileViewModel> GetProfileByUsernameAsync(AppUser currentUser, string username);
 
         public void Follow(AppUser currentUser, string usernameToFollow);
 

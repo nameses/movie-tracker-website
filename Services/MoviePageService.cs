@@ -40,9 +40,9 @@ namespace movie_tracker_website.Services
             _moviesList = moviesList;
         }
 
-        public MoviePageViewModel GetMoviePageViewModel(int id, ISession session, AppUser user)
+        public async Task<MoviePageViewModel> GetMoviePageAsync(int id, ISession session, AppUser user)
         {
-            var movie = _movieService.GetMovieById(id);
+            var movie = await _movieService.GetMovieAsync(id);
             if (movie == null) return null;
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
@@ -56,7 +56,7 @@ namespace movie_tracker_website.Services
             //find similar movies to current movie
             List<MovieViewModel> similarMovies = GetSimilarMovies(id);
             //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = _movieSessionListService.ProcessSessionViewedMovies(session, id);
+            List<MovieViewModel>? viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(session, id);
 
             //view models prepearing
             return new MoviePageViewModel()
@@ -82,7 +82,7 @@ namespace movie_tracker_website.Services
             }
         }
 
-        public MovieViewModel GetRandomMovie()
+        public async Task<MovieViewModel> GetRandomMovieAsync()
         {
             int id;
             using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
@@ -99,7 +99,7 @@ namespace movie_tracker_website.Services
                 }
             }
 
-            return _movieService.GetMovieById(id);
+            return await _movieService.GetMovieAsync(id);
         }
     }
 }

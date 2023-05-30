@@ -13,6 +13,8 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private const int MoviesListValue = 8;
+
         private readonly ILogger<HomeController> _logger;
         private readonly AuthDBContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -42,27 +44,25 @@ namespace movie_tracker_website.Controllers
         {
             //AppUser user = await _userManager.GetUserAsync(User);
             var userId = _userManager.GetUserId(User);
-            var user = await _context.Users
+            AppUser? user = await _context.Users
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var watchedMovies = user.RelatedMovies
+            var tasks = user.RelatedMovies
                 .FindAll(m => m.IfWatched)
-                //.OrderBy((m1, m2) => m1.TimeWatched.CompareTo(m2.TimeWatched));
                 .OrderBy(m => m.TimeWatched)
                 .Reverse()
                 .Take(8)
-                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
                 .ToList();
 
-            if (watchedMovies.Count != 0 && watchedMovies.Count < 8)
-                for (int i = watchedMovies.Count; i <= 8; i++)
-                    watchedMovies.Add(new MovieViewModel() { Id = -1 });
-            else if (watchedMovies.Count == 0)
-                watchedMovies = null;
+            var watchedMovies = (await Task.WhenAll(tasks)).ToList();
+
+            if (watchedMovies.Count > 8)
+                watchedMovies.RemoveRange(MoviesListValue, watchedMovies.Count);
 
             //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = _movieSessionListService.ShowSessionViewedMovies(HttpContext.Session);
+            var viewedMovies = await _movieSessionListService.ShowMoviesListAsync(HttpContext.Session);
 
             var homeViewModel = new HomeViewModel()
             {

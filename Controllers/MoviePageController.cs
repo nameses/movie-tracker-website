@@ -64,7 +64,7 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var moviePageViewModel = _moviePageService.GetMoviePageViewModel(id, HttpContext.Session, user);
+            var moviePageViewModel = await _moviePageService.GetMoviePageAsync(id, HttpContext.Session, user);
             return View(moviePageViewModel);
         }
 
@@ -78,7 +78,7 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var movie = _moviePageService.GetRandomMovie();
+            var movie = await _moviePageService.GetRandomMovieAsync();
             if (movie == null) return NotFound();
 
             Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
@@ -91,7 +91,7 @@ namespace movie_tracker_website.Controllers
             //find similar movies to current movie
             var similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
             //process list of recently viewed movies in session
-            var viewedMovies = _movieSessionListService.ProcessSessionViewedMovies(HttpContext.Session, movie.Id);
+            var viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(HttpContext.Session, movie.Id);
 
             var moviePageViewModel = new MoviePageViewModel()
             {
