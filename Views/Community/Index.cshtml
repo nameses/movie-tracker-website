@@ -1,0 +1,46 @@
+﻿@section styles{
+        <link href="~/css/main.css" rel="stylesheet">
+}
+@section head{
+        <title>Community</title>
+}
+@section scripts{
+
+}
+
+@model movie_tracker_website.ViewModels.PagesViews.CommunityViewModel
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
+
+<div class="users-full">
+    <div class="top-bar">
+        <h6>Популярні члени спільноти</h6>
+        <hr />
+    </div>
+    <div class="movie-list-containers">
+        @foreach (var user in Model.Users)
+        {
+                <div class="user-component">
+                    <div class="img-block">
+                        <img src="@Config["Constants:UploadImagesPath"]@user.ImagePath" />
+                    </div>
+                    <div class="username">
+                        <h3>@user.Username</h3>
+                    </div>
+                    <div class="statistic">
+                            <div class="watched">
+                                <i class="fa-solid fa-eye watchedSymbol"></i>
+                                <h6>@user.Statistic.WatchedAmount</h6>
+                            </div>
+                            <div class="favourite">
+                                <i class="fa-solid fa-heart favouriteSymbol"></i>
+                                <h6>@user.Statistic.FavouriteAmount</h6>
+                            </div>
+                    </div>
+                    <div class="btn-add">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                </div>
+                <hr class="movies-hr" />
+        }
+    </div>
+</div>

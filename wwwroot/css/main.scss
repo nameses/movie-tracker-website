@@ -96,13 +96,13 @@ hr {
             .movie-list-containers {
                 .movie-list-component {
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: flex-start;
                     align-items: center;
                     gap: 20px;
 
                     .poster {
                         z-index: 1;
-                        flex-basis: 20%;
+                        flex-basis: 10%;
 
                         img {
                             width: 100%;

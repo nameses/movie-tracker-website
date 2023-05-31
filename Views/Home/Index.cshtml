@@ -25,7 +25,7 @@
     </div>
 </div>
 
-@if (Model.WatchedMovies != null)
+@if (Model.WatchedMovies?.Count > 0)
 {
     <div class="movie-list-full container">
         <div class="movie-list">
@@ -33,21 +33,13 @@
             <hr />
             <div class="movie-list-containers">
                 <div class="movie-list-component">
-                    @for (int i = 0; i < Model.WatchedMovies.Count; i++)
+                    @foreach (var movie in Model.WatchedMovies)
                     {
-                        var curMovie = Model.WatchedMovies[i];
-                        //need to set to the 2 last movies class "poster-last"
-                        var className = i < Model.WatchedMovies.Count - 2 ? "poster" : "poster poster-last";
-
-                        <div class="@className">
-                            @if (curMovie.Id != -1)
-                            {
-                                <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
-                                    <img title="@curMovie.Title (@curMovie.ReleaseYear)"
-                                         src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
-                                </a>
-                            }
-                            
+                        <div class="poster">
+                            <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@movie.Id">
+                                <img title="@movie.Title (@movie.ReleaseYear)"
+                                     src="@Config["Constants:PosterBaseUrl"]@movie.PosterPath">
+                            </a>
                         </div>
                     }
                 </div>
@@ -56,7 +48,7 @@
     </div>
 }
 
-@if (Model.ViewedMovies != null)
+@if (Model.ViewedMovies?.Count > 0)
 {
     <div class="movie-list-full container">
         <div class="movie-list">
@@ -64,20 +56,13 @@
             <hr />
             <div class="movie-list-containers">
                 <div class="movie-list-component">
-                    @for (int i = 0; i < Model.ViewedMovies.Count; i++)
+                    @foreach (var movie in Model.ViewedMovies)
                     {
-                        var curMovie = Model.ViewedMovies[i];
-                        //need to set to the 2 last movies class "poster-last"
-                        var className = i < Model.ViewedMovies.Count - 2 ? "poster" : "poster poster-last";
-
-                        <div class="@className">
-                            @if (curMovie.Id != -1)
-                            {
-                                <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
-                                    <img title="@curMovie.Title (@curMovie.ReleaseYear)"
-                                         src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
-                                </a>
-                            }
+                        <div class="poster">
+                            <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@movie.Id">
+                                <img title="@movie.Title (@movie.ReleaseYear)"
+                                     src="@Config["Constants:PosterBaseUrl"]@movie.PosterPath">
+                            </a>
                         </div>
                     }
                 </div>
