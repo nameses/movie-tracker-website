@@ -41,7 +41,7 @@ namespace movie_tracker_website.Services
 
             return new PersonalMoviesViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Movies = await GetMoviesListAsync(allMovies, pageIndex, MovieCountPerPage),
                 PageName = "GetWatchedMovies",
                 CurrentPage = pageIndex,
@@ -61,7 +61,7 @@ namespace movie_tracker_website.Services
 
             return new PersonalMoviesViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Movies = await GetMoviesListAsync(allMovies, pageIndex, MovieCountPerPage),
                 PageName = "GetFavouriteMovies",
                 CurrentPage = pageIndex,
@@ -81,7 +81,7 @@ namespace movie_tracker_website.Services
 
             return new PersonalMoviesViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Movies = await GetMoviesListAsync(allMovies, pageIndex, MovieCountPerPage),
                 PageName = "GetToWatchMovies",
                 CurrentPage = pageIndex,

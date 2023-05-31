@@ -70,7 +70,7 @@ namespace movie_tracker_website.Services
 
             return new ProfileViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 FavouriteMovies = favMovies,
                 RecentMovies = recentMovies,
                 Followings = followings,
@@ -111,9 +111,9 @@ namespace movie_tracker_website.Services
 
             return new ProfileViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(currentUser),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(currentUser),
                 IsUserFollowed = currentUser.Followings.FirstOrDefault(u => u.FollowingUserId == user.Id) != null,
-                UserProfile = AppUserViewModel.convertToViewModel(user),
+                UserProfile = AppUserViewModel.ConvertToViewModel(user),
                 FavouriteMovies = favMovies,
                 RecentMovies = recentMovies,
                 Followings = followings,

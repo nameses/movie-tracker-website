@@ -95,7 +95,7 @@ namespace movie_tracker_website.Controllers
 
             var moviePageViewModel = new MoviePageViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Movie = movie,
                 SimilarMovies = similarMovies,
                 ViewedMovies = viewedMovies

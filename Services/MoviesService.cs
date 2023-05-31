@@ -113,7 +113,7 @@ namespace movie_tracker_website.Services
             }
             return new MoviesViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Popular = popular,
                 WatchedByFriends = watchedByFriends,
                 Recommendations = recommendations

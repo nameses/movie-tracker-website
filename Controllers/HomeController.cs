@@ -66,7 +66,7 @@ namespace movie_tracker_website.Controllers
 
             var homeViewModel = new HomeViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 WatchedMovies = watchedMovies,
                 ViewedMovies = viewedMovies
             };

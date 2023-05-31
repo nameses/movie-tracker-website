@@ -77,7 +77,7 @@ namespace movie_tracker_website.Services
 
             return new SearchViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Movies = movies,
                 Query = query,
                 CurrentPage = pageIndex,

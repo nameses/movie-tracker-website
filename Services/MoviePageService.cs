@@ -61,7 +61,7 @@ namespace movie_tracker_website.Services
             //view models prepearing
             return new MoviePageViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Movie = movie,
                 SimilarMovies = similarMovies,
                 ViewedMovies = viewedMovies

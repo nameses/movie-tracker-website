@@ -33,6 +33,7 @@ builder.Services.AddScoped<IStatisticService, StatisticService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
+builder.Services.AddScoped<ICommunityService, CommunityService>();
 
 //db contexts
 builder.Services.AddDbContext<AuthDBContext>(options =>
