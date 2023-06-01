@@ -91,7 +91,7 @@ namespace movie_tracker_website.Controllers
             //find similar movies to current movie
             var similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
             //process list of recently viewed movies in session
-            var viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(HttpContext.Session, movie.Id);
+            var viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(user, HttpContext.Session, movie.Id);
 
             var moviePageViewModel = new MoviePageViewModel()
             {

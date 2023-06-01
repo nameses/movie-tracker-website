@@ -61,7 +61,7 @@ namespace movie_tracker_website.Services
 
                 var tasks = _context.Movies
                     .Where(m => idsOfFollowingUsers.Contains(m.AppUserId))
-                    .OrderBy(m => m.TimeWatched)
+                    .OrderByDescending(m => m.TimeWatched)
                     //get last 50 movies (to improve productivity)
                     .Take(50)
                     //distinct

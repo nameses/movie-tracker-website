@@ -44,7 +44,7 @@ namespace movie_tracker_website.Controllers
         {
             //AppUser user = await _userManager.GetUserAsync(User);
             var userId = _userManager.GetUserId(User);
-            AppUser? user = await _context.Users
+            var user = await _context.Users
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -62,7 +62,7 @@ namespace movie_tracker_website.Controllers
                 watchedMovies.RemoveRange(MoviesListValue, watchedMovies.Count);
 
             //proccess list of recently viewed movies in session
-            var viewedMovies = await _movieSessionListService.ShowMoviesListAsync(HttpContext.Session);
+            var viewedMovies = await _movieSessionListService.ShowMoviesListAsync(user, HttpContext.Session);
 
             var homeViewModel = new HomeViewModel()
             {

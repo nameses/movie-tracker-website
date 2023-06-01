@@ -14,7 +14,7 @@ namespace movie_tracker_website.Controllers
     [Authorize]
     public class PersonalMoviesController : Controller
     {
-        private const int MovieCountPerPage = 8;
+        private const int MovieCountPerPage = 16;
 
         private readonly ILogger<PersonalMoviesController> _logger;
         private readonly UserManager<AppUser> _userManager;

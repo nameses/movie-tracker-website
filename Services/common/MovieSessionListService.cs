@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using movie_tracker_website.Areas.Identity.Data;
 using movie_tracker_website.Data;
 using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
@@ -26,25 +27,25 @@ namespace movie_tracker_website.Services.common
             _moviesList = moviesList;
         }
 
-        public async Task<List<MovieViewModel>> ProcessMoviesListAsync(ISession session, int id)
+        public async Task<List<MovieViewModel>> ProcessMoviesListAsync(AppUser user, ISession session, int id)
         {
-            var tasks = RenewSessionListIds(session, id)
+            var tasks = RenewSessionListIds(user.Id, session, id)
                 .Select(async m => await _movieService.GetReducedMovieAsync(m))
                 .ToList();
             return (await Task.WhenAll(tasks)).ToList();
         }
 
-        public async Task<List<MovieViewModel>> ShowMoviesListAsync(ISession session)
+        public async Task<List<MovieViewModel>> ShowMoviesListAsync(AppUser user, ISession session)
         {
-            var list = session.Get<List<int>>(SessionListName) ?? new List<int>();
+            var list = session.Get<List<int>>(GetSessionListName(user.Id)) ?? new List<int>();
             var tasks = list.Select(async m => await _movieService.GetReducedMovieAsync(m))
                 .ToList();
             return (await Task.WhenAll(tasks)).ToList();
         }
 
-        private static List<int> RenewSessionListIds(ISession session, int id)
+        private static List<int> RenewSessionListIds(string userId, ISession session, int id)
         {
-            var list = session.Get<List<int>>(SessionListName) ?? new List<int>();
+            var list = session.Get<List<int>>(GetSessionListName(userId)) ?? new List<int>();
 
             //remove element if exists
             if (list.Contains(id)) list.Remove(id);
@@ -55,9 +56,14 @@ namespace movie_tracker_website.Services.common
             //delete overflowed value
             if (list.Count > ValueToStore)
                 list.RemoveAt(list.Count - 1);
-            session.Set(SessionListName, list);
+            session.Set(GetSessionListName(userId), list);
 
             return list;
+        }
+
+        private static string GetSessionListName(string userId)
+        {
+            return $"SessionList_{userId}";
         }
     }
 }

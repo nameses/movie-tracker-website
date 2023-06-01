@@ -56,7 +56,7 @@ namespace movie_tracker_website.Services
             //find similar movies to current movie
             List<MovieViewModel> similarMovies = GetSimilarMovies(id);
             //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(session, id);
+            List<MovieViewModel>? viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(user, session, id);
 
             //view models prepearing
             return new MoviePageViewModel()
