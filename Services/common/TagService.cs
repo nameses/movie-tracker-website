@@ -11,30 +11,15 @@ namespace movie_tracker_website.Services.common
     {
         private readonly ILogger<TagService> _logger;
         private readonly Data.AuthDBContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _config;
-        private readonly IMoviesList _moviesList;
-        private readonly IMoviePageService _moviePageService;
-        private readonly IMovieService _movieService;
-        private readonly IMovieSessionListService _movieSessionListService;
 
         public TagService(ILogger<TagService> logger,
                 Data.AuthDBContext context,
-                IWebHostEnvironment webHostEnvironment,
-                IConfiguration config,
-                IMoviesList moviesList,
-                IMoviePageService moviePageService,
-                IMovieService movieService,
-                IMovieSessionListService movieSessionListService)
+                IConfiguration config)
         {
             _logger = logger;
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
             _config = config;
-            _moviesList = moviesList;
-            _moviePageService = moviePageService;
-            _movieService = movieService;
-            _movieSessionListService = movieSessionListService;
         }
 
         public void AddTagsForUser(AppUser user, int movieId)

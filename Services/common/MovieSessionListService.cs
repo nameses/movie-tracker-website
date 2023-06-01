@@ -8,23 +8,16 @@ namespace movie_tracker_website.Services.common
 {
     public class MovieSessionListService : IMovieSessionListService
     {
-        private const string SessionListName = "viewedMovies";
         private const int ValueToStore = 8;
 
-        private readonly IConfiguration _config;
-        private readonly IMoviesList _moviesList;
         private readonly AuthDBContext _context;
         private readonly IMovieService _movieService;
 
-        public MovieSessionListService(IConfiguration config,
-            IMoviesList moviesList,
-            AuthDBContext context,
+        public MovieSessionListService(AuthDBContext context,
             IMovieService movieService)
         {
             _context = context;
             _movieService = movieService;
-            _config = config;
-            _moviesList = moviesList;
         }
 
         public async Task<List<MovieViewModel>> ProcessMoviesListAsync(AppUser user, ISession session, int id)
