@@ -6,10 +6,15 @@ namespace movie_tracker_website.Utilities
 {
     public interface IMoviePageService
     {
+        public Task<MoviePageViewModel> GetRandomPageAsync(AppUser user, ISession session);
+
         public Task<MoviePageViewModel> GetMoviePageAsync(int id, ISession session, AppUser user);
 
-        public List<MovieViewModel> GetSimilarMovies(int id);
+        //posts
+        public Task<bool> ChangeMovieWatchedStatus(AppUser user, int ApiId, double? Rating = null);
 
-        public Task<MovieViewModel> GetRandomMovieAsync();
+        public Task<bool> ChangeMovieFavouriteStatus(AppUser user, int ApiId, double? Rating = null);
+
+        public Task<bool> ChangeMovieToWatchStatus(AppUser user, int ApiId, double? Rating = null);
     }
 }

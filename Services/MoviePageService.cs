@@ -15,29 +15,61 @@ using TMDbLib.Client;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Languages;
 using TMDbLib.Objects.Movies;
+using static movie_tracker_website.Controllers.MoviePageController;
 
 namespace movie_tracker_website.Services
 {
     public class MoviePageService : IMoviePageService
     {
-        private const string SessionViewedMoviesName = "viewedMovies";
         private readonly IConfiguration _config;
         private readonly IMoviesList _moviesList;
         private readonly AuthDBContext _context;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IMovieService _movieService;
         private readonly IMovieSessionListService _movieSessionListService;
+        private readonly ITagService _tagService;
 
         public MoviePageService(IConfiguration config,
             IMoviesList moviesList,
             AuthDBContext context,
+            UserManager<AppUser> userManager,
             IMovieService movieService,
-            IMovieSessionListService movieSessionListService)
+            IMovieSessionListService movieSessionListService,
+            ITagService tagService)
         {
             _context = context;
+            _userManager = userManager;
             _movieService = movieService;
             _movieSessionListService = movieSessionListService;
+            _tagService = tagService;
             _config = config;
             _moviesList = moviesList;
+        }
+
+        public async Task<MoviePageViewModel> GetRandomPageAsync(AppUser user, ISession session)
+        {
+            var movie = await this.GetRandomMovieAsync();
+            if (movie == null) return null;
+
+            Models.Movie movieFromDB = user.RelatedMovies.FirstOrDefault(m => m.ApiId == movie.Id);
+            if (movieFromDB != null)
+            {
+                movie.IfWatched = movieFromDB.IfWatched;
+                movie.IfFavourite = movieFromDB.IfFavourite;
+                movie.IfToWatch = movieFromDB.IfToWatch;
+            }
+            //find similar movies to current movie
+            var similarMovies = this.GetSimilarMovies(movie.Id);
+            //process list of recently viewed movies in session
+            var viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(user, session, movie.Id);
+
+            return new MoviePageViewModel()
+            {
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
+                Movie = movie,
+                SimilarMovies = similarMovies,
+                ViewedMovies = viewedMovies
+            };
         }
 
         public async Task<MoviePageViewModel> GetMoviePageAsync(int id, ISession session, AppUser user)
@@ -56,7 +88,7 @@ namespace movie_tracker_website.Services
             //find similar movies to current movie
             List<MovieViewModel> similarMovies = GetSimilarMovies(id);
             //proccess list of recently viewed movies in session
-            List<MovieViewModel>? viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(session, id);
+            List<MovieViewModel>? viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(user, session, id);
 
             //view models prepearing
             return new MoviePageViewModel()
@@ -68,9 +100,9 @@ namespace movie_tracker_website.Services
             };
         }
 
-        public List<MovieViewModel> GetSimilarMovies(int id)
+        private List<MovieViewModel> GetSimilarMovies(int id)
         {
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            using (var client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
                 return client.GetMovieSimilarAsync(id, page: 0)
                     .Result
@@ -82,24 +114,115 @@ namespace movie_tracker_website.Services
             }
         }
 
-        public async Task<MovieViewModel> GetRandomMovieAsync()
+        private async Task<MovieViewModel> GetRandomMovieAsync()
         {
-            int id;
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            using var client = new TMDbClient(_config["APIKeys:TMDBAPI"]);
+            while (true)
             {
-                while (true)
+                var id = _moviesList.GetRandomMovieID();
+                Movie movie = await client.GetMovieAsync(movieId: id, language: "en",
+                    includeImageLanguage: null, MovieMethods.Videos | MovieMethods.Images);
+                if (movie.Images.Backdrops.Count > 5 &&
+                        movie.Videos.Results.Where(vid => vid.Type.Equals("Trailer")).Any())
                 {
-                    id = _moviesList.GetRandomMovieID();
-                    Movie movie = client.GetMovieAsync(movieId: id,
-                        language: "en", includeImageLanguage: null,
-                        MovieMethods.Videos | MovieMethods.Images).Result;
-                    if (movie.Images.Backdrops.Count > 5 &&
-                        movie.Videos.Results.Where(vid => vid.Type.Equals("Trailer"))
-                        .Count() > 0) break;
+                    return await _movieService.GetMovieAsync(id);
                 }
             }
+        }
 
-            return await _movieService.GetMovieAsync(id);
+        //post methods
+        public async Task<bool> ChangeMovieWatchedStatus(AppUser user, int ApiId, double? Rating = null)
+        {
+            Models.Movie? movieFromDB = user.RelatedMovies?.FirstOrDefault(m => m.ApiId == ApiId);
+            if (movieFromDB != null)
+            {
+                movieFromDB.IfWatched = !movieFromDB.IfWatched;
+                //set new time if movie is corrected to watched
+                if (movieFromDB.IfWatched)
+                {
+                    user.UserStatistic.WatchedAmount++;
+                    movieFromDB.TimeWatched = DateTime.Now;
+                    //if watched - get out from to watch
+                    movieFromDB.IfToWatch = false;
+                }
+            }
+            //add new movie entry
+            else
+            {
+                user.UserStatistic.WatchedAmount++;
+
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = ApiId,
+                    IfWatched = true,
+                    TimeWatched = DateTime.Now,
+                });
+                //add tags for user
+                _tagService.AddTagsForUser(user, ApiId);
+            }
+            var res = await _userManager.UpdateAsync(user);
+
+            return res.Succeeded;
+        }
+
+        public async Task<bool> ChangeMovieFavouriteStatus(AppUser user, int ApiId, double? Rating = null)
+        {
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == ApiId);
+            if (movieFromDB != null)
+            {
+                movieFromDB.IfFavourite = !movieFromDB.IfFavourite;
+                if (movieFromDB.IfFavourite)
+                {
+                    user.UserStatistic.FavouriteAmount++;
+                    //if film is favourite - then it watched
+                    movieFromDB.IfWatched = true;
+                }
+            }
+            //add new movie entry then
+            else
+            {
+                user.UserStatistic.FavouriteAmount++;
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = ApiId,
+                    IfFavourite = true,
+                    //if film is favourite - then it watched
+                    IfWatched = true,
+                    TimeWatched = DateTime.Now,
+                });
+            }
+
+            var res = await _userManager.UpdateAsync(user);
+
+            return res.Succeeded;
+        }
+
+        public async Task<bool> ChangeMovieToWatchStatus(AppUser user, int ApiId, double? Rating = null)
+        {
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == ApiId);
+            if (movieFromDB != null)
+            {
+                movieFromDB.IfToWatch = !movieFromDB.IfToWatch;
+                if (movieFromDB.IfToWatch)
+                {
+                    user.UserStatistic.ToWatchAmount++;
+                }
+            }
+            //add new movie entry then
+            else
+            {
+                user.UserStatistic.ToWatchAmount++;
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = ApiId,
+                    IfToWatch = true,
+                    TimeWatched = DateTime.Now,
+                });
+            }
+
+            var res = await _userManager.UpdateAsync(user);
+
+            return res.Succeeded;
         }
     }
 }

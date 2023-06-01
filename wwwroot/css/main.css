@@ -87,11 +87,12 @@ hr {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 }
 .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
   z-index: 1;
   width: 12%;
-  margin: 0 5px;
+  margin: 0 2px;
 }
 .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster img {
   width: 100%;
@@ -100,7 +101,7 @@ hr {
   border: 1px solid #999999;
 }
 .main .footer-full {
-  margin-top: 400px;
+  margin-top: 200px;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -109,43 +110,30 @@ hr {
   }
 }
 @media only screen and (max-width: 992px) {
-  .main .movie-list-full {
-    margin-top: 100px;
-  }
-  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
-    flex-wrap: wrap;
-  }
   .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-    flex-basis: auto;
-    max-width: 22%;
-    max-height: 22%;
+    width: 11%;
+    margin: 0 5px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
+    width: 22%;
+    margin: 5px 5px;
   }
 }
 @media only screen and (max-width: 576px) {
   .main .title-container .title-text-main h1 {
     font-size: 24px;
   }
-  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
-    flex-wrap: wrap;
-  }
   .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-    flex-basis: auto;
-    max-width: 30%;
-    max-height: 30%;
-  }
-  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
-    display: none;
-  }
-}
-@media only screen and (min-width: 450px) and (max-width: 576px) {
-  .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
-    display: none;
+    width: 22%;
+    margin: 5px 6px;
   }
 }
 @media only screen and (max-width: 450px) {
   .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-    max-width: 46%;
-    max-height: 46%;
+    width: 22%;
+    margin: 5px 5px;
   }
 }
 h3 {

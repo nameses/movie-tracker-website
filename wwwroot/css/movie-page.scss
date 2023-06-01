@@ -271,7 +271,10 @@ hr {
         z-index: 1;
 
         .movie-list {
+            position: relative;
+
             h6 {
+                z-index: 5;
                 color: #999999;
                 margin-bottom: -15px;
             }
@@ -281,11 +284,12 @@ hr {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+                    flex-wrap: wrap;
 
                     .poster {
                         z-index: 1;
                         width: 12%;
-                        margin: 0 5px;
+                        margin: 0 2px;
 
                         img {
                             width: 100%;
@@ -343,6 +347,10 @@ hr {
 
             .title-text {
                 max-width: 300px;
+
+                .slogan{
+                    margin-bottom:20px;
+                }
             }
 
             .rating {
@@ -353,18 +361,35 @@ hr {
 }
 
 @media only screen and (max-width: 992px) {
-    .movie-list-full {
-        margin-top: 100px;
+    .main {
+        .trailer-full{
+            margin-top:50px;
+        }
+        .movie-list-full {
+            .movie-list {
+                .movie-list-containers {
+                    .movie-list-component {
+                        .poster {
+                            width: 11%;
+                            margin: 0 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
-        .movie-list {
-            .movie-list-containers {
-                .movie-list-component {
-                    flex-wrap: wrap;
-
-                    .poster {
-                        flex-basis: auto;
-                        max-width: 22%;
-                        max-height: 22%;
+@media only screen and (max-width: 768px) {
+    .main {
+        .movie-list-full {
+            .movie-list {
+                .movie-list-containers {
+                    .movie-list-component {
+                        .poster {
+                            width: 22%;
+                            margin: 5px 5px;
+                        }
                     }
                 }
             }
@@ -390,31 +415,17 @@ hr {
         }
 
         .movie-list-full {
-            //margin-top: 100px;
             .movie-list {
                 .movie-list-containers {
                     .movie-list-component {
-                        flex-wrap: wrap;
-
                         .poster {
-                            flex-basis: auto;
-                            max-width: 30%;
-                            max-height: 30%;
-                        }
-
-                        .poster-last {
-                            display: none;
+                            width: 22%;
+                            margin: 5px 6px;
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@media only screen and (min-width: 450px) and (max-width: 576px) {
-    .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
-        display: none;
     }
 }
 
@@ -431,9 +442,17 @@ hr {
             }
         }
 
-        .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-            max-width: 46%;
-            max-height: 46%;
+        .movie-list-full {
+            .movie-list {
+                .movie-list-containers {
+                    .movie-list-component {
+                        .poster {
+                            width: 22%;
+                            margin: 5px 5px;
+                        }
+                    }
+                }
+            }
         }
     }
 }

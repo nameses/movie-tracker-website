@@ -22,6 +22,7 @@ namespace movie_tracker_website.Controllers
         private readonly IMoviePageService _moviePageService;
         private readonly IMovieService _movieService;
         private readonly IMovieSessionListService _movieSessionListService;
+        private readonly IHomeService _homeService;
 
         public HomeController(ILogger<HomeController> logger,
                 AuthDBContext context,
@@ -29,7 +30,8 @@ namespace movie_tracker_website.Controllers
                 IWebHostEnvironment webHostEnvironment,
                 IMoviePageService moviePageService,
                 IMovieService movieService,
-                IMovieSessionListService movieSessionListService)
+                IMovieSessionListService movieSessionListService,
+                IHomeService homeService)
         {
             _logger = logger;
             _context = context;
@@ -38,38 +40,19 @@ namespace movie_tracker_website.Controllers
             _moviePageService = moviePageService;
             _movieService = movieService;
             _movieSessionListService = movieSessionListService;
+            _homeService = homeService;
         }
 
         public async Task<IActionResult> Index()
         {
             //AppUser user = await _userManager.GetUserAsync(User);
             var userId = _userManager.GetUserId(User);
-            AppUser? user = await _context.Users
+            var user = await _context.Users
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var tasks = user.RelatedMovies
-                .FindAll(m => m.IfWatched)
-                .OrderBy(m => m.TimeWatched)
-                .Reverse()
-                .Take(8)
-                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
-                .ToList();
+            var homeViewModel = await _homeService.GetHomeViewModel(user, HttpContext.Session, MoviesListValue);
 
-            var watchedMovies = (await Task.WhenAll(tasks)).ToList();
-
-            if (watchedMovies.Count > 8)
-                watchedMovies.RemoveRange(MoviesListValue, watchedMovies.Count);
-
-            //proccess list of recently viewed movies in session
-            var viewedMovies = await _movieSessionListService.ShowMoviesListAsync(HttpContext.Session);
-
-            var homeViewModel = new HomeViewModel()
-            {
-                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
-                WatchedMovies = watchedMovies,
-                ViewedMovies = viewedMovies
-            };
             return View(homeViewModel);
         }
     }
