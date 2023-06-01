@@ -98,11 +98,12 @@ hr {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
+                    flex-wrap:wrap;
 
                     .poster {
                         z-index: 1;
                         width: 12%;
-                        margin: 0 5px;
+                        margin: 0 4px;
 
                         img {
                             width: 100%;
@@ -129,9 +130,22 @@ hr {
 }
 
 @media only screen and (max-width: 992px) {
+    .main {
 
+        .movie-list-full {
+            .movie-list {
+                .movie-list-containers {
+                    .movie-list-component {
+                        .poster {
+                            width: 11%;
+                            margin: 0 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
-
 @media only screen and (max-width: 768px) {
     .main {
         .movie-list-full {
@@ -140,11 +154,7 @@ hr {
                     .movie-list-component {
                         .poster {
                             width: 22%;
-                            margin: 0 5px;
-                        }
-
-                        .poster:nth-last-child(-n+2) {
-                            display: none;
+                            margin: 5px 5px;
                         }
                     }
                 }
@@ -167,14 +177,26 @@ hr {
             .movie-list {
                 .movie-list-containers {
                     .movie-list-component {
-
                         .poster {
                             width: 22%;
-                            margin: 0 7px;
+                            margin: 5px 6px;
                         }
+                    }
+                }
+            }
+        }
+    }
+}
 
-                        .poster:nth-last-child(-n+4) {
-                            display: none;
+@media only screen and (max-width: 450px) {
+    .main {
+        .movie-list-full {
+            .movie-list {
+                .movie-list-containers {
+                    .movie-list-component {
+                        .poster {
+                            width: 22%;
+                            margin: 5px 5px;
                         }
                     }
                 }
