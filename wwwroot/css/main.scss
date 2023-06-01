@@ -98,11 +98,12 @@ hr {
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-                    gap: 20px;
+                    //gap
 
                     .poster {
                         z-index: 1;
-                        flex-basis: 10%;
+                        width: 12%;
+                        margin:0 5px;
 
                         img {
                             width: 100%;

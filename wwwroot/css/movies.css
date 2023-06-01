@@ -42,12 +42,13 @@ hr {
 }
 .main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  gap: 20px;
 }
 .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-  flex-basis: 20%;
+  z-index: 1;
+  width: 12%;
+  margin: 0 5px;
 }
 .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster img {
   width: 100%;
