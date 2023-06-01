@@ -15,27 +15,33 @@ using TMDbLib.Client;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Languages;
 using TMDbLib.Objects.Movies;
+using static movie_tracker_website.Controllers.MoviePageController;
 
 namespace movie_tracker_website.Services
 {
     public class MoviePageService : IMoviePageService
     {
-        private const string SessionViewedMoviesName = "viewedMovies";
         private readonly IConfiguration _config;
         private readonly IMoviesList _moviesList;
         private readonly AuthDBContext _context;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IMovieService _movieService;
         private readonly IMovieSessionListService _movieSessionListService;
+        private readonly ITagService _tagService;
 
         public MoviePageService(IConfiguration config,
             IMoviesList moviesList,
             AuthDBContext context,
+            UserManager<AppUser> userManager,
             IMovieService movieService,
-            IMovieSessionListService movieSessionListService)
+            IMovieSessionListService movieSessionListService,
+            ITagService tagService)
         {
             _context = context;
+            _userManager = userManager;
             _movieService = movieService;
             _movieSessionListService = movieSessionListService;
+            _tagService = tagService;
             _config = config;
             _moviesList = moviesList;
         }
@@ -122,6 +128,95 @@ namespace movie_tracker_website.Services
                     return await _movieService.GetMovieAsync(id);
                 }
             }
+        }
+
+        //post methods
+        public async Task<bool> ChangeMovieWatchedStatus(AppUser user, int ApiId, double? Rating = null)
+        {
+            Models.Movie? movieFromDB = user.RelatedMovies?.FirstOrDefault(m => m.ApiId == ApiId);
+            if (movieFromDB != null)
+            {
+                movieFromDB.IfWatched = !movieFromDB.IfWatched;
+                //set new time if movie is corrected to watched
+                if (movieFromDB.IfWatched)
+                {
+                    user.UserStatistic.WatchedAmount++;
+                    movieFromDB.TimeWatched = DateTime.Now;
+                }
+            }
+            //add new movie entry
+            else
+            {
+                user.UserStatistic.WatchedAmount++;
+
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = ApiId,
+                    IfWatched = true,
+                    TimeWatched = DateTime.Now,
+                });
+                //add tags for user
+                _tagService.AddTagsForUser(user, ApiId);
+            }
+            var res = await _userManager.UpdateAsync(user);
+
+            return res.Succeeded;
+        }
+
+        public async Task<bool> ChangeMovieFavouriteStatus(AppUser user, int ApiId, double? Rating = null)
+        {
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == ApiId);
+            if (movieFromDB != null)
+            {
+                movieFromDB.IfFavourite = !movieFromDB.IfFavourite;
+                if (movieFromDB.IfFavourite)
+                {
+                    user.UserStatistic.FavouriteAmount++;
+                }
+            }
+            //add new movie entry then
+            else
+            {
+                user.UserStatistic.FavouriteAmount++;
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = ApiId,
+                    IfFavourite = true,
+                    TimeWatched = DateTime.Now,
+                });
+            }
+
+            var res = await _userManager.UpdateAsync(user);
+
+            return res.Succeeded;
+        }
+
+        public async Task<bool> ChangeMovieToWatchStatus(AppUser user, int ApiId, double? Rating = null)
+        {
+            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == ApiId);
+            if (movieFromDB != null)
+            {
+                movieFromDB.IfToWatch = !movieFromDB.IfToWatch;
+                if (movieFromDB.IfToWatch)
+                {
+                    user.UserStatistic.ToWatchAmount++;
+                }
+            }
+            //add new movie entry then
+            else
+            {
+                user.UserStatistic.ToWatchAmount++;
+                user.RelatedMovies.Add(new Models.Movie()
+                {
+                    ApiId = ApiId,
+                    IfToWatch = true,
+                    TimeWatched = DateTime.Now,
+                });
+            }
+
+            var res = await _userManager.UpdateAsync(user);
+
+            return res.Succeeded;
         }
     }
 }

@@ -12,6 +12,7 @@ using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
 using movie_tracker_website.ViewModels.PagesViews;
 using TMDbLib.Client;
+using TMDbLib.Objects.Exceptions;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Languages;
 using TMDbLib.Objects.Movies;
@@ -24,35 +25,17 @@ namespace movie_tracker_website.Controllers
         private readonly ILogger<MoviePageController> _logger;
         private readonly Data.AuthDBContext _context;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IConfiguration _config;
-        private readonly IMoviesList _moviesList;
         private readonly IMoviePageService _moviePageService;
-        private readonly IMovieService _movieService;
-        private readonly IMovieSessionListService _movieSessionListService;
-        private readonly ITagService _tagService;
 
         public MoviePageController(ILogger<MoviePageController> logger,
                 AuthDBContext context,
                 UserManager<AppUser> userManager,
-                IWebHostEnvironment webHostEnvironment,
-                IConfiguration config,
-                IMoviesList moviesList,
-                IMoviePageService moviePageService,
-                IMovieService movieService,
-                IMovieSessionListService movieSessionListService,
-                ITagService tagService)
+                IMoviePageService moviePageService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
-            _webHostEnvironment = webHostEnvironment;
-            _config = config;
-            _moviesList = moviesList;
             _moviePageService = moviePageService;
-            _movieService = movieService;
-            _movieSessionListService = movieSessionListService;
-            _tagService = tagService;
         }
 
         [HttpGet]
@@ -92,32 +75,8 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
-            if (movieFromDB != null)
-            {
-                movieFromDB.IfWatched = !movieFromDB.IfWatched;
-                //set new time if movie is corrected to watched
-                if (movieFromDB.IfWatched)
-                {
-                    user.UserStatistic.WatchedAmount++;
-                    movieFromDB.TimeWatched = DateTime.Now;
-                }
-            }
-            //add new movie entry then
-            else
-            {
-                user.UserStatistic.WatchedAmount++;
+            bool res = await _moviePageService.ChangeMovieWatchedStatus(user, movieEntry.ApiId);
 
-                user.RelatedMovies.Add(new Models.Movie()
-                {
-                    ApiId = movieEntry.ApiId,
-                    IfWatched = true,
-                    TimeWatched = DateTime.Now,
-                });
-                //add tags for user
-                _tagService.AddTagsForUser(user, movieEntry.ApiId);
-            }
-            var res = await _userManager.UpdateAsync(user);
             return RedirectToAction("Index", "MoviePage", new { id = movieEntry.ApiId });
         }
 
@@ -131,28 +90,8 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
-            if (movieFromDB != null)
-            {
-                movieFromDB.IfFavourite = !movieFromDB.IfFavourite;
-                if (movieFromDB.IfFavourite)
-                {
-                    user.UserStatistic.FavouriteAmount++;
-                }
-            }
-            //add new movie entry then
-            else
-            {
-                user.UserStatistic.FavouriteAmount++;
-                user.RelatedMovies.Add(new Models.Movie()
-                {
-                    ApiId = movieEntry.ApiId,
-                    IfFavourite = true,
-                    TimeWatched = DateTime.Now,
-                });
-            }
+            bool res = await _moviePageService.ChangeMovieFavouriteStatus(user, movieEntry.ApiId);
 
-            var res = await _userManager.UpdateAsync(user);
             return RedirectToAction("Index", "MoviePage", new { id = movieEntry.ApiId });
         }
 
@@ -166,28 +105,8 @@ namespace movie_tracker_website.Controllers
                 .Include(u => u.UserStatistic)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movieEntry.ApiId);
-            if (movieFromDB != null)
-            {
-                movieFromDB.IfToWatch = !movieFromDB.IfToWatch;
-                if (movieFromDB.IfToWatch)
-                {
-                    user.UserStatistic.ToWatchAmount++;
-                }
-            }
-            //add new movie entry then
-            else
-            {
-                user.UserStatistic.ToWatchAmount++;
-                user.RelatedMovies.Add(new Models.Movie()
-                {
-                    ApiId = movieEntry.ApiId,
-                    IfToWatch = true,
-                    TimeWatched = DateTime.Now,
-                });
-            }
+            bool res = await _moviePageService.ChangeMovieToWatchStatus(user, movieEntry.ApiId);
 
-            var res = await _userManager.UpdateAsync(user);
             return RedirectToAction("Index", "MoviePage", new { id = movieEntry.ApiId });
         }
 
