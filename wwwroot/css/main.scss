@@ -117,7 +117,7 @@ hr {
     }
 
     .footer-full {
-        margin-top: 400px;
+        margin-top: 200px;
     }
 }
 
@@ -129,19 +129,22 @@ hr {
 }
 
 @media only screen and (max-width: 992px) {
+
+}
+
+@media only screen and (max-width: 768px) {
     .main {
         .movie-list-full {
-            margin-top: 100px;
-
             .movie-list {
                 .movie-list-containers {
                     .movie-list-component {
-                        flex-wrap: wrap;
-
                         .poster {
-                            flex-basis: auto;
-                            max-width: 22%;
-                            max-height: 22%;
+                            width: 22%;
+                            margin: 0 5px;
+                        }
+
+                        .poster:nth-last-child(-n+2) {
+                            display: none;
                         }
                     }
                 }
@@ -161,40 +164,22 @@ hr {
         }
 
         .movie-list-full {
-            //margin-top: 100px;
             .movie-list {
                 .movie-list-containers {
                     .movie-list-component {
-                        flex-wrap: wrap;
 
                         .poster {
-                            flex-basis: auto;
-                            max-width: 30%;
-                            max-height: 30%;
+                            width: 22%;
+                            margin: 0 7px;
                         }
 
-                        .poster-last {
+                        .poster:nth-last-child(-n+4) {
                             display: none;
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@media only screen and (min-width: 450px) and (max-width: 576px) {
-    .main {
-        .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
-            display: none;
-        }
-    }
-}
-
-@media only screen and (max-width: 450px) {
-    .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-        max-width: 46%;
-        max-height: 46%;
     }
 }
 

@@ -72,6 +72,7 @@ hr {
                     width: 30%;
                     height: 100%;
                     display: flex;
+                    align-items: center;
                     justify-content: flex-start;
 
                     .img-block {
@@ -152,7 +153,7 @@ hr {
 
                 .btn-added {
                     form button h1 {
-                        padding:0 8px;
+                        padding: 0 8px;
                         color: #fff;
                         background-color: green;
                     }
@@ -193,109 +194,52 @@ hr {
     }
 }
     //1200-992-768-576-450-375
-    @media only screen and (max-width: 1200px) {
-        .main {
-            background-size: 100% auto;
-        }
+@media only screen and (max-width: 1200px) {
+    .main {
+        background-size: 100% auto;
     }
+}
 
-    @media only screen and (min-width: 992px) and (max-width: 1200px) {
-        .main {
-            .main-blocks {
-                grid-template-areas:
-                    "poster title" "poster description" "poster roles" "rating .";
-                grid-gap: 40px;
+@media only screen and (max-width: 992px) {
+    .main {
+        .users-full {
+            .users-container {
+                .user-component {
+                    .main-block {
 
-                .poster {
-                    grid-area: poster;
-                }
-            }
-        }
-    }
+                        .img-block {
+                            width: 40px;
+                            height: 40px;
+                            margin-right: 10px;
 
-    @media only screen and (min-width: 768px) and (max-width: 992px) {
-        .main {
-            .main-blocks {
-                grid-template-areas: "title poster poster" "rating poster poster" ". poster poster" "description description description" "roles roles roles";
-                grid-gap: 0;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
 
-                .poster {
-                    grid-area: poster;
-
-                    .poster-block {
-                        max-width: 500px;
-                        height: auto;
-
-                        img {
-                            width: 100%;
-                            height: 100%;
+                        .username {
+                            a h3 {
+                                font-size: 20px;
+                            }
                         }
                     }
-                }
 
-                .title-text {
-                    max-width: 300px;
-                }
+                    .statistic {
+                        width: 55%;
 
-                .rating {
-                    max-width: 300px;
-                }
-            }
-        }
-    }
+                        .stat-block {
+                            width: 33%;
 
-    @media only screen and (max-width: 992px) {
-        .movie-list-full {
-            margin-top: 100px;
-
-            .movie-list {
-                .movie-list-containers {
-                    .movie-list-component {
-                        flex-wrap: wrap;
-
-                        .poster {
-                            flex-basis: auto;
-                            max-width: 22%;
-                            max-height: 22%;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @media only screen and (min-width: 576px) and (max-width: 768px) {
-        .main {
-            .main-blocks {
-                grid-template-areas: "title poster poster poster" "rating poster poster poster" ". poster poster poster" "description description description description" "roles roles roles roles";
-                grid-gap: 20px;
-            }
-        }
-    }
-
-    @media only screen and (max-width: 576px) {
-        .main {
-            .main-blocks {
-                margin-top: 200px;
-                grid-template-areas: "title poster poster poster" "rating poster poster poster" ". poster poster poster" "description description description description" "roles roles roles roles";
-                grid-gap: 20px;
-            }
-
-            .movie-list-full {
-                //margin-top: 100px;
-                .movie-list {
-                    .movie-list-containers {
-                        .movie-list-component {
-                            flex-wrap: wrap;
-
-                            .poster {
-                                flex-basis: auto;
-                                max-width: 30%;
-                                max-height: 30%;
+                            i {
+                                font-size: 20px;
+                                padding: 0 5px;
                             }
 
-                            .poster-last {
-                                display: none;
+                            .text-block {
+                                h6 {
+                                    font-size: 20px;
+                                }
                             }
                         }
                     }
@@ -303,46 +247,36 @@ hr {
             }
         }
     }
+}
 
-    @media only screen and (min-width: 450px) and (max-width: 576px) {
-        .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster-last {
-            display: none;
+@media only screen and (max-width: 768px) {
+    .main {
+        .users-full {
+            padding: 0;
         }
     }
-
-    @media only screen and (max-width: 450px) {
-        .main {
-            .main-blocks {
-                margin-top: 120px;
-                grid-template-areas: "title poster poster" "rating poster poster" "description description description" "roles roles roles";
-
-                .title-text {
-                    .slogan {
-                        font-size: 16px;
-                    }
-                }
-            }
-
-            .main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-                max-width: 46%;
-                max-height: 46%;
-            }
+}
+@media only screen and (max-width: 576px) {
+    .main {
+        .users-full {
+            padding: 0 20px;
         }
     }
+}
 
-    h3 {
-        font-family: "Montserrat", sans-serif;
-        color: #ffffff;
-        margin: 0;
-    }
+h3 {
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
 
-    a:link {
-        color: #ffffff;
-        text-decoration: none;
-    }
+a:link {
+    color: #ffffff;
+    text-decoration: none;
+}
 
-    .container-fluid {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
+.container-fluid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
