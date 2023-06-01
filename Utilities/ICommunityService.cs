@@ -5,6 +5,6 @@ namespace movie_tracker_website.Utilities
 {
     public interface ICommunityService
     {
-        public Task<CommunityViewModel> GetCommunityMembers(AppUser user, int page);
+        public Task<CommunityViewModel> GetCommunityMembers(AppUser user, int page, int usersPerPage);
     }
 }

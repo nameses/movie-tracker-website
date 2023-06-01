@@ -45,19 +45,31 @@ namespace movie_tracker_website.Services
             _profileService = profileService;
         }
 
-        public async Task<CommunityViewModel> GetCommunityMembers(AppUser user, int page)
+        public async Task<CommunityViewModel> GetCommunityMembers(AppUser user, int page, int usersPerPage)
         {
+            //total pages count
+            int usersCount = _context.Users.Count();
+            var totalPages = usersCount / usersPerPage;
+            if ((usersCount - totalPages * usersPerPage) % usersPerPage > 0)
+                totalPages++;
+            //pages correction
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+
             var users = _context.Users
                 .Include(u => u.UserStatistic)
-                .OrderBy(u => u.UserStatistic.WatchedAmount)
-                .Select(AppUserViewModel.ConvertToReducedStatsViewModel)
+                .OrderByDescending(u => u.UserStatistic.WatchedAmount)
+                .Skip(usersPerPage * (page - 1))
+                .Take(usersPerPage)
+                .Select(u=>AppUserViewModel.ConvertToReducedStatsViewModel(user,u))
                 .ToList();
 
             return new CommunityViewModel()
             {
                 CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 Users = users,
-                CurrentPage = page
+                CurrentPage = page,
+                TotalPages = totalPages
             };
         }
     }

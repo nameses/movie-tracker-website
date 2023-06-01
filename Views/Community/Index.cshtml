@@ -1,46 +1,101 @@
 ﻿@section styles{
-        <link href="~/css/main.css" rel="stylesheet">
+        <link href="~/css/community.css" rel="stylesheet">
 }
 @section head{
         <title>Community</title>
 }
 @section scripts{
-
+    <script>
+        //disable next btn if last page
+        if (@Model.CurrentPage == @Model.TotalPages)
+            document.querySelector(".btn-next").classList.add("disabled");
+        //disable prev btn if first page
+        if (@Model.CurrentPage == 1)
+            document.querySelector(".btn-prev").classList.add("disabled");
+    </script>
 }
 
 @model movie_tracker_website.ViewModels.PagesViews.CommunityViewModel
 @inject Microsoft.Extensions.Configuration.IConfiguration Config
 
-<div class="users-full">
+<div class="users-full container">
     <div class="top-bar">
         <h6>Популярні члени спільноти</h6>
         <hr />
     </div>
-    <div class="movie-list-containers">
+    <div class="users-container">
         @foreach (var user in Model.Users)
         {
-                <div class="user-component">
+            <div class="user-component">
+                <div class="main-block">
                     <div class="img-block">
                         <img src="@Config["Constants:UploadImagesPath"]@user.ImagePath" />
                     </div>
                     <div class="username">
-                        <h3>@user.Username</h3>
-                    </div>
-                    <div class="statistic">
-                            <div class="watched">
-                                <i class="fa-solid fa-eye watchedSymbol"></i>
-                                <h6>@user.Statistic.WatchedAmount</h6>
-                            </div>
-                            <div class="favourite">
-                                <i class="fa-solid fa-heart favouriteSymbol"></i>
-                                <h6>@user.Statistic.FavouriteAmount</h6>
-                            </div>
-                    </div>
-                    <div class="btn-add">
-                        <i class="fa-solid fa-plus"></i>
+                        <a asp-action="GetProfile" asp-route-username="@user.Username">
+                            <h3>@user.Username</h3>
+                        </a>
                     </div>
                 </div>
-                <hr class="movies-hr" />
+                <div class="statistic">
+                        <div class="stat-block">
+                            <i class="fa-solid fa-eye"></i>
+                            <div class="text-block">
+                                <h6>@user.Statistic.WatchedAmount</h6>
+                            </div>
+                        </div>
+                        <div class="stat-block">
+                            <i class="fa-solid fa-heart"></i>
+                            <div class="text-block">
+                                <h6>@user.Statistic.FavouriteAmount</h6>
+                            </div>
+                        </div>
+                        <div class="stat-block">
+                            <i class="fa-solid fa-bookmark"></i>
+                            <div class="text-block">
+                                <h6>@user.Statistic.ToWatchAmount</h6>
+                            </div>
+                        </div>
+                </div>
+                @if (user.IfUserIsFollowed)
+                {
+                    <div class="btn-ctrl btn-added">
+                        <form asp-action="Unfollow" asp-route-username="@user.Username" method="post">
+                            <input type="hidden" name="page" value="@Model.CurrentPage">
+                            <button type="submit">
+                                <h1>✓</h1>
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="btn-ctrl btn-add">
+                        <form asp-action="Follow" asp-route-username="@user.Username" method="post">
+                            <input type="hidden" name="page" value="@Model.CurrentPage">
+                            <button type="submit">
+                                <h1>+</h1>
+                            </button>
+                        </form>
+                    </div>
+                }
+
+            </div>
+
+            <hr class="movies-hr" />
         }
+                
+    </div>
+    <div class="footer-bar">
+        <button class="btn-managing btn-prev">
+            <a asp-action="GetCommunityMembers" asp-route-pageIndex="@(Model.CurrentPage-1)" disabled="@(Model.CurrentPage==1)">
+                <h5>Попередня</h5>
+            </a>
+        </button>
+        <button class="btn-managing btn-next">
+            <a asp-action="GetCommunityMembers" asp-route-pageIndex="@(Model.CurrentPage+1)" class="a-btn-next">
+                <h5>Наступна</h5>
+            </a>
+        </button>
     </div>
 </div>

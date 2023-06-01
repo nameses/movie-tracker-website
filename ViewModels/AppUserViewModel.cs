@@ -21,6 +21,8 @@ namespace movie_tracker_website.ViewModels
         [DataType(DataType.Text)]
         public string? ImagePath { get; set; }
 
+        public bool IfUserIsFollowed { get; set; }
+
         public UserStatisticViewModel? Statistic { get; set; }
 
         public static AppUserViewModel ConvertToViewModel(AppUser user)
@@ -44,13 +46,15 @@ namespace movie_tracker_website.ViewModels
             };
         }
 
-        public static AppUserViewModel ConvertToReducedStatsViewModel(AppUser user)
+        public static AppUserViewModel ConvertToReducedStatsViewModel(AppUser current, AppUser user)
         {
             return new AppUserViewModel()
             {
                 Id = user.Id,
                 Username = user.UserName,
                 ImagePath = user.ImagePath,
+                IfUserIsFollowed = current.Followings.Find(f => f.FollowerUserId == current.Id
+                    && f.FollowingUserId == user.Id) != null,
                 Statistic = new UserStatisticViewModel()
                 {
                     WatchedAmount = user.UserStatistic.WatchedAmount,
