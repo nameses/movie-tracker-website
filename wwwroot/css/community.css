@@ -37,221 +37,126 @@ hr {
   z-index: 2;
 }
 
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .main {
   width: 100%;
   min-height: 100vh;
   z-index: 1;
 }
-.main .background-photo {
-  position: absolute;
-  display: inline-block;
-  width: 100%;
-}
-.main .background-photo img {
-  height: auto;
-  width: 100%;
-}
-.main .background-photo:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-  background: linear-gradient(0, #050505, rgba(5, 5, 5, 0.3));
-}
-.main .trailer-full {
-  margin-top: 20px;
+.main .users-full {
+  margin-top: 50px;
+  margin-bottom: 100px;
+  padding: 0 100px;
   z-index: 1;
-  width: 100%;
-  height: 100%;
 }
-.main .trailer-full .trailer h6 {
+.main .users-full .top-bar h6 {
   color: #999999;
   margin-bottom: -15px;
 }
-.main .trailer-full .trailer .video-container {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
-  height: 80vh;
-}
-.main .trailer-full .trailer .video-container iframe {
-  width: 100%;
-  height: 100%;
-}
-.main .main-blocks {
-  z-index: 1;
-  margin-top: 400px;
-  display: grid;
-  width: 100%;
-  height: 100%;
-  grid-template-areas: "poster title ." "poster description rating" "poster roles .";
-  grid-gap: 40px;
-}
-.main .main-blocks .poster {
-  z-index: 1;
-  grid-area: poster;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.main .main-blocks .poster .poster-block {
-  max-width: 440px;
-  max-height: 650px;
-}
-.main .main-blocks .poster .poster-block img {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  border: 1px solid #999999;
-}
-.main .main-blocks .title-text {
-  height: 100%;
-  max-width: 600px;
-  grid-area: title;
-  z-index: 1;
-}
-.main .main-blocks .title-text .title-info {
-  font-family: "Montserrat", sans-serif;
-  color: #999999;
-  font-size: 20px;
-}
-.main .main-blocks .title-text .slogan {
-  margin-top: 30px;
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-}
-.main .main-blocks .description {
-  z-index: 1;
-  grid-area: description;
-}
-.main .main-blocks .description h6 {
-  color: #999999;
-  margin-bottom: -15px;
-  margin-top: 60px;
-}
-.main .main-blocks .description p {
-  font-size: 20px;
-}
-.main .main-blocks .main-roles {
-  z-index: 1;
-  grid-area: roles;
-}
-.main .main-blocks .main-roles h6 {
-  color: #999999;
-  margin-bottom: -15px;
-  margin-top: 60px;
-}
-.main .main-blocks .main-roles .more-info {
-  margin-top: 30px;
-}
-.main .main-blocks .main-roles .more-info a {
-  color: #999999;
-  font-family: "Merriweather", serif;
-  font-weight: 900;
-}
-.main .main-blocks .main-roles .actors-btns {
+.main .users-full .users-container .user-component {
   display: flex;
   justify-content: flex-start;
-  flex-wrap: wrap;
+  align-items: center;
+  height: 50px;
 }
-.main .main-blocks .main-roles .actors-btns .actor-name {
+.main .users-full .users-container .user-component .main-block {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.main .users-full .users-container .user-component .main-block .img-block {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+.main .users-full .users-container .user-component .main-block .img-block img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid #999999;
+}
+.main .users-full .users-container .user-component .main-block .username {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.main .users-full .users-container .user-component .main-block .username h3 {
+  font-size: 24px;
+}
+.main .users-full .users-container .user-component .statistic {
+  width: 55%;
+  display: flex;
+  justify-content: flex-start;
+}
+.main .users-full .users-container .user-component .statistic .stat-block {
+  width: 33%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #fff;
+}
+.main .users-full .users-container .user-component .statistic .stat-block i {
+  font-size: 20px;
+  padding: 0 5px;
+}
+.main .users-full .users-container .user-component .statistic .stat-block .text-block h6 {
+  font-size: 24px;
+}
+.main .users-full .users-container .user-component .btn-ctrl {
+  width: 15%;
+  display: flex;
+  justify-content: flex-end;
+}
+.main .users-full .users-container .user-component .btn-ctrl form button {
+  background: none;
+  border: none;
+  text-align: center;
+}
+.main .users-full .users-container .user-component .btn-ctrl form button h1 {
+  padding: 0 10px;
+  border-radius: 50%;
+  text-align: center;
+}
+.main .users-full .users-container .user-component .btn-add form button h1 {
+  color: #fff;
+  background-color: #1A1A1A;
+}
+.main .users-full .users-container .user-component .btn-added form button h1 {
+  padding: 0 8px;
+  color: #fff;
+  background-color: green;
+}
+.main .users-full .users-container .movies-hr {
+  opacity: 0.1;
+}
+.main .users-full .footer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main .users-full .footer-bar .btn-managing {
   border-radius: 10px;
   border: none;
   background: #1A1A1A;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  margin-top: 10px;
-  margin-right: 10px;
+  padding: 8px;
 }
-.main .main-blocks .main-roles .actors-btns .actor-name a {
+.main .users-full .footer-bar .btn-managing a {
   text-align: center;
 }
-.main .main-blocks .main-roles .actors-btns .actor-name a h4 {
-  color: #ffffff;
-  font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-}
-.main .main-blocks .rating {
-  z-index: 1;
-  grid-area: rating;
-}
-.main .main-blocks .rating h6 {
-  color: #999999;
-  margin-bottom: -15px;
-}
-.main .main-blocks .rating .rating-num {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  margin-top: -15px;
-  margin-bottom: 15px;
-  font-family: "Merriweather", serif;
-}
-.main .main-blocks .rating .rating-num h1 {
-  color: #ffffff;
-  font-size: 64px;
-}
-.main .main-blocks .rating .rating-num h6 {
-  margin: 0;
+.main .users-full .footer-bar .btn-managing a h5 {
   color: #999999;
   font-size: 20px;
-}
-.main .main-blocks .rating .icons-block {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.main .main-blocks .rating .icons-block .icons {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: rgba(26, 26, 26, 0.8);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 200px;
-  height: 100%;
-}
-.main .main-blocks .rating .icons-block .icons form button {
-  background: none;
-  border: none;
-  padding: 0;
-}
-.main .main-blocks .rating .icons-block .icons form button i {
-  z-index: 1;
-  font-size: 20px;
-}
-.main .movie-list-full {
-  margin-top: 100px;
-  z-index: 1;
-}
-.main .movie-list-full .movie-list h6 {
-  color: #999999;
-  margin-bottom: -15px;
-}
-.main .movie-list-full .movie-list .movie-list-containers .movie-list-component {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster {
-  z-index: 1;
-  width: 12%;
-  margin: 0 5px;
-}
-.main .movie-list-full .movie-list .movie-list-containers .movie-list-component .poster img {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  border: 1px solid #999999;
+  font-weight: 400;
+  margin: 0;
 }
 
 @media only screen and (max-width: 1200px) {

@@ -41,26 +41,20 @@ public class AuthDBContext : IdentityDbContext<AppUser>
             .IsRequired();
 
         //Follower model
+        modelBuilder.Entity<Follower>()
+        .HasKey(f => f.Id);
+
         modelBuilder.Entity<AppUser>()
             .HasMany(e => e.Followers)
-            .WithOne(e => e.FollowerUser)
-            .HasForeignKey(e => e.FollowerUserId)
-            .IsRequired();
-        modelBuilder.Entity<Follower>()
-            .HasOne(e => e.FollowerUser)
-            .WithMany(e => e.Followers)
-            .HasForeignKey(e => e.FollowerUserId)
-            .IsRequired();
+            .WithOne(e => e.FollowingUser)
+            .HasForeignKey(e => e.FollowingUserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<AppUser>()
             .HasMany(e => e.Followings)
-            .WithOne(e => e.FollowingUser)
-            .HasForeignKey(e => e.FollowingUserId)
-            .IsRequired();
-        modelBuilder.Entity<Follower>()
-            .HasOne(e => e.FollowingUser)
-            .WithMany(e => e.Followings)
-            .HasForeignKey(e => e.FollowingUserId)
+            .WithOne(e => e.FollowerUser)
+            .HasForeignKey(e => e.FollowerUserId)
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
 

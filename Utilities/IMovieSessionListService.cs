@@ -4,8 +4,8 @@ namespace movie_tracker_website.Utilities
 {
     public interface IMovieSessionListService
     {
-        public List<MovieViewModel> ProcessSessionViewedMovies(ISession session, int id);
+        public Task<List<MovieViewModel>> ProcessMoviesListAsync(ISession session, int id);
 
-        public List<MovieViewModel>? ShowSessionViewedMovies(ISession session);
+        public Task<List<MovieViewModel>> ShowMoviesListAsync(ISession session);
     }
 }

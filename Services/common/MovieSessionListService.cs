@@ -7,7 +7,9 @@ namespace movie_tracker_website.Services.common
 {
     public class MovieSessionListService : IMovieSessionListService
     {
-        private const string SessionViewedMoviesName = "viewedMovies";
+        private const string SessionListName = "viewedMovies";
+        private const int ValueToStore = 8;
+
         private readonly IConfiguration _config;
         private readonly IMoviesList _moviesList;
         private readonly AuthDBContext _context;
@@ -24,75 +26,38 @@ namespace movie_tracker_website.Services.common
             _moviesList = moviesList;
         }
 
-        public List<MovieViewModel> ProcessSessionViewedMovies(ISession session, int id)
+        public async Task<List<MovieViewModel>> ProcessMoviesListAsync(ISession session, int id)
         {
-            List<int> viewedMovies = RenewSessionListIds(session, id);
-
-            //convert list of ids to list of models
-            List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
-            foreach (var movieId in viewedMovies)
-            {
-                if (movieId == -1)
-                    viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
-                else viewedMovieModels.Add(_movieService.GetReducedMovieById(movieId));
-            }
-
-            return viewedMovieModels;
+            var tasks = RenewSessionListIds(session, id)
+                .Select(async m => await _movieService.GetReducedMovieAsync(m))
+                .ToList();
+            return (await Task.WhenAll(tasks)).ToList();
         }
 
-        public List<MovieViewModel>? ShowSessionViewedMovies(ISession session)
+        public async Task<List<MovieViewModel>> ShowMoviesListAsync(ISession session)
         {
-            if (!session.Get<List<int>>(SessionViewedMoviesName).IsNullOrEmpty())
-            {
-                List<int> viewedMovies = session.Get<List<int>?>(SessionViewedMoviesName);
-                //convert list of ids to list of models
-                List<MovieViewModel> viewedMovieModels = new List<MovieViewModel>();
-                foreach (var movieId in viewedMovies)
-                {
-                    if (movieId == -1)
-                        viewedMovieModels.Add(new MovieViewModel() { Id = -1 });
-                    else viewedMovieModels.Add(_movieService.GetReducedMovieById(movieId));
-                }
-
-                return viewedMovieModels;
-            }
-            return null;
+            var list = session.Get<List<int>>(SessionListName) ?? new List<int>();
+            var tasks = list.Select(async m => await _movieService.GetReducedMovieAsync(m))
+                .ToList();
+            return (await Task.WhenAll(tasks)).ToList();
         }
 
-        private List<int> RenewSessionListIds(ISession session, int id)
+        private static List<int> RenewSessionListIds(ISession session, int id)
         {
-            List<int>? viewedMovies;
+            var list = session.Get<List<int>>(SessionListName) ?? new List<int>();
 
-            if (session.Get<List<int>?>(SessionViewedMoviesName).IsNullOrEmpty())
-                viewedMovies = new List<int>() { -1, -1, -1, -1, -1, -1, -1, -1 };
-            else
-                viewedMovies = session.Get<List<int>?>(SessionViewedMoviesName);
+            //remove element if exists
+            if (list.Contains(id)) list.Remove(id);
 
-            //insert id to start of list and delete last element
-            InsertNewId(viewedMovies, id);
+            //add to start
+            list.Insert(0, id);
 
-            session.Set(SessionViewedMoviesName, viewedMovies);
-
-            if (viewedMovies == null) throw new NullReferenceException();
-            return viewedMovies;
-        }
-
-        private static void InsertNewId(List<int>? list, int id)
-        {
-            if (list == null) throw new NullReferenceException();
-
-            if (list.Contains(id))
-            {
-                list.Remove(id);
-                list.Insert(0, id);
-            }
-            else
-            {
-                list.Insert(0, id);
+            //delete overflowed value
+            if (list.Count > ValueToStore)
                 list.RemoveAt(list.Count - 1);
-            }
+            session.Set(SessionListName, list);
 
-            if (list.Count > 8) throw new ArgumentException("List has exceeded its maximum size");
+            return list;
         }
     }
 }

@@ -98,5 +98,35 @@
     "options": {
       "sourceMap": false
     }
+  },
+  {
+    "outputFile": "wwwroot/css/movies.css",
+    "inputFile": "wwwroot/css/movies.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/user-profile.css",
+    "inputFile": "wwwroot/css/user-profile.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
+  },
+  {
+    "outputFile": "wwwroot/css/community.css",
+    "inputFile": "wwwroot/css/community.scss",
+    "minify": {
+      "enabled": false
+    },
+    "options": {
+      "sourceMap": false
+    }
   }
 ]

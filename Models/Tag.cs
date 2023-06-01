@@ -11,6 +11,9 @@ namespace movie_tracker_website.Models
         public int Id { get; set; }
 
         [Required]
+        public int ApiId { get; set; }
+
+        [Required]
         public string? Name { get; set; }
 
         public List<AppUser> Users { get; set; } = new List<AppUser> { };

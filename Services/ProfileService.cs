@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using movie_tracker_website.Areas.Identity.Data;
 using movie_tracker_website.Controllers;
 using movie_tracker_website.Data;
@@ -10,6 +11,7 @@ namespace movie_tracker_website.Services
 {
     public class ProfileService : IProfileService
     {
+        private const int FilmsCount = 4;
         private readonly ILogger<MoviePageController> _logger;
         private readonly AuthDBContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -44,37 +46,110 @@ namespace movie_tracker_website.Services
             _tagService = tagService;
         }
 
-        public ProfileViewModel GetProfileViewModel(AppUser user)
+        public async Task<ProfileViewModel> GetProfileAsync(AppUser user)
         {
-            int FilmsCount = 4;
-            var favMovies = user.RelatedMovies
-                .Where(movie => movie.IfWatched && movie.IfFavourite)// && movie.Rating == 5)
+            var followings = user.Followings
+                .Select(f => AppUserViewModel.ConvertToReducedViewModel(
+                        _context.Users.FirstOrDefault(u => u.Id == f.FollowingUserId)))
+                .ToList();
+
+            var tasks = user.RelatedMovies
+                .Where(movie => movie.IfWatched && movie.IfFavourite)
                 .OrderByDescending(movie => movie.TimeWatched)
                 .Take(FilmsCount)
-                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
                 .ToList();
-            var recentMovies = user.RelatedMovies
+            var favMovies = (await Task.WhenAll(tasks)).ToList();
+            tasks = user.RelatedMovies
                 .Where(movie => movie.IfWatched)
                 .OrderByDescending(movie => movie.TimeWatched)
                 .Take(FilmsCount)
-                .Select(m => _movieService.GetReducedMovieById(m.ApiId))
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
                 .ToList();
+            var recentMovies = (await Task.WhenAll(tasks)).ToList();
 
-            for (int i = favMovies.Count; i < FilmsCount; i++)
-                favMovies.Add(new MovieViewModel() { Id = -1 });
-
-            for (int i = recentMovies.Count; i < FilmsCount; i++)
-                recentMovies.Add(new MovieViewModel() { Id = -1 });
-            //if (recentMovies.Count > 0) { }
-
-            return new ProfileViewModel
+            return new ProfileViewModel()
             {
-                CurrentUser = AppUserViewModel.convertToViewModel(user),
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
                 FavouriteMovies = favMovies,
                 RecentMovies = recentMovies,
+                Followings = followings,
                 Statistic = _statisticService.GetUserStatistic(user),
                 Tags = _tagService.GetImportantTags(user, 10)
             };
+        }
+
+        public async Task<ProfileViewModel> GetProfileByUsernameAsync(AppUser currentUser, string username)
+        {
+            var user = _context.Users
+                .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
+                .Include(u => u.Followings)
+                .Include(u => u.Followers)
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == username.ToUpper())
+                .Result;
+
+            var followings = user.Followings
+                .Select(f => AppUserViewModel.ConvertToReducedViewModel(
+                        _context.Users.FirstOrDefault(u => u.Id == f.FollowingUserId)))
+                .ToList();
+
+            var tasks = user.RelatedMovies
+                .Where(movie => movie.IfWatched && movie.IfFavourite)// && movie.Rating == 5)
+                .OrderByDescending(movie => movie.TimeWatched)
+                .Take(FilmsCount)
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
+                .ToList();
+            var favMovies = (await Task.WhenAll(tasks)).ToList();
+            tasks = user.RelatedMovies
+                .Where(movie => movie.IfWatched)
+                .OrderByDescending(movie => movie.TimeWatched)
+                .Take(FilmsCount)
+                .Select(async m => await _movieService.GetReducedMovieAsync(m.ApiId))
+                .ToList();
+            var recentMovies = (await Task.WhenAll(tasks)).ToList();
+
+            return new ProfileViewModel()
+            {
+                CurrentUser = AppUserViewModel.ConvertToViewModel(currentUser),
+                IsUserFollowed = currentUser.Followings.FirstOrDefault(u => u.FollowingUserId == user.Id) != null,
+                UserProfile = AppUserViewModel.ConvertToViewModel(user),
+                FavouriteMovies = favMovies,
+                RecentMovies = recentMovies,
+                Followings = followings,
+                Statistic = _statisticService.GetUserStatistic(user),
+                Tags = _tagService.GetImportantTags(user, 10)
+            };
+        }
+
+        public void Follow(AppUser currentUser, string usernameToFollow)
+        {
+            var user = _context.Users
+                .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
+                .Include(u => u.Followings)
+                .Include(u => u.Followers)
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == usernameToFollow.ToUpper())
+                .Result;
+            var follower = new Models.Follower()
+            {
+                FollowerUserId = currentUser.Id,
+                FollowingUserId = user.Id,
+            };
+            _context.Followers.Add(follower);
+            _context.SaveChanges();
+        }
+
+        public void Unfollow(AppUser currentUser, string usernameToUnfollow)
+        {
+            var user = _context.Users
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == usernameToUnfollow.ToUpper())
+                .Result;
+
+            var follower = _context.Followers.FirstOrDefault(f => f.FollowerUserId == currentUser.Id && f.FollowingUserId == user.Id);
+            _context.Followers.Remove(follower);
+
+            _context.SaveChanges();
         }
     }
 }

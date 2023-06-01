@@ -4,8 +4,8 @@ namespace movie_tracker_website.Utilities
 {
     public interface IMovieService
     {
-        public MovieViewModel? GetMovieById(int id);
+        public Task<MovieViewModel> GetMovieAsync(int id);
 
-        public MovieViewModel? GetReducedMovieById(int id);
+        public Task<MovieViewModel> GetReducedMovieAsync(int id);
     }
 }

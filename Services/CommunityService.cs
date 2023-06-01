@@ -1,21 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using movie_tracker_website.Areas.Identity.Data;
 using movie_tracker_website.Controllers;
 using movie_tracker_website.Data;
 using movie_tracker_website.Utilities;
 using movie_tracker_website.ViewModels;
 using movie_tracker_website.ViewModels.PagesViews;
-using NuGet.Packaging;
-using TMDbLib.Client;
-using TMDbLib.Objects.General;
-using TMDbLib.Objects.Movies;
-using TMDbLib.Objects.Search;
 
 namespace movie_tracker_website.Services
 {
-    public class SearchService : ISearchService
+    public class CommunityService : ICommunityService
     {
-        private readonly ILogger<SearchController> _logger;
+        private readonly ILogger<CommunityService> _logger;
         private readonly AuthDBContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -26,7 +22,7 @@ namespace movie_tracker_website.Services
         private readonly IMovieSessionListService _movieSessionListService;
         private readonly IProfileService _profileService;
 
-        public SearchService(ILogger<SearchController> logger,
+        public CommunityService(ILogger<CommunityService> logger,
                 AuthDBContext context,
                 UserManager<AppUser> userManager,
                 IWebHostEnvironment webHostEnvironment,
@@ -49,40 +45,31 @@ namespace movie_tracker_website.Services
             _profileService = profileService;
         }
 
-        public async Task<SearchViewModel> GetMoviesByQuery(AppUser user, string query, int pageIndex)
+        public async Task<CommunityViewModel> GetCommunityMembers(AppUser user, int page, int usersPerPage)
         {
-            int totalPages = 0;
-            if (pageIndex < 1) pageIndex = 1;
+            //total pages count
+            int usersCount = _context.Users.Count();
+            var totalPages = usersCount / usersPerPage;
+            if ((usersCount - totalPages * usersPerPage) % usersPerPage > 0)
+                totalPages++;
+            //pages correction
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
 
-            var movies = new List<MovieViewModel>();
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
-            {
-                SearchContainer<SearchMovie> results = await client.SearchMovieAsync(query, page: pageIndex);
-                //pages processing
-                totalPages = results.TotalPages;
+            var users = _context.Users
+                .Include(u => u.UserStatistic)
+                .OrderByDescending(u => u.UserStatistic.WatchedAmount)
+                .Skip(usersPerPage * (page - 1))
+                .Take(usersPerPage)
+                .Select(u=>AppUserViewModel.ConvertToReducedStatsViewModel(user,u))
+                .ToList();
 
-                //if (results.Results.Count == 0)
-                if (pageIndex > totalPages)
-                {
-                    pageIndex = totalPages;
-                    results = await client.SearchMovieAsync(query, page: pageIndex);
-                }
-                //add movies
-                movies.AddRange(results.Results
-                    .Select(mov => client.GetMovieAsync(mov.Id,
-                            MovieMethods.AlternativeTitles | MovieMethods.Credits).Result)
-                    .Where(mov => mov.PosterPath != null)
-                    .Select(MovieViewModel.convertToSearchMovieViewModel));
-            }
-
-            return new SearchViewModel()
+            return new CommunityViewModel()
             {
                 CurrentUser = AppUserViewModel.ConvertToViewModel(user),
-                Movies = movies,
-                Query = query,
-                CurrentPage = pageIndex,
-                TotalPages = totalPages,
-                PageName = "GetMoviesByQuery"
+                Users = users,
+                CurrentPage = page,
+                TotalPages = totalPages
             };
         }
     }

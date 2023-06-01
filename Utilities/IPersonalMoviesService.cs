@@ -6,12 +6,10 @@ namespace movie_tracker_website.Utilities
 {
     public interface IPersonalMoviesService
     {
-        public List<MovieViewModel>? GetListMovieViewModelsByPage(int pageIndex, int MovieCountPerPage);
+        public Task<PersonalMoviesViewModel> GetWatchedMoviesAsync(int pageIndex, int MovieCountPerPage, AppUser user);
 
-        public PersonalMoviesViewModel? GetWatchedMoviesViewModel(int pageIndex, int MovieCountPerPage, AppUser user);
+        public Task<PersonalMoviesViewModel> GetFavouriteMoviesAsync(int pageIndex, int MovieCountPerPage, AppUser user);
 
-        public PersonalMoviesViewModel? GetFavouriteMoviesViewModel(int pageIndex, int MovieCountPerPage, AppUser user);
-
-        public PersonalMoviesViewModel? GetToWatchMoviesViewModel(int pageIndex, int MovieCountPerPage, AppUser user);
+        public Task<PersonalMoviesViewModel> GetToWatchMoviesAsync(int pageIndex, int MovieCountPerPage, AppUser user);
     }
 }

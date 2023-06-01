@@ -6,6 +6,7 @@ using movie_tracker_website.Data;
 using movie_tracker_website.Services;
 using movie_tracker_website.Services.common;
 using movie_tracker_website.Utilities;
+using static movie_tracker_website.Controllers.MoviePageController;
 
 namespace movie_tracker_website.Controllers
 {
@@ -51,11 +52,61 @@ namespace movie_tracker_website.Controllers
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
                 .Include(u => u.UserStatistic)
+                .Include(u => u.Followers)
+                .Include(u => u.Followings)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var profileViewModel = _profileService.GetProfileViewModel(user);
+            var profileViewModel = await _profileService.GetProfileAsync(user);
 
             return View(profileViewModel);
+        }
+
+        [HttpGet]
+        [Route("Profile/{username}")]
+        public async Task<IActionResult> GetProfile(string username)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var currentUser = await _context.Users
+                .Include(u => u.RelatedMovies)
+                .Include(u => u.UserStatistic)
+                .Include(u => u.Followers)
+                .Include(u => u.Followings)
+                .FirstOrDefaultAsync(u => u.Id == currentUserId);
+            //if current user == searching profile
+            if (currentUser.NormalizedUserName == username.ToUpper())
+                return RedirectToAction("Index", "Profile");
+
+            var profileViewModel = await _profileService.GetProfileByUsernameAsync(currentUser, username);
+
+            return View("UserProfile", profileViewModel);
+        }
+
+        [HttpPost]
+        [Route("Profile/Follow/{username}")]
+        public async Task<IActionResult> Follow(string username)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var currentUser = await _context.Users
+                .Include(u => u.Followings)
+                .FirstOrDefaultAsync(u => u.Id == currentUserId);
+
+            _profileService.Follow(currentUser, username);
+
+            return RedirectToAction("GetProfile", "Profile", new { username = username });
+        }
+
+        [HttpPost]
+        [Route("Profile/Unfollow/{username}")]
+        public async Task<IActionResult> Unfollow(string username)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var currentUser = await _context.Users
+                .Include(u => u.Followings)
+                .FirstOrDefaultAsync(u => u.Id == currentUserId);
+
+            _profileService.Unfollow(currentUser, username);
+
+            return RedirectToAction("GetProfile", "Profile", new { username = username });
         }
     }
 }

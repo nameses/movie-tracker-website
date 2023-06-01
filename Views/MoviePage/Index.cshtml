@@ -194,13 +194,13 @@
                     var className = i < Model.ViewedMovies.Count - 2 ? "poster" : "poster poster-last";
 
                     <div class="@className">
-                        @if (curMovie.Id != -1)
-                        {
+                        @*@if (curMovie.Id != -1)
+                        {*@
                             <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
                                 <img title="@curMovie.Title (@curMovie.ReleaseYear)"
                                     src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
                             </a>
-                        }
+                        @*}*@
                     </div>
                 }
             </div>

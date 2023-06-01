@@ -52,7 +52,8 @@ namespace movie_tracker_website.Services.common
                     {
                         _context.Tags.Add(new Models.Tag()
                         {
-                            Name = keyword.Name
+                            Name = keyword.Name,
+                            ApiId = keyword.Id
                         });
                     }
                 }
