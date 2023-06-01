@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="tags">
-        @if (Model.Tags != null && Model.Tags.Count > 0)
+        @if (Model.Tags != null && Model.Tags.Any())
         {
             <h6>Вподобання</h6>
             <hr />
@@ -44,6 +44,8 @@
         }
     </div>
     <div class="fav-movies">
+        @if(Model.FavouriteMovies!=null && Model.FavouriteMovies.Any())
+        {
         <div class="movie-list-full container">
             <div class="movie-list">
                 <div class="topbar-text">
@@ -56,27 +58,21 @@
                         @foreach (var curMovie in Model.FavouriteMovies)
                         {
                             <div class="poster">
-                                @if (curMovie.Id != -1)
-                                {
-                                    <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
-                                        <img title="@curMovie.Title (@curMovie.ReleaseYear)"
-                                             src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a>
-                                        <img class="empty-poster" src="~/img/empty-poster.jpg">
-                                    </a>
-                                }
+                                <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
+                                    <img title="@curMovie.Title (@curMovie.ReleaseYear)"
+                                            src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
+                                </a>
                             </div>
                         }
                     </div>
                 </div>
             </div>
         </div>
+        }
     </div>
     <div class="statistic">
+        @if (!Model.Statistic.StatisticDict.Values.ToList().All(s => s == 0))
+        {
         <div class="topbar-text">
             <h6>Статистика</h6>
         </div>
@@ -90,8 +86,11 @@
                 </div>
             }
         </div>
+        }
     </div>
     <div class="recent-movies">
+        @if(Model.RecentMovies!=null && Model.RecentMovies.Any())
+        {
         <div class="movie-list-full container">
             <div class="movie-list">
                 <div class="topbar-text">
@@ -100,46 +99,39 @@
                 <hr />
                 <div class="movie-list-containers">
                     <div class="movie-list-component">
-                        @foreach (var curMovie in Model.RecentMovies)
+                        @foreach (var movie in Model.RecentMovies)
                         {
                             <div class="poster">
-                                @if (curMovie.Id != -1)
-                                {
-                                    <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@curMovie.Id">
-                                        <img title="@curMovie.Title (@curMovie.ReleaseYear)"
-                                             src="@Config["Constants:PosterBaseUrl"]@curMovie.PosterPath">
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a>
-                                        <img class="empty-poster" src="~/img/empty-poster.jpg">
-                                    </a>
-                                }
+                                <a asp-controller="MoviePage" asp-action="Index" asp-route-id="@movie.Id">
+                                    <img title="@movie.Title (@movie.ReleaseYear)"
+                                            src="@Config["Constants:PosterBaseUrl"]@movie.PosterPath">
+                                </a>
                             </div>
                         }
                     </div>
                 </div>
             </div>
         </div>
+        }
     </div>
     <div class="followings">
-        
-        <div class="topbar-text">
-            <h6>Підписки</h6>
-        </div>
-        <hr />
-        <div class="followings-full">
-            @foreach (var following in Model.Followings)
-            {
-                <div class="img-block">
-                    <a asp-action="GetProfile" asp-route-username="@following.Username">
-                        <img src="@Config["Constants:UploadImagesPath"]@following.ImagePath"
-                             title="@following.Username" />
-                    </a>
-                </div>
-            }
-        </div>
-        
+        @if(Model.Followings!=null && Model.Followings.Any())
+        {
+            <div class="topbar-text">
+                <h6>Підписки</h6>
+            </div>
+            <hr />
+            <div class="followings-full">
+                @foreach (var following in Model.Followings)
+                {
+                    <div class="img-block">
+                        <a asp-action="GetProfile" asp-route-username="@following.Username">
+                            <img src="@Config["Constants:UploadImagesPath"]@following.ImagePath"
+                                 title="@following.Username" />
+                        </a>
+                    </div>
+                }
+            </div>
+        }
     </div>
 </div>
