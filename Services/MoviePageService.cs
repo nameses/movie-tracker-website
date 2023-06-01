@@ -40,6 +40,32 @@ namespace movie_tracker_website.Services
             _moviesList = moviesList;
         }
 
+        public async Task<MoviePageViewModel> GetRandomPageAsync(AppUser user, ISession session)
+        {
+            var movie = await this.GetRandomMovieAsync();
+            if (movie == null) return null;
+
+            Models.Movie movieFromDB = user.RelatedMovies.FirstOrDefault(m => m.ApiId == movie.Id);
+            if (movieFromDB != null)
+            {
+                movie.IfWatched = movieFromDB.IfWatched;
+                movie.IfFavourite = movieFromDB.IfFavourite;
+                movie.IfToWatch = movieFromDB.IfToWatch;
+            }
+            //find similar movies to current movie
+            var similarMovies = this.GetSimilarMovies(movie.Id);
+            //process list of recently viewed movies in session
+            var viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(user, session, movie.Id);
+
+            return new MoviePageViewModel()
+            {
+                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
+                Movie = movie,
+                SimilarMovies = similarMovies,
+                ViewedMovies = viewedMovies
+            };
+        }
+
         public async Task<MoviePageViewModel> GetMoviePageAsync(int id, ISession session, AppUser user)
         {
             var movie = await _movieService.GetMovieAsync(id);
@@ -68,9 +94,9 @@ namespace movie_tracker_website.Services
             };
         }
 
-        public List<MovieViewModel> GetSimilarMovies(int id)
+        private List<MovieViewModel> GetSimilarMovies(int id)
         {
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            using (var client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
                 return client.GetMovieSimilarAsync(id, page: 0)
                     .Result
@@ -82,24 +108,20 @@ namespace movie_tracker_website.Services
             }
         }
 
-        public async Task<MovieViewModel> GetRandomMovieAsync()
+        private async Task<MovieViewModel> GetRandomMovieAsync()
         {
-            int id;
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            using var client = new TMDbClient(_config["APIKeys:TMDBAPI"]);
+            while (true)
             {
-                while (true)
+                var id = _moviesList.GetRandomMovieID();
+                Movie movie = await client.GetMovieAsync(movieId: id, language: "en",
+                    includeImageLanguage: null, MovieMethods.Videos | MovieMethods.Images);
+                if (movie.Images.Backdrops.Count > 5 &&
+                        movie.Videos.Results.Where(vid => vid.Type.Equals("Trailer")).Any())
                 {
-                    id = _moviesList.GetRandomMovieID();
-                    Movie movie = client.GetMovieAsync(movieId: id,
-                        language: "en", includeImageLanguage: null,
-                        MovieMethods.Videos | MovieMethods.Images).Result;
-                    if (movie.Images.Backdrops.Count > 5 &&
-                        movie.Videos.Results.Where(vid => vid.Type.Equals("Trailer"))
-                        .Count() > 0) break;
+                    return await _movieService.GetMovieAsync(id);
                 }
             }
-
-            return await _movieService.GetMovieAsync(id);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace movie_tracker_website.Services.common
         private List<int> GetMovieList()
         {
             var moviesIdList = new List<int>();
-            using (TMDbClient client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
+            using (var client = new TMDbClient(_config["APIKeys:TMDBAPI"]))
             {
                 for (int page = 1; page <= PageNumber; page++)
                 {
@@ -48,7 +48,7 @@ namespace movie_tracker_website.Services.common
                     }
                 }
             }
-            if (moviesIdList.Count == 0)
+            if (!moviesIdList.Any())
                 throw new MovieIdListNullException();
             return moviesIdList;
         }
@@ -76,7 +76,7 @@ namespace movie_tracker_website.Services.common
         {
             try
             {
-                if (MoviesIdsList == null || MoviesIdsList.Count == 0)
+                if (MoviesIdsList == null || !MoviesIdsList.Any())
                     DownloadMovieList();
                 if (MoviesIdsList != null)
                     return MoviesIdsList[new Random().Next(0, MoviesIdsList.Count - 1)];

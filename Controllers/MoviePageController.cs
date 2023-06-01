@@ -72,34 +72,12 @@ namespace movie_tracker_website.Controllers
         [Route("MoviePage/random")]
         public async Task<IActionResult> RandomMovie()
         {
-            //AppUser user = _userManager.GetUserAsync(User).Result;
             var userId = _userManager.GetUserId(User);
             var user = await _context.Users
                 .Include(u => u.RelatedMovies)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var movie = await _moviePageService.GetRandomMovieAsync();
-            if (movie == null) return NotFound();
-
-            Models.Movie movieFromDB = user.RelatedMovies.Find(m => m.ApiId == movie.Id);
-            if (movieFromDB != null)
-            {
-                movie.IfWatched = movieFromDB.IfWatched;
-                movie.IfFavourite = movieFromDB.IfFavourite;
-                movie.IfToWatch = movieFromDB.IfToWatch;
-            }
-            //find similar movies to current movie
-            var similarMovies = _moviePageService.GetSimilarMovies(movie.Id);
-            //process list of recently viewed movies in session
-            var viewedMovies = await _movieSessionListService.ProcessMoviesListAsync(user, HttpContext.Session, movie.Id);
-
-            var moviePageViewModel = new MoviePageViewModel()
-            {
-                CurrentUser = AppUserViewModel.ConvertToViewModel(user),
-                Movie = movie,
-                SimilarMovies = similarMovies,
-                ViewedMovies = viewedMovies
-            };
+            var moviePageViewModel = await _moviePageService.GetRandomPageAsync(user, HttpContext.Session);
 
             return View("Index", moviePageViewModel);
         }

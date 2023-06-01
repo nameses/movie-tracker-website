@@ -6,10 +6,8 @@ namespace movie_tracker_website.Utilities
 {
     public interface IMoviePageService
     {
+        public Task<MoviePageViewModel> GetRandomPageAsync(AppUser user, ISession session);
+
         public Task<MoviePageViewModel> GetMoviePageAsync(int id, ISession session, AppUser user);
-
-        public List<MovieViewModel> GetSimilarMovies(int id);
-
-        public Task<MovieViewModel> GetRandomMovieAsync();
     }
 }
