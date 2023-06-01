@@ -142,6 +142,8 @@ namespace movie_tracker_website.Services
                 {
                     user.UserStatistic.WatchedAmount++;
                     movieFromDB.TimeWatched = DateTime.Now;
+                    //if watched - get out from to watch
+                    movieFromDB.IfToWatch = false;
                 }
             }
             //add new movie entry
@@ -172,6 +174,8 @@ namespace movie_tracker_website.Services
                 if (movieFromDB.IfFavourite)
                 {
                     user.UserStatistic.FavouriteAmount++;
+                    //if film is favourite - then it watched
+                    movieFromDB.IfWatched = true;
                 }
             }
             //add new movie entry then
@@ -182,6 +186,8 @@ namespace movie_tracker_website.Services
                 {
                     ApiId = ApiId,
                     IfFavourite = true,
+                    //if film is favourite - then it watched
+                    IfWatched = true,
                     TimeWatched = DateTime.Now,
                 });
             }
