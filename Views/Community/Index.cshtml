@@ -32,7 +32,7 @@
                         <img src="@Config["Constants:UploadImagesPath"]@user.ImagePath" />
                     </div>
                     <div class="username">
-                        <a asp-action="GetProfile" asp-route-username="@user.Username">
+                        <a asp-controller="Profile" asp-action="GetProfile" asp-route-username="@user.Username">
                             <h3>@user.Username</h3>
                         </a>
                     </div>
@@ -67,6 +67,10 @@
                             </button>
                         </form>
                     </div>
+                }
+                else if (user.Id==Model.CurrentUser.Id)
+                {
+                    
                 }
                 else
                 {
