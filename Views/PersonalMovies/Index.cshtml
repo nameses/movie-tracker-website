@@ -37,34 +37,29 @@
     <div class="films-bar">
         <div class="top-bar">
             <div class="topics">
-                <a asp-action="GetWatchedMovies"><h6 class="watched-topic">Переглянуті</h6></a>
-                <a asp-action="GetFavouriteMovies"><h6 class="favourite-topic">Улюблені</h6></a>
-                <a asp-action="GetToWatchMovies"><h6 class="to-watch-topic">До перегляду</h6></a>
+                <a asp-action="GetWatchedMovies"><h6 class="watched-topic">Watched</h6></a>
+                <a asp-action="GetFavouriteMovies"><h6 class="favourite-topic">Favourite</h6></a>
+                <a asp-action="GetToWatchMovies"><h6 class="to-watch-topic">To watch</h6></a>
             </div>
-            
-            <script>
-                
-            </script>
-            <!--later logic of gallery will be changed-->
             <div class="filters">
                 <span class="filter">
-                    <h6>Рік</h6>
+                    <h6>Year</h6>
                     <i class="fa-solid fa-chevron-down"></i>
                 </span>
                 <span class="filter">
-                    <h6>Жанр</h6>
+                    <h6>Genre</h6>
                     <i class="fa-solid fa-chevron-down"></i>
                 </span>
                 <span class="filter">
-                    <h6>Рейтинг</h6>
+                    <h6>Rating</h6>
                     <i class="fa-solid fa-chevron-down"></i>
                 </span>
                 <span class="filter filter-last">
-                    <h6>Популярність</h6>
+                    <h6>Popularity</h6>
                     <i class="fa-solid fa-chevron-down"></i>
                 </span>
                 <span class="filter filter-last">
-                    <h6>Сортувати за РЕЙТИНГОМ</h6>
+                    <h6>Sort by RATING</h6>
                     <i class="fa-solid fa-chevron-down"></i>
                 </span>
             </div>
@@ -75,7 +70,6 @@
             <div class="films-bar-component">
                 @foreach (var movie in Model.Movies)
                 {
-                    //var curMovie = Model.Movies[i];
                     <div class="poster">
                         @if (movie.Id != -1)
                         {
@@ -95,7 +89,7 @@
             <div class="page-manage">
                 <button class="btn-managing btn-prev">
                     <a asp-action="@Model.PageName" asp-route-pageIndex="@(Model.CurrentPage-1)" disabled="@(Model.CurrentPage==1)">
-                        <h5>Попередня</h5>
+                        <h5>Previous</h5>
                     </a>
                 </button>
                 <div class="paginate-pages">
@@ -138,7 +132,7 @@
                 </div>
                 <button class="btn-managing btn-next">
                     <a asp-action="@Model.PageName" asp-route-pageIndex="@(Model.CurrentPage+1)" class="a-btn-next">
-                        <h5>Наступна</h5>
+                        <h5>Next</h5>
                     </a>
                 </button>
             </div>
@@ -146,7 +140,7 @@
         } else
         {
             <div class="empty-message">
-                <h2>На жаль, тут ще пусто!</h2>
+                <h2>Unfortunately, your list's empty!</h2>
             </div>
         }
     </div>

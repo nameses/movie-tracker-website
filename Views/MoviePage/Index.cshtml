@@ -69,12 +69,12 @@
         <h6 class="slogan">@Model.Movie.Tagline</h6>
     </div>
     <div class="description">
-        <h6>Опис</h6>
+        <h6>Description</h6>
         <hr />
         <p>@Model.Movie.Overview</p>
     </div>
     <div class="main-roles">
-        <h6>У головних ролях</h6>
+        <h6>Main roles</h6>
         <hr />
         <div class="actors-btns">
             @foreach(var actor in Model.Movie.Actors)
@@ -85,17 +85,17 @@
             }
         </div>
         <h6 class="more-info">
-            Більше інформації доступно на
-            <a href="https://www.imdb.com/">IMDB</a> та
+            More info on
+            <a href="https://www.imdb.com/">IMDB</a> and
             <a href="https://www.themoviedb.org/movie/475557">TMDB</a>
         </h6>
     </div>
     <div class="rating">
-        <h6>Рейтинг</h6>
+        <h6>Rating</h6>
         <hr />
         <span class="rating-num">
             <h1>@Model.Movie.Rating</h1>
-            <h6>середня оцінка</h6>
+            <h6>average score</h6>
         </span>
         <div class="icons-block">
             <div class="icons">
@@ -129,7 +129,7 @@
 {
     <div class="trailer-full container">
         <div class="trailer">
-            <h6>Трейлер</h6>
+            <h6>Trailer</h6>
             <hr />
             <div class="video-container">
                 <iframe src="@Config["Constants:VideoBaseUrl"]@Model.Movie.Trailer" frameborder="0"
@@ -143,7 +143,7 @@
 @if (Model.Movie.BackdropsPath!=null && Model.Movie.BackdropsPath.Count > 1)
 {
     <div class="slider-block container">
-        <h6>Світлини з фільму</h6>
+        <h6>Movie's images</h6>
         <hr />
     </div>
     <div class="slider slider-nav">
@@ -162,7 +162,7 @@
 {
     <div class="movie-list-full container">
         <div class="movie-list">
-            <h6>Схожі фільми</h6>
+            <h6>Similar movies</h6>
             <hr />
             <div class="movie-list-containers">
                 <div class="movie-list-component">
@@ -185,7 +185,7 @@
 {
 <div class="movie-list-full container">
     <div class="movie-list">
-        <h6>Нещодавно знайдені</h6>
+        <h6>Recently showed</h6>
         <hr />
         <div class="movie-list-containers">
             <div class="movie-list-component">
