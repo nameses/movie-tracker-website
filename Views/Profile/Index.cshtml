@@ -22,7 +22,7 @@
             <div class="btn-component">
                 <button class="btn-settings">
                     <a href="" class="link">
-                        <h3>Налаштувати</h3>
+                        <h3>Configure</h3>
                     </a>
                 </button>
             </div>
@@ -31,7 +31,7 @@
     <div class="tags">
         @if (Model.Tags != null && Model.Tags.Any())
         {
-            <h6>Вподобання</h6>
+            <h6>Favourite themes</h6>
             <hr />
             <div class="tags-btns">
                 @foreach (var tag in Model.Tags)
@@ -49,8 +49,8 @@
         <div class="movie-list-full container">
             <div class="movie-list">
                 <div class="topbar-text">
-                    <h6>Улюблені фільми</h6>
-                    <a href=""><h6>Більше...</h6></a>
+                    <h6>Favourite movies</h6>
+                    <a href=""><h6>More...</h6></a>
                 </div>
                 <hr />
                 <div class="movie-list-containers">
@@ -74,7 +74,7 @@
         @if (!Model.Statistic.StatisticDict.Values.ToList().All(s => s == 0))
         {
         <div class="topbar-text">
-            <h6>Статистика</h6>
+                <h6>Statistic</h6>
         </div>
         <hr />
         <div class="statistic-full">
@@ -94,7 +94,7 @@
         <div class="movie-list-full container">
             <div class="movie-list">
                 <div class="topbar-text">
-                    <h6>Останні оцінки</h6>
+                    <h6>Latest watched</h6>
                 </div>
                 <hr />
                 <div class="movie-list-containers">
@@ -118,7 +118,7 @@
         @if(Model.Followings!=null && Model.Followings.Any())
         {
             <div class="topbar-text">
-                <h6>Підписки</h6>
+                <h6>Followings</h6>
             </div>
             <hr />
             <div class="followings-full">

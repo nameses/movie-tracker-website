@@ -32,16 +32,16 @@
                 </form>
             </div>
             <div class="menu">
-                <a asp-controller="MoviePage" asp-action="random"><h3>ДОСЛІДЖУЙ</h3></a>
-                <a asp-controller="Movies" asp-action="Index"><h3>ФІЛЬМИ</h3></a>
-                <a asp-controller="Community" asp-action="Index"><h3>СПІЛЬНОТА</h3></a>
+                <a asp-controller="MoviePage" asp-action="random"><h3>EXPLORE</h3></a>
+                <a asp-controller="Movies" asp-action="Index"><h3>MOVIES</h3></a>
+                <a asp-controller="Community" asp-action="Index"><h3>COMMUNITY</h3></a>
             </div>
             <div class="right-menu">
                 <div class="right-btns" onclick="openMenu()">
                     <div class="profile">
                         <img title="profile image" src="@Config["Constants:UploadImagesPath"]@Model.CurrentUser.ImagePath">
                         <span>
-                            <h3>ПРОФІЛЬ</h3>
+                            <h3>PROFILE</h3>
                         </span>
                     </div>
                     <div class="right-icon">
@@ -49,20 +49,20 @@
                     </div>
                 </div>
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <a asp-controller="Home" asp-action="Index">Головна</a>
-                    <a asp-controller="Profile" asp-action="Index">Профіль</a>
+                    <a asp-controller="Home" asp-action="Index">Main</a>
+                    <a asp-controller="Profile" asp-action="Index">Profile</a>
                     <div class="main-links">
                         <hr />
-                        <a asp-controller="MoviePage" asp-action="random">Досліджуй</a>
-                        <a asp-controller="Movies" asp-action="Index">Фільми</a>
-                        <a asp-controller="Community" asp-action="Index">Cпільнота</a>
+                        <a asp-controller="MoviePage" asp-action="random">Explore</a>
+                        <a asp-controller="Movies" asp-action="Index">Movies</a>
+                        <a asp-controller="Community" asp-action="Index">Community</a>
                         <hr />
                     </div>
-                    <a asp-controller="PersonalMovies" asp-action="GetWatchedMovies">Переглянуті</a>
-                    <a asp-controller="PersonalMovies" asp-action="GetFavouriteMovies">Улюблені</a>
-                    <a asp-controller="PersonalMovies" asp-action="GetToWatchMovies">До перегляду</a>
+                    <a asp-controller="PersonalMovies" asp-action="GetWatchedMovies">Watched</a>
+                    <a asp-controller="PersonalMovies" asp-action="GetFavouriteMovies">Favourite</a>
+                    <a asp-controller="PersonalMovies" asp-action="GetToWatchMovies">To watch</a>
                     @*<a>Щоденник</a>*@
-                    <a asp-area="Identity" asp-page="/Account/Logout">Вийти</a>
+                    <a asp-area="Identity" asp-page="/Account/Logout">Log out</a>
                 </div>
             </div>
         </header>
@@ -85,15 +85,15 @@
                     </div>
                     <div class="footer-component">
                         <div class="text">
-                            <a><p>Благодійна підтримка проекту</p></a>
+                            <a><p>Support the project</p></a>
                         </div>
                         <div class="text">
-                            <p>Потрібна допомога? tracker.help@gmail.com</p>
+                            <p>Need help? tracker.help@gmail.com</p>
                         </div>
                     </div>
                     <div class="footer-bottom-component">
                         <div class="text">
-                            <p>© 2023 tracker. Film data by TMDB.</p>
+                            <p>© 2023 tracker. Movie data by TMDB.</p>
                         </div>
                     </div>
                 </div>

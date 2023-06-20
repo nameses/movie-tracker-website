@@ -20,7 +20,7 @@
 
 <div class="users-full container">
     <div class="top-bar">
-        <h6>Популярні члени спільноти</h6>
+        <h6>Popular community members</h6>
         <hr />
     </div>
     <div class="users-container">
@@ -93,12 +93,12 @@
     <div class="footer-bar">
         <button class="btn-managing btn-prev">
             <a asp-action="GetCommunityMembers" asp-route-pageIndex="@(Model.CurrentPage-1)" disabled="@(Model.CurrentPage==1)">
-                <h5>Попередня</h5>
+                <h5>Previous</h5>
             </a>
         </button>
         <button class="btn-managing btn-next">
             <a asp-action="GetCommunityMembers" asp-route-pageIndex="@(Model.CurrentPage+1)" class="a-btn-next">
-                <h5>Наступна</h5>
+                <h5>Next</h5>
             </a>
         </button>
     </div>

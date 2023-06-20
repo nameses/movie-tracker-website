@@ -25,14 +25,14 @@ namespace movie_tracker_website.Services.common
             {
                 StatisticDict = new Dictionary<string, int>()
                 {
-                    { "переглянуто", user.RelatedMovies.Where(m => m.IfWatched).Count() },
-                    { "цього року", user.RelatedMovies
+                    { "watched", user.RelatedMovies.Where(m => m.IfWatched).Count() },
+                    { "current year", user.RelatedMovies
                         .Where(m => m.IfWatched)
                         .Where(m => m.TimeWatched.Year==DateTime.Now.Year)
                         .Count()
                     },
-                    { "улюблених", user.RelatedMovies.Where(m => m.IfFavourite).Count()},
-                    { "до перегляду", user.RelatedMovies.Where(m => m.IfToWatch).Count()}
+                    { "favourite", user.RelatedMovies.Where(m => m.IfFavourite).Count()},
+                    { "to watch", user.RelatedMovies.Where(m => m.IfToWatch).Count()}
                 }
             };
         }

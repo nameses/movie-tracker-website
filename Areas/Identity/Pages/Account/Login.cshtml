@@ -13,33 +13,33 @@
 <div class="log-form-container container">
     <div class="log-form">
         <form id="account" method="post">
-            <h3>Увійдіть у свій аккаунт</h3>
+            <h3>Login</h3>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Username" class="form-label-btn">Нікнейм</label>
+                <label asp-for="Input.Username" class="form-label-btn">Username</label>
                 <span asp-validation-for="Input.Username" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password" class="form-label-btn">Пароль</label>
+                <label asp-for="Input.Password" class="form-label-btn">Password</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="checkbox mb-3">
                 <label asp-for="Input.RememberMe" class="form-label" >
                     <input class="form-check-input" asp-for="Input.RememberMe" />
-                    Запам'ятати дані?
+                    Remember your data?
                 </label>
             </div>
             <div class="btn-log-in-container">
-                <button class="btn-log-in" id="login-submit" type="submit">Увійти</button>
+                <button class="btn-log-in" id="login-submit" type="submit">Login</button>
             </div>
 
             <hr />
             <div>
                 <p>
-                    Ще не маєте аккаунту? <a asp-page="./Register" style="color:#FCA311">Зареєструйтесь зараз!</a>
+                    Don't have an account yet? <a asp-page="./Register" style="color:#FCA311">Register now!</a>
                 </p>
             </div>
         </form>

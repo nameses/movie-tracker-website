@@ -11,17 +11,17 @@
 <div class="reg-form-container container">
     <div class="reg-form">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-            <h2>Реєстрація</h2>
+            <h2>Registration</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Емейл</label>
+                <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="username" />
-                <label asp-for="Input.Username">Нікнейм</label>
+                <label asp-for="Input.Username">Username</label>
                 <span asp-validation-for="Input.Username" class="text-danger"></span>
             </div>
 
@@ -29,7 +29,7 @@
             <div class="form-file mb-3">
                 <input id="file-input" type="file" name="file"/>
                 <label asp-for="Input.ImagePath" id="file-label" for="file-input">
-                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Оберіть фото профілю
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Choose profile photo
                 </label>
                 <span asp-validation-for="Input.ImagePath" class="text-danger"></span>
             </div>
@@ -45,21 +45,21 @@
 
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Пароль</label>
+                <label asp-for="Input.Password">Password</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Підтвердження пароль</label>
+                <label asp-for="Input.ConfirmPassword">Password confirmation</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="btn-reg-container">
-                <button class="btn-reg" id="registerSubmit" type="submit">Зареєструватись</button>
+                <button class="btn-reg" id="registerSubmit" type="submit">Register</button>
             </div>
             <hr />
             <div>
                 <p>
-                    Уже маєте аккаунт? <a asp-page="./Login" style="color:#FCA311">Увійдіть зараз!</a>
+                    Already have an account? <a asp-page="./Login" style="color:#FCA311">Login now!</a>
                 </p>
             </div>
         </form>

@@ -25,7 +25,7 @@
 
 <div class="found-movies-full container">
     <div class="found-movies">
-        <h6>Знайдені результати "@Model.Query"</h6>
+        <h6>Found results "@Model.Query"</h6>
         <hr class="main-hr"/>
         @foreach (var mov in Model.Movies)
         {
@@ -38,7 +38,7 @@
                 </div>
                 <div class="text-full">
                     <div class="title">
-                        <h2>@mov.Title (@mov.ReleaseYear)</h2>
+                        <h2><a asp-controller="MoviePage" asp-action="Index" asp-route-id="@mov.Id">@mov.Title (@mov.ReleaseYear)</a></h2>
                     </div>
                     <div class="other-info">
                         @if(mov.OriginalTitle!=null)
@@ -62,14 +62,14 @@
             </div>
             <hr />
         }
-        @if (Model.TotalPages != 0)
+        @if (Model.Movies.Count != 0)
         {
             <div class="footer-bar">
                 <div class="page-manage">
                     <form asp-route-pageIndex="@(Model.CurrentPage-1)" asp-action="@Model.PageName" method="get">
                         <input type="hidden" name="query" value="@Model.Query" />
                         <button class="btn-managing btn-prev" type="submit" @*disabled="@(Model.CurrentPage==1)"*@>
-                            <h5>Попередня</h5>
+                            <h5>Previous</h5>
                         </button>
                     </form>
                     <div class="paginate-pages">
@@ -129,7 +129,7 @@
                             <input type="hidden" name="query" value="@Model.Query" />
                             <input type="hidden" name="pageIndex" value="@(Model.CurrentPage+1)" />
                             <button class="btn-managing btn-next" type="submit" class="a-btn-next">
-                                <h5>Наступна</h5>
+                                <h5>Next</h5>
                             </button>
                         </form>
                 </div>
